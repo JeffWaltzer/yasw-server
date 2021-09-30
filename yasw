@@ -7,4 +7,4 @@ yasw.createServer({
   bullet_speed: 65,
   top_edge: 1024,
   right_edge: 1024
-}).listen(3000);
+}).listen(8000);
