@@ -87,13 +87,13 @@ exports.createServer= function(parameters) {
 
   yasw_server.on_request= function(request, response, on_response_headers_written) {
     var filename= url.parse(request.url).pathname;
-    if (filename == '/')
-      filename= "/index.html";
+    // if (filename == '/')
+    //   filename= "/index.html";
     var status= 200;
-    if (filename === "/index.html") {
-      status= 302;
-      response.setHeader("location", "/game.html");
-    }
+    // if (filename === "/index.html") {
+    //   status= 302;
+    //   response.setHeader("location", "/game.html");
+    // }
 
     yasw_server.static_page(filename, response, status, on_response_headers_written);
   };
