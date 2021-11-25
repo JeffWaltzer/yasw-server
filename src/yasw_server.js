@@ -30,38 +30,38 @@ exports.createServer= function(parameters) {
     position: [yasw_server.field_size.x() / 2, yasw_server.field_size.y() / 2],
     shapes: [
       [new Polygon(
-	  [
-	    [0, 20],
-	    [14, 14],
-	    [20, 0],
-	    [14, -14],
-	    [0, -20],
-	    [-14, -14],
-	    [-20, 0],
-	    [-14, 14]
-	  ],
-	'orange'),
+    [
+      [0, 20],
+      [14, 14],
+      [20, 0],
+      [14, -14],
+      [0, -20],
+      [-14, -14],
+      [-20, 0],
+      [-14, 14]
+    ],
+  'orange'),
       ],
       [new Polygon(
-	[
-	  [0, 20],
+  [
+    [0, 20],
           [0, 40],
           [0, 20],
-	  [14, 14],
-	  [20, 0],
-	  [40, 0],
-	  [20, 0],
-	  [14, -14],
-	  [0, -20],
-	  [0, -40],
-	  [0, -20],
-	  [-14, -14],
-	  [-20, 0],
-	  [-40, 0],
-	  [-20, 0],
-	  [-14, 14]
-	],
-	'orange'),
+    [14, 14],
+    [20, 0],
+    [40, 0],
+    [20, 0],
+    [14, -14],
+    [0, -20],
+    [0, -40],
+    [0, -20],
+    [-14, -14],
+    [-20, 0],
+    [-40, 0],
+    [-20, 0],
+    [-14, 14]
+  ],
+  'orange'),
       ],
     ]
   });
@@ -100,7 +100,7 @@ exports.createServer= function(parameters) {
 
   yasw_server.listen= function(port, done) {
     http_server= http.createServer(yasw_server.on_request);
-    
+
     var listener = http_server.listen(port, function() {if (done) done();});
     var engine_server = engine_io.attach(listener, {allowEIO3: true});
     engine_server.on('connection', yasw_server.on_new_websocket);
@@ -121,18 +121,18 @@ exports.createServer= function(parameters) {
       status= 200;
     read_stream.on('open', function() {
       if (file_extension === "js")
-	      response.setHeader("Content-Type", "text/javascript");
+        response.setHeader("Content-Type", "text/javascript");
       else if (file_extension === "css")
         response.setHeader("Content-Type", "text/css");
       else
-	      response.setHeader("Content-Type", "text/html");
+        response.setHeader("Content-Type", "text/html");
       response.statusCode= status;
       read_stream.pipe(response);
       if (on_headers_written)
-	      on_headers_written();
+        on_headers_written();
     });
     read_stream.on('error', function() {
-      response.writeHead(404);
+      response.statusCode = 404;
       response.end();
     });
   };
