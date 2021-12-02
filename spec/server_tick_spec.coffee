@@ -11,6 +11,11 @@ describe "server initialization", ->
     spyOn(global, 'setInterval');
     server= yasw.createServer();
 
+  afterEach ->
+    console.log("DEBUG: shutdown8")
+    server.shutdown(done)
+    server = null
+
   it "arranges for game#tick to be called periodically", ->
     expect(setInterval.mostRecentCall.args[1]).toEqual(1000 / server.tick_rate)
 

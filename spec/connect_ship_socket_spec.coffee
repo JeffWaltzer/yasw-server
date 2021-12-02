@@ -17,8 +17,10 @@ describe "ship#outline" , ->
     the_ship= server.on_new_websocket(fake_socket)
     on_callbacks['message'](JSON.stringify({command: 'rotate_left'}));
 
+  afterEach ->
+    console.log("DEBUG: shutdown1")
+    server.shutdown(done)
+    server = null
+
   it 'rotates the correct ship', ->
     expect(the_ship.angular_velocity()).toEqual(-ship.Ship.rotation_rate)
-
-  afterEach ->
-    server= null

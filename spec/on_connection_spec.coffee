@@ -15,6 +15,11 @@ describe "connecting to the server", ->
     fake_socket.on= ->
     server.on_new_websocket(fake_socket)
 
+  afterEach ->
+    console.log("DEBUG: shutdown5")
+    server.shutdown(done)
+    server = null
+
   it "calls server#add_screen_object", ->
     expect(server.game.game_field.add_screen_object).toHaveBeenCalled()
 
@@ -43,6 +48,11 @@ describe "connecting to the server twice", ->
 
     socket1=create_fake_socket()
     socket2=create_fake_socket()
+
+  afterEach ->
+    console.log("DEBUG: shutdown6")
+    server.shutdown(done)
+    server = null
 
   it 'has two ships' ,->
     expect(server.game.game_field.ships().length).toEqual(2)

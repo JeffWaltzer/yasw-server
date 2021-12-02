@@ -9,6 +9,11 @@ describe 'the server, when asked for ship data ', ->
     server.game.add_player('0.5328')
     server.listen(3000)
 
+  afterEach ->
+    console.log("DEBUG: shutdown9")
+    server.shutdown(done)
+    server = null
+
   setup_ship = (socket, init_ship, test, done) ->
     socket.on 'error', (e) ->
       console.log("Error: #{e}")

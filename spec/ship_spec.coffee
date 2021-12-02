@@ -35,6 +35,11 @@ describe "ship#outline", ->
     ship.shape ( [new Polygon([[3, 0]])])
     ship.update_outline();
 
+  afterEach ->
+    console.log("DEBUG: shutdown10")
+    server.shutdown(done)
+    server = null
+
   it "updates the ship position for heading -π/2", ->
     expect(server.game.game_field.ships()[0].outline()).toAproximatelyEqual([[0, -10]], 1e-6)
 
@@ -56,6 +61,11 @@ describe "Ship#gun_point", ->
     server.game.game_field.add_ship({position: [0, 0],   heading: 0})
     server.game.game_field.add_ship({position: [0, 0],   heading: Math.PI/2})
     server.game.game_field.add_ship({position: [10, 10], heading: Math.PI})
+
+  afterEach ->
+    console.log("DEBUG: shutdown11")
+    server.shutdown(done)
+    server = null
 
   it "expect correct gun_point for unrotated ship", ->
     expect(server.game.game_field.ships()[0].gun_point().x()).toEqual(21)
@@ -82,13 +92,15 @@ describe "Ship#fire", ->
     the_ship= the_game.game_field.add_ship()
     the_ship.fire()
 
-  it "adds a bullet", ->
-    expect(the_game.game_field.bullets().length).toEqual(1)
-
   afterEach ->
     the_game= null
     the_ship= null
+    console.log("DEBUG: shutdown12")
+    the_server.shutdown(done)
+    the_server = null
 
+  it "adds a bullet", ->
+    expect(the_game.game_field.bullets().length).toEqual(1)
 
 describe "Ship#clone", ->
   the_game= {}
@@ -100,9 +112,13 @@ describe "Ship#clone", ->
     the_ship= the_game.game_field.add_ship()
     the_ship.clone()
 
-  it "adds a ship", ->
-    expect(the_game.game_field.ships().length).toEqual(2)
-
   afterEach ->
     the_game= null
     the_ship= null
+    console.log("DEBUG: shutdown13")
+    the_server.shutdown(done)
+    the_server = null
+
+  it "adds a ship", ->
+    expect(the_game.game_field.ships().length).toEqual(2)
+

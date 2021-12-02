@@ -1,5 +1,7 @@
 request = require 'request'
 yasw = require './../../src/yasw_server'
+fs= require('fs');
+Readable = require('stream').Readable;
 
 check_request= (page_name, expected_file, expected_content_type) ->
   describe "the server, when asked for '#{page_name}'" , ->
@@ -7,6 +9,13 @@ check_request= (page_name, expected_file, expected_content_type) ->
     beforeEach (done) ->
       server= yasw.createServer()
       server.listen(3000, done)
+      spyOn(fs,'createReadStream').andCallFake (filename) ->
+        new Readable()
+
+    afterEach (done) ->
+      console.log("DEBUG: shutdown2")
+      server.shutdown(done)
+      server = null
 
     it "should call the static page function for #{expected_file}", (done) ->
       spyOn(server, 'static_page').andCallFake (filename, response) ->
@@ -24,14 +33,16 @@ check_request= (page_name, expected_file, expected_content_type) ->
         expect(response.headers['content-type']).toEqual(expected_content_type)
         done()
 
-    afterEach (done) ->
-      server.shutdown(done)
-
 check_content= (page_name, expected_content_regexp) ->
   describe "the server, when asked for '#{page_name}'", ->
     server= undefined
     beforeEach ->
       server= yasw.createServer()
+
+    afterEach (done) ->
+      console.log("DEBUG: shutdown3")
+      server.shutdown(done)
+      server = null
 
     it "should respond with a page matching", (done) ->
       got_body= []
@@ -63,6 +74,11 @@ check_status= (page_name, expected_status) ->
     server= undefined
     beforeEach ->
       server= yasw.createServer()
+
+    afterEach (done) ->
+      console.log("DEBUG: shutdown4")
+      server.shutdown(done)
+      server = null
 
     it "should respond with a status of #{expected_status}", (done) ->
       fake_request= {

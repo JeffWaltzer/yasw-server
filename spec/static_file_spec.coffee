@@ -9,6 +9,11 @@ describe 'yasw_server#static_page ', ->
   beforeEach ->
     server= yasw.createServer()
 
+  afterEach ->
+    console.log("DEBUG: shutdown14")
+    server.shutdown(done)
+    server = null
+
   it 'should load the specified file if it exists', (done) ->
     read_stream= undefined
     saved_createReadStream= fs.createReadStream

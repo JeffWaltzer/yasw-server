@@ -7,6 +7,11 @@ describe "server initialization", ->
   beforeEach ->
     server= yasw.createServer()
 
+  afterEach ->
+    console.log("DEBUG: shutdown7")
+    server.shutdown(done)
+    server = null
+
   it "sets the ship_rotation_rate", ->
     expect(ship.Ship.rotation_rate).toEqual(Math.PI)
 

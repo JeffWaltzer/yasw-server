@@ -35,8 +35,12 @@ describe "`sun`#outline", ->
 
   beforeEach ->
     this.addMatchers(custom_matchers)
-
     server= yasw.createServer()
+
+  afterEach ->
+    console.log("DEBUG: shutdown15")
+    server.shutdown(done)
+    server = null
 
   it "shows the sun", ->
     expect(server.game.game_field.suns()[0].outline()).toAproximatelyEqual([[10, 0]], 1e-6)
