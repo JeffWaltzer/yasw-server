@@ -4,15 +4,27 @@ yasw = require './../../src/yasw_server'
 do_fake_request = (server, page_name) ->
   fake_request = {url: "http://localhost:3000#{page_name}"}
   fake_response = {
+    headers: []
+
     end: () ->
       console.log("end");
-    setHeader: () ->
-      console.log("setHeader")
+    setHeader: (key, value) ->
+      fake_response.headers[key] = value
+      console.log("setHeader(#{key}, #{value})")
+    on: () ->
+      console.log("on")
+    once: () ->
+      console.log("once")
+    emit: () ->
+      console.log("emit")
+    write: () ->
+      console.log("write")
   }
   junk_on_response_headers_written= () ->
     console.log('j.o.r.h.w.');
 
   server.on_request(fake_request, fake_response, junk_on_response_headers_written)
+  fake_response
 
 check_request= (page_name, expected_file, expected_content_type) ->
   describe "the server, when asked for '#{page_name}'" , ->
@@ -31,16 +43,14 @@ check_request= (page_name, expected_file, expected_content_type) ->
       expect(server.static_page).toHaveBeenCalled()
       done()
 
-    # it "should respond with content type #{expected_content_type}", (done) ->
-    #   request "http://localhost:3000#{page_name}", (error, response, body) ->
-    #     expect(error).toBeNull()
-    #     expect(response).toBeDefined()
-    #     expect(response.headers['content-type']).toEqual(expected_content_type)
-    #     done()
+    it "should respond with content type #{expected_content_type}", (done) ->
+      response= do_fake_request(server, page_name)
+      expect(response).toBeDefined()
+      expect(response.headers['Content-Type']).toEqual(expected_content_type)
+      done()
 
     afterEach (done) ->
       done()
-      # server.shutdown(done)
 
 check_content= (page_name, expected_content_regexp) ->
   describe "the server, when asked for '#{page_name}'", ->
