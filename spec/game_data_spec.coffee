@@ -2,15 +2,16 @@ request = require 'request'
 yasw = require './../../src/yasw_server'
 
 do_fake_request = (server, page_name) ->
+  console.log("--------------------------------- page_name=#{page_name}\n")
   fake_request = {url: "http://localhost:3000#{page_name}"}
   fake_response = {
-    headers: []
+    headers: {}
 
     end: () ->
       console.log("end");
-    setHeader: (key, value) ->
-      fake_response.headers[key] = value
-      console.log("setHeader(#{key}, #{value})")
+#    setHeader: (key, value) ->
+#      fake_response.headers[key] = value
+#      console.log("setHeader(#{key}, #{value})")
     on: () ->
       console.log("on")
     once: () ->
@@ -20,6 +21,12 @@ do_fake_request = (server, page_name) ->
     write: () ->
       console.log("write")
   }
+
+  fake_response.setHeader= (key, value) ->
+    console.log("before in setHeader fake_response.headers = #{Object.keys(fake_response.headers)}")
+    fake_response.headers[key] = value
+    console.log("after  in setHeader fake_response.headers = #{Object.keys(fake_response.headers)}")
+
   junk_on_response_headers_written= () ->
     console.log('j.o.r.h.w.');
 
@@ -38,14 +45,14 @@ check_request= (page_name, expected_file, expected_content_type) ->
         expect(filename).toEqual(expected_file);
         response.end()
 
-      do_fake_request(server, page_name)
-
+      response = do_fake_request(server, page_name)
       expect(server.static_page).toHaveBeenCalled()
       done()
 
     it "should respond with content type #{expected_content_type}", (done) ->
       response= do_fake_request(server, page_name)
       expect(response).toBeDefined()
+      console.log("in test Object.keys(response.headers)=#{Object.keys(response.headers)}")
       expect(response.headers['Content-Type']).toEqual(expected_content_type)
       done()
 
@@ -114,10 +121,10 @@ check_status= (page_name, expected_status) ->
 
 
 check_request("", "/index.html", "text/html")
-check_content("", /Space Wars/)
-check_status("", 302);
-
-check_request("/game.html", "/game.html", "text/html")
-check_content("/game.html", /Space Wars/)
-
-check_request("/controllers/ship_command.js", "/controllers/ship_command.js", "text/javascript")
+#check_content("", /Space Wars/)
+#check_status("", 302);
+#
+#check_request("/game.html", "/game.html", "text/html")
+#check_content("/game.html", /Space Wars/)
+#
+#check_request("/controllers/ship_command.js", "/controllers/ship_command.js", "text/javascript")
