@@ -91,7 +91,7 @@ exports.createServer= function(parameters) {
       filename= "/index.html";
     var status= 200;
     if (filename === "/index.html") {
-      status= 302;
+      response.statusCode= 302;
       response.setHeader("location", "/game.html");
     }
 

@@ -9,9 +9,9 @@ do_fake_request = (server, page_name) ->
 
     end: () ->
       console.log("end");
-#    setHeader: (key, value) ->
-#      fake_response.headers[key] = value
-#      console.log("setHeader(#{key}, #{value})")
+    setHeader: (key, value) ->
+      fake_response.headers[key] = value
+      console.log("setHeader(#{key}, #{value})")
     on: () ->
       console.log("on")
     once: () ->
@@ -117,10 +117,35 @@ check_status= (page_name, expected_status) ->
         expect(fake_response.statusCode).toMatch expected_status
         done())
 
+check_redirect= (page_name, expected_redirect) ->
+  describe "the server, when asked for '#{page_name}'" , ->
+    server= undefined
+    beforeEach (done) ->
+      server= yasw.createServer()
+      done()
+
+    it "redirects to #{expected_redirect}", (done) ->
+      response = do_fake_request(server, page_name)
+      expect(response.headers['location']).toEqual(expected_redirect)
+      done()
+
+    it "should respond with a status of 302", (done) ->
+      response= do_fake_request(server, page_name)
+      expect(response).toBeDefined()
+
+      console.log("in failing test: response: #{Object.keys(response)}")
+
+      expect(response.statusCode).toMatch(302)
+      done()
+
+    afterEach (done) ->
+      done()
 
 
 
-check_request("", "/index.html", "text/html")
+#check_request("", "/index.html", "text/html")
+check_redirect("", "/game.html")
+
 #check_content("", /Space Wars/)
 #check_status("", 302);
 #
