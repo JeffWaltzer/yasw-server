@@ -9,7 +9,7 @@ describe 'yasw_server#static_page ', ->
   beforeEach ->
     server= yasw.createServer()
 
-  it 'should load the specified file if it exists', (done) ->
+  it 'opens the specified file if it exists', (done) ->
     fake_response= {}
     fake_read_stream= {
       on: -> done()
@@ -21,6 +21,9 @@ describe 'yasw_server#static_page ', ->
     page= server.static_page("/index.html", fake_response)
     expect(fs.createReadStream).toHaveBeenCalledWith("public/index.html")
     expect(fake_read_stream.on).toHaveBeenCalled()
+
+  it 'pipes the file to the response', ->
+    expect(0).toEqual(1)
 
   it "should set the return status to 404 if the file doesn't exist", (done) ->
     fake_response= new http_mocks.createResponse
