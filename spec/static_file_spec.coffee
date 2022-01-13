@@ -16,10 +16,11 @@ describe 'yasw_server#static_page ', ->
     }
     spyOn(fs, 'createReadStream').andCallFake ->
       fake_read_stream
+    spyOn(fake_read_stream, 'on').andCallThrough()
 
     page= server.static_page("/index.html", fake_response)
     expect(fs.createReadStream).toHaveBeenCalledWith("public/index.html")
-    expect(fake_read_stream.on).toHaveBeenCalled
+    expect(fake_read_stream.on).toHaveBeenCalled()
 
   it "should set the return status to 404 if the file doesn't exist", (done) ->
     fake_response= new http_mocks.createResponse
