@@ -10,16 +10,12 @@ describe 'yasw_server#static_page ', ->
     server= yasw.createServer()
 
   it 'should load the specified file if it exists', (done) ->
-    read_stream= undefined
-    saved_createReadStream= fs.createReadStream
-    fake_response= new http_mocks.createResponse
-
-    spyOn(fs, 'createReadStream').andCallFake (filename) ->
-      read_stream= saved_createReadStream(filename)
-      read_stream.on 'end', ->
-        expect(fake_response.statusCode).toEqual(200)
-        done()
-      read_stream
+    fake_response= {}
+    fake_read_stream= {
+      on: -> done()
+    }
+    spyOn(fs, 'createReadStream').andCallFake ->
+      fake_read_stream
 
     page= server.static_page("/index.html", fake_response)
     expect(fs.createReadStream).toHaveBeenCalledWith("public/index.html")
