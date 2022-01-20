@@ -50,9 +50,18 @@ check_request= (page_name, expected_file, expected_content_type) ->
       done()
 
     it "should respond with content type #{expected_content_type}", (done) ->
-      response= do_fake_request(server, page_name)
-      expect(response).toBeDefined()
-      console.log("in test Object.keys(response.headers)=#{Object.keys(response.headers)}")
+      file_extension= page_name.split(',').pop()
+      response = {
+        headers: {}
+        setHeader: (key,value)->
+          this.headers[key] =  value
+      }
+      read_stream = {
+        pipe: ()->
+          console.log('qPipe called');
+      }
+      status = '200'
+      server.on_open(file_extension, response, status, read_stream)
       expect(response.headers['Content-Type']).toEqual(expected_content_type)
       done()
 
@@ -120,11 +129,9 @@ check_status= (page_name, expected_status) ->
 
 
 
-check_request("", "/index.html", "text/html")
-#check_content("", /Space Wars/)
+#check_request("", "/index.html", "text/html")
 #check_status("", 302);
-#
-#check_request("/game.html", "/game.html", "text/html")
+#check_redirect("", 302, "/index.html");
+check_request("/game.html", "/game.html", "text/html")
 #check_content("/game.html", /Space Wars/)
-#
 #check_request("/controllers/ship_command.js", "/controllers/ship_command.js", "text/javascript")

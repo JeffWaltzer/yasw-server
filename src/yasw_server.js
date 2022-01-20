@@ -113,25 +113,31 @@ exports.createServer= function(parameters) {
     http_server= null;
   };
 
+  yasw_server.on_open =  function(file_extension, response, status, read_stream, on_headers_written) {
+    if (file_extension === "js")
+      response.setHeader("Content-Type", "text/javascript");
+    else if (file_extension === "css")
+      response.setHeader("Content-Type", "text/css");
+    else
+      response.setHeader("Content-Type", "text/html");
+    console.log("static page response.headers=", response.headers);
+    response.statusCode = status;
+    read_stream.pipe(response);
+    if (on_headers_written)
+      on_headers_written();
+  };
+
   yasw_server.static_page= function(page, response, status, on_headers_written) {
     var filename= "public" + page;
     var file_extension= page.split(".").pop();
     var read_stream= fs.createReadStream(filename);
     if (!status)
       status= 200;
-    read_stream.on('open', function() {
-      if (file_extension === "js")
-        response.setHeader("Content-Type", "text/javascript");
-      else if (file_extension === "css")
-        response.setHeader("Content-Type", "text/css");
-      else
-        response.setHeader("Content-Type", "text/html");
-      console.log("static page response.headers=", response.headers );
-      response.statusCode= status;
-      read_stream.pipe(response);
-      if (on_headers_written)
-        on_headers_written();
+
+    read_stream.on('open', function () {
+      yasw_server.on_open(file_extension, response, status, read_stream, on_headers_written);
     });
+
     read_stream.on('error', function() {
       response.statusCode = 404;
       response.end();
