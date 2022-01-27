@@ -20,17 +20,6 @@ module.exports = function(grunt) {
       quick: {specNamMatcher: 'spec/obj/vector_spec.js'}
     },
 
-    coffee: {
-      glob_to_multiple: {
-        expand: true,
-        flatten: true,
-        cwd: "spec",
-        src: ['**/*.coffee'],
-        dest: 'spec/obj',
-        ext: '.js'
-      }
-    },
-
     jshint: {
       all: ['src/**/*.js'],
       options: {
@@ -54,15 +43,8 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-jasmine-node');
-  grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('clean', function() {
-    grunt.file.expand('spec/obj/*').forEach(function(file) {
-      grunt.file.delete(file);
-    });
-  });
-
-  grunt.registerTask('default', ['clean', 'coffee', 'jshint', 'jasmine_node:all']);
-  grunt.registerTask('quick',   ['clean', 'coffee', 'jshint', 'jasmine_node:quick']);
+  grunt.registerTask('default', ['jshint', 'jasmine_node:all']);
+  grunt.registerTask('quick',   ['jshint', 'jasmine_node:quick']);
 };
