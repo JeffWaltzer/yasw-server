@@ -120,7 +120,6 @@ exports.createServer= function(parameters) {
       response.setHeader("Content-Type", "text/css");
     else
       response.setHeader("Content-Type", "text/html");
-    console.log("static page response.headers=", response.headers);
     response.statusCode = status;
     read_stream.pipe(response);
     if (on_headers_written)

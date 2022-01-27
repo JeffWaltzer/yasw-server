@@ -16,9 +16,9 @@
       end: function() {
         return console.log("end");
       },
-      //    setHeader: (key, value) ->
-      //      fake_response.headers[key] = value
-      //      console.log("setHeader(#{key}, #{value})")
+      // setHeader: function(key, value) {
+      //     fake_response.headers[key] = value;
+      // },
       on: function() {
         return console.log("on");
       },
@@ -64,7 +64,7 @@
       });
       it(`should respond with content type ${expected_content_type}`, function(done) {
         var file_extension, read_stream, response, status;
-        file_extension = page_name.split(',').pop();
+        file_extension = page_name.split('.').pop();
         response = {
           headers: {},
           setHeader: function(key, value) {
@@ -72,9 +72,7 @@
           }
         };
         read_stream = {
-          pipe: function() {
-            return console.log('qPipe called');
-          }
+          pipe: function() {}
         };
         status = '200';
         server.on_open(file_extension, response, status, read_stream);
@@ -128,17 +126,17 @@
     });
   };
 
-  check_status = function(page_name, expected_status) {
+  check_redirect = function(page_name, expected_status, expected_target) {
     return describe(`the server, when asked for '${page_name}'`, function() {
       var server;
       server = void 0;
       beforeEach(function() {
         return server = yasw.createServer();
       });
-      return it(`should respond with a status of ${expected_status}`, function(done) {
+      it(`should respond with a status of ${expected_status}`, function(done) {
         var fake_request, fake_response;
         fake_request = {
-          url: `http://www.example.com/${page_name}`,
+          url: `http://www.example.com${page_name}`,
           once: function() {},
           connection: {
             encrypted: false
@@ -159,15 +157,43 @@
           return done();
         });
       });
+
+      return it(`should redirect to ${expected_target}`, function(done) {
+        var fake_request, fake_response;
+        fake_request = {
+          url: `http://www.example.com${page_name}`,
+          once: function() {},
+          connection: {
+            encrypted: false
+          },
+          headers: {}
+        };
+        fake_response = {
+          headers: {},
+          setHeader: function(key, value) {
+            return this.headers[key] = value;
+          },
+          getHeader: function() {},
+          on: function() {},
+          once: function() {},
+          emit: function() {},
+          write: function() {},
+          end: function() {}
+        };
+        return server.on_request(fake_request, fake_response, function() {
+          expect(fake_response.headers['location']).toEqual(expected_target);
+          return done();
+        });
+      });
     });
   };
 
-  //check_request("", "/index.html", "text/html")
-  //check_status("", 302);
-  //check_redirect("", 302, "/index.html");
-  check_request("/game.html", "/game.html", "text/html");
+  check_redirect("", 302, "/game.html")
+  check_redirect("/index.html", 302, "/game.html");
 
-  //check_content("/game.html", /Space Wars/)
-//check_request("/controllers/ship_command.js", "/controllers/ship_command.js", "text/javascript")
+  check_request("/game.html", "/game.html", "text/html");
+  check_request("/controllers/ship_command.js", "/controllers/ship_command.js", "text/javascript")
+
+  check_content("/game.html", /Space Wars/)
 
 }).call(this);
