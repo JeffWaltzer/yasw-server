@@ -16,7 +16,7 @@ module.exports = function(grunt) {
           consolidate: true
         }
       },
-      all: {specNameMatcher: 'spec/obj/*_spec.js'},
+        all: {specNameMatcher: ['spec/obj/*_spec.js', 'spec/new/*_spec.js']},
       quick: {specNamMatcher: 'spec/obj/vector_spec.js'}
     },
 
