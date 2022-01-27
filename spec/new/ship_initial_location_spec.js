@@ -1,7 +1,7 @@
 (function() {
   var game, inject_random_numbers, vector;
 
-  inject_random_numbers = require('./inject_random_numbers');
+  inject_random_numbers = require('./../helpers/inject_random_numbers');
 
   game = require('../../src/game');
 

@@ -1,7 +1,7 @@
 (function() {
   var Vector;
 
-  require("./vector_equals");
+  require("./../helpers/vector_equals");
 
   Vector = require("./../../src/vector").Vector;
 

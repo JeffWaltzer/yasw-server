@@ -1,7 +1,7 @@
 (function() {
   var GameField, Vector, the_game_field, the_ship, the_sun;
 
-  require("./vector_equals");
+  require("./../helpers/vector_equals");
 
   GameField = require("./../../src/game_field").GameField;
 
