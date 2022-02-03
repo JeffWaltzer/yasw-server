@@ -1,6 +1,7 @@
 function make_fake_response() {
     return {
-        headers: {}, end: function () {
+        headers: {},
+        end: function () {
             return console.log("end");
         }, on: function () {
             return console.log("on");
@@ -18,8 +19,6 @@ function make_fake_response() {
 
 (function () {
     var check_content, check_request, check_status, do_fake_request, request, yasw;
-
-    request = require('request');
 
     yasw = require('./../../src/yasw_server');
 
