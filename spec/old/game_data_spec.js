@@ -1,3 +1,27 @@
+function make_fake_response() {
+  return {
+    headers: {},
+    end: function () {
+      return console.log("end");
+    },
+    on: function () {
+      return console.log("on");
+    },
+    once: function () {
+      return console.log("once");
+    },
+    emit: function () {
+      return console.log("emit");
+    },
+    write: function () {
+      return console.log("write");
+    },
+    setHeader:  function(key, value) {
+      this.headers[key] = value;
+    }
+  };
+}
+
 (function() {
   var check_content, check_request, check_status, do_fake_request, request, yasw;
 
@@ -7,36 +31,10 @@
 
   do_fake_request = function(server, page_name) {
     var fake_request, fake_response, junk_on_response_headers_written;
-    console.log(`--------------------------------- page_name=${page_name}\n`);
     fake_request = {
       url: `http://localhost:3000${page_name}`
     };
-    fake_response = {
-      headers: {},
-      end: function() {
-        return console.log("end");
-      },
-      // setHeader: function(key, value) {
-      //     fake_response.headers[key] = value;
-      // },
-      on: function() {
-        return console.log("on");
-      },
-      once: function() {
-        return console.log("once");
-      },
-      emit: function() {
-        return console.log("emit");
-      },
-      write: function() {
-        return console.log("write");
-      }
-    };
-    fake_response.setHeader = function(key, value) {
-      console.log(`before in setHeader fake_response.headers = ${Object.keys(fake_response.headers)}`);
-      fake_response.headers[key] = value;
-      return console.log(`after  in setHeader fake_response.headers = ${Object.keys(fake_response.headers)}`);
-    };
+    fake_response = make_fake_response();
     junk_on_response_headers_written = function() {
       return console.log('j.o.r.h.w.');
     };
