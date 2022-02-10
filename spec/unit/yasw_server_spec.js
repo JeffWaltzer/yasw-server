@@ -50,7 +50,11 @@ describe("YaswServer#static_page", function() {
     it("calls createReadStream", function() {
         expect(fs.createReadStream).toHaveBeenCalledWith("public/page");
     });
+
+    it("sets a callback for read_stream.on", function() {fail();});
+    it("sets a callback for read_stream.error", function() {fail();})
 });
+
 
 // check_content("/game.html", /Space Wars/)
 
