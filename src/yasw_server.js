@@ -126,6 +126,7 @@ exports.createServer= function(parameters) {
       on_headers_written();
   };
 
+  // ToDo: WTF is status and why is it here?
   yasw_server.static_page= function(page, response, status, on_headers_written) {
     var filename= "public" + page;
     var file_extension= page.split(".").pop();

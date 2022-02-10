@@ -73,35 +73,6 @@ check_request = function (page_name, expected_file, expected_content_type) {
     });
 };
 
-check_content = function (page_name, expected_content_regexp) {
-    describe(`the server, when asked for '${page_name}'`, function () {
-        var server;
-        server = void 0;
-        beforeEach(function () {
-            server = yasw.createServer();
-        });
-        it("should respond with a page matching", function (done) {
-            var fake_request, fake_response, got_body;
-            got_body = [];
-            fake_request = make_fake_request("");
-
-            fake_response = make_fake_response();
-            fake_response.write = function (data) {
-                got_body.push(data);
-            };
-            fake_response.end = function (data) {
-                if (data) {
-                    got_body.push(data);
-                }
-                got_body = Buffer.concat(got_body);
-                expect(got_body.toString()).toMatch(expected_content_regexp);
-                done();
-            };
-            server.on_request(fake_request, fake_response);
-        });
-    });
-}
-
 check_redirect = function (page_name, expected_status, expected_target) {
     describe(`the server, when asked for '${page_name}'`, function () {
         var server;
@@ -136,5 +107,3 @@ check_redirect("/index.html", 302, "/game.html");
 
 check_request("/game.html", "/game.html", "text/html");
 check_request("/controllers/ship_command.js", "/controllers/ship_command.js", "text/javascript")
-
-check_content("/game.html", /Space Wars/)
