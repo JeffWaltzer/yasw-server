@@ -1,3 +1,5 @@
+yasw = require('./../../src/yasw_server');
+
 function make_fake_response() {
     return {
         headers: {},
@@ -12,19 +14,17 @@ function make_fake_response() {
     };
 }
 
-function make_fake_request(url) {
+function make_fake_request(page_name) {
     return {
-        url: url
+        url: `http://localhost:3000${page_name}`
     };
 }
 
 var check_content, check_request, check_status, do_fake_request, request, yasw;
 
-yasw = require('./../../src/yasw_server');
-
 do_fake_request = function (server, page_name) {
     var fake_request, fake_response, junk_on_response_headers_written;
-    fake_request = make_fake_request(`http://localhost:3000${page_name}`);
+    fake_request = make_fake_request(page_name);
     fake_response = make_fake_response();
     junk_on_response_headers_written = function () {};
     server.on_request(fake_request, fake_response, junk_on_response_headers_written);
@@ -83,7 +83,7 @@ check_content = function (page_name, expected_content_regexp) {
         it("should respond with a page matching", function (done) {
             var fake_request, fake_response, got_body;
             got_body = [];
-            fake_request = make_fake_request("http://www.example.com");
+            fake_request = make_fake_request("");
 
             fake_response = make_fake_response();
             fake_response.write = function (data) {
@@ -111,7 +111,7 @@ check_redirect = function (page_name, expected_status, expected_target) {
         });
         it(`should respond with a status of ${expected_status}`, function (done) {
             var fake_request, fake_response;
-            fake_request = make_fake_request(`http://www.example.com${page_name}`)
+            fake_request = make_fake_request(page_name)
             fake_response = make_fake_response();
             return server.on_request(fake_request, fake_response, function () {
                 expect(fake_response.statusCode).toMatch(expected_status);
@@ -121,7 +121,7 @@ check_redirect = function (page_name, expected_status, expected_target) {
 
         return it(`should redirect to ${expected_target}`, function (done) {
             var fake_request, fake_response;
-            fake_request = make_fake_request(`http://www.example.com${page_name}`)
+            fake_request = make_fake_request(page_name)
             fake_response = make_fake_response();
             return server.on_request(fake_request, fake_response, function () {
                 expect(fake_response.headers['location']).toEqual(expected_target);
