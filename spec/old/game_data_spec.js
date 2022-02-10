@@ -32,30 +32,30 @@ do_fake_request = function (server, page_name) {
 };
 
 check_request = function (page_name, expected_file, expected_content_type) {
-    return describe(`the server, when asked for '${page_name}'`, function () {
+    describe(`the server, when asked for '${page_name}'`, function () {
         var server;
         server = void 0;
         beforeEach(function (done) {
             server = yasw.createServer();
-            return done();
+            done();
         });
         it(`should call the static page function for ${expected_file}`, function (done) {
             var response;
             spyOn(server, 'static_page').andCallFake(function (filename, response) {
                 expect(filename).toEqual(expected_file);
-                return response.end();
+                response.end();
             });
 
             response = do_fake_request(server, page_name);
             expect(server.static_page).toHaveBeenCalled();
-            return done();
+            done();
         });
         it(`should respond with content type ${expected_content_type}`, function (done) {
             var file_extension, read_stream, response, status;
             file_extension = page_name.split('.').pop();
             response = {
                 headers: {}, setHeader: function (key, value) {
-                    return this.headers[key] = value;
+                    this.headers[key] = value;
                 }
             };
             read_stream = {
@@ -65,20 +65,20 @@ check_request = function (page_name, expected_file, expected_content_type) {
             status = '200';
             server.on_open(file_extension, response, status, read_stream);
             expect(response.headers['Content-Type']).toEqual(expected_content_type);
-            return done();
+            done();
         });
-        return afterEach(function (done) {
-            return done();
+        afterEach(function (done) {
+            done();
         });
     });
 };
 
 check_content = function (page_name, expected_content_regexp) {
-    return describe(`the server, when asked for '${page_name}'`, function () {
+    describe(`the server, when asked for '${page_name}'`, function () {
         var server;
         server = void 0;
         beforeEach(function () {
-            return server = yasw.createServer();
+            server = yasw.createServer();
         });
         it("should respond with a page matching", function (done) {
             var fake_request, fake_response, got_body;
@@ -87,7 +87,7 @@ check_content = function (page_name, expected_content_regexp) {
 
             fake_response = make_fake_response();
             fake_response.write = function (data) {
-                return got_body.push(data);
+                got_body.push(data);
             };
             fake_response.end = function (data) {
                 if (data) {
@@ -95,37 +95,37 @@ check_content = function (page_name, expected_content_regexp) {
                 }
                 got_body = Buffer.concat(got_body);
                 expect(got_body.toString()).toMatch(expected_content_regexp);
-                return done();
+                done();
             };
-            return server.on_request(fake_request, fake_response);
+            server.on_request(fake_request, fake_response);
         });
     });
 }
 
 check_redirect = function (page_name, expected_status, expected_target) {
-    return describe(`the server, when asked for '${page_name}'`, function () {
+    describe(`the server, when asked for '${page_name}'`, function () {
         var server;
         server = void 0;
         beforeEach(function () {
-            return server = yasw.createServer();
+            server = yasw.createServer();
         });
         it(`should respond with a status of ${expected_status}`, function (done) {
             var fake_request, fake_response;
             fake_request = make_fake_request(page_name)
             fake_response = make_fake_response();
-            return server.on_request(fake_request, fake_response, function () {
+            server.on_request(fake_request, fake_response, function () {
                 expect(fake_response.statusCode).toMatch(expected_status);
-                return done();
+                done();
             });
         });
 
-        return it(`should redirect to ${expected_target}`, function (done) {
+        it(`should redirect to ${expected_target}`, function (done) {
             var fake_request, fake_response;
             fake_request = make_fake_request(page_name)
             fake_response = make_fake_response();
-            return server.on_request(fake_request, fake_response, function () {
+            server.on_request(fake_request, fake_response, function () {
                 expect(fake_response.headers['location']).toEqual(expected_target);
-                return done();
+                done();
             });
         });
     });
