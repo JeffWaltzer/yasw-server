@@ -44,6 +44,7 @@ describe("YaswServer#static_page", function() {
     beforeEach(function() {
         the_server= yasw_server.createServer();
         spyOn(fs, 'createReadStream').andReturn(fake_stream)
+        spyOn(fake_stream, 'on')
         the_server.static_page("/page", fake_response, fake_status, fake_on_headers_written);
     });
 
@@ -51,8 +52,13 @@ describe("YaswServer#static_page", function() {
         expect(fs.createReadStream).toHaveBeenCalledWith("public/page");
     });
 
-    it("sets a callback for read_stream.on", function() {fail();});
-    it("sets a callback for read_stream.error", function() {fail();})
+    it("sets a callback for read_stream.on", function() {
+        expect(fake_stream.on).toHaveBeenCalledWith('open', jasmine.any(Function))
+    });
+
+    it("sets a callback for read_stream.error", function() {
+        expect(fake_stream.on).toHaveBeenCalledWith('error', jasmine.any(Function))
+    })
 });
 
 
