@@ -1,30 +1,33 @@
-var yasw_server= require('../../src/yasw_server.js');
-var fs= require('fs');
+var yasw_server = require('../../src/yasw_server.js');
+var fs = require('fs');
 
 
-describe ("yasw_server#on_open", function() {
-    var fake_readstream= { pipe: function() {} }
+describe("yasw_server#on_open", function () {
+    var fake_readstream = {
+        pipe: function () {
+        }
+    }
     var the_server;
     var fake_response;
 
-    beforeEach(function() {
-        fake_response= {
+    beforeEach(function () {
+        fake_response = {
             headers: {},
-            setHeader: function(key, value) {
+            setHeader: function (key, value) {
                 fake_response.headers[key] = value;
             },
         };
         spyOn(fake_readstream, 'pipe');
-        the_server= yasw_server.createServer();
+        the_server = yasw_server.createServer();
     });
 
-    it ("calls pipe()", function() {
+    it("calls pipe()", function () {
         the_server.on_open(null, fake_response, null, fake_readstream, null);
         expect(fake_readstream.pipe).toHaveBeenCalled();
     });
 
-    describe("when asked for a .js file", function() {
-        it ("sets the content_type to 'text/javascript'", function() {
+    describe("when asked for a .js file", function () {
+        it("sets the content_type to 'text/javascript'", function () {
             the_server.on_open("js", fake_response, null, fake_readstream, null);
             expect(fake_response.headers['Content-Type']).toEqual("text/javascript");
         });
@@ -32,33 +35,111 @@ describe ("yasw_server#on_open", function() {
 });
 
 
-describe("YaswServer#static_page", function() {
+describe("YaswServer#static_page", function () {
     var the_server;
-    var fake_response= {};
-    var fake_status= 200;
-    var fake_stream= {
-        on: function() {}
+    var fake_response = {};
+    var fake_status = 200;
+    var fake_stream = {
+        on: function () {
+        }
     };
-    var fake_on_headers_written= function() {};
+    var fake_on_headers_written = function () {
+    };
 
-    beforeEach(function() {
-        the_server= yasw_server.createServer();
+    beforeEach(function () {
+        the_server = yasw_server.createServer();
         spyOn(fs, 'createReadStream').andReturn(fake_stream)
         spyOn(fake_stream, 'on')
         the_server.static_page("/page", fake_response, fake_status, fake_on_headers_written);
     });
 
-    it("calls createReadStream", function() {
+    it("calls createReadStream", function () {
         expect(fs.createReadStream).toHaveBeenCalledWith("public/page");
     });
 
-    it("sets a callback for read_stream.on", function() {
+    it("sets a callback for read_stream.on", function () {
         expect(fake_stream.on).toHaveBeenCalledWith('open', jasmine.any(Function))
     });
 
-    it("sets a callback for read_stream.error", function() {
+    it("sets a callback for read_stream.error", function () {
         expect(fake_stream.on).toHaveBeenCalledWith('error', jasmine.any(Function))
     })
+});
+
+
+describe("YaswServer#on_file_open", function () {
+
+     check_content_type = function (page_name, expected_content_type) {
+        describe(`the server, when asked for '${page_name}'`, function () {
+            let server;
+            beforeEach(function (done) {
+                server = yasw_server.createServer();
+                done();
+            });
+            it(`should respond with content type ${expected_content_type}`, function (done) {
+                var file_extension, read_stream, response, status;
+                file_extension = page_name.split('.').pop();
+                response = {
+                    headers: {},
+                    setHeader: function (key, value) {
+                        this.headers[key] = value;
+                    }
+                };
+                read_stream = {
+                    pipe: function () {
+                    }
+                };
+                status = '200';
+                server.on_open(file_extension, response, status, read_stream);
+                expect(response.headers['Content-Type']).toEqual(expected_content_type);
+                done();
+            });
+            afterEach(function (done) {
+                done();
+            });
+        });
+     }
+
+    check_pipe_call = function (page_name, expected_content_type) {
+        describe(`the server, when asked for '${page_name}'`, function () {
+            let server;
+            beforeEach(function (done) {
+                server = yasw_server.createServer();
+                done();
+            });
+            it(`should respond with content type ${expected_content_type}`, function (done) {
+                var file_extension, read_stream, response, status;
+                file_extension = page_name.split('.').pop();
+                response = {
+                    headers: {},
+                    setHeader: function (key, value) {
+                        this.headers[key] = value;
+                    }
+                };
+                read_stream = {
+                    pipe: function () {
+                    }
+                };
+                status = '200';
+
+                spyOn(read_stream,'pipe')
+
+                server.on_open(file_extension, response, status, read_stream);
+
+                expect(read_stream.pipe).toHaveBeenCalledWith(response);
+
+                done();
+            });
+            afterEach(function (done) {
+                done();
+            });
+        });
+    }
+
+
+    check_content_type("page.html", "text/html")
+     check_content_type("page.js", "text/javascript")
+     check_content_type("page.css", "text/css")
 });
 
 
