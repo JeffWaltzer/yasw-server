@@ -74,7 +74,7 @@ describe("YaswServer#on_open", function () {
 
     check_content_type = function (page_name, expected_content_type) {
         describe(`the server, when asked for '${page_name}'`, function () {
-            beforeEach(function(done){
+            beforeEach(function (done) {
                 file_extension = page_name.split('.').pop();
                 server.on_open(file_extension, response, '200', read_stream);
                 done()
@@ -91,3 +91,13 @@ describe("YaswServer#on_open", function () {
     check_content_type("page.js", "text/javascript")
     check_content_type("page.css", "text/css")
 });
+
+describe("YaswServer#on_new_websocket", () => {
+})
+
+describe("YaswServer#listen", () => {
+})
+
+describe("YaswServer#shutdown", () => {
+})
+

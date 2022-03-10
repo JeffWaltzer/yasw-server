@@ -1,4 +1,4 @@
-yasw = require('./../../src/yasw_server');
+yasw = require('../../src/yasw_server');
 
 function make_fake_response() {
     return {
@@ -50,23 +50,6 @@ check_request = function (page_name, expected_file, expected_content_type) {
             expect(server.static_page).toHaveBeenCalled();
             done();
         });
-        // it(`should respond with content type ${expected_content_type}`, function (done) {
-        //     var file_extension, read_stream, response, status;
-        //     file_extension = page_name.split('.').pop();
-        //     response = {
-        //         headers: {}, setHeader: function (key, value) {
-        //             this.headers[key] = value;
-        //         }
-        //     };
-        //     read_stream = {
-        //         pipe: function () {
-        //         }
-        //     };
-        //     status = '200';
-        //     server.on_open(file_extension, response, status, read_stream);
-        //     expect(response.headers['Content-Type']).toEqual(expected_content_type);
-        //     done();
-        // });
         afterEach(function (done) {
             done();
         });
