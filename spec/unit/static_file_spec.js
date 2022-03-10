@@ -15,6 +15,22 @@ describe('yasw_server#static_page ', function () {
     beforeEach(function () {
         server = yasw.createServer();
     });
+
+    it('should load the specified file if it exists', function (done) {
+        var fake_response, read_stream, saved_createReadStream;
+        read_stream = {
+            on: (event,handler)=>{
+            }
+        };
+        fake_response = new http_mocks.createResponse();
+        spyOn(fs, 'createReadStream').andCallFake(function (filename) {
+            return read_stream;
+        });
+        page = server.static_page("/index.html", fake_response);
+        expect(fake_response.statusCode).toEqual(200);
+        done();
+    });
+
     it('should load the specified file if it exists', function (done) {
         var fake_response, read_stream, saved_createReadStream;
         read_stream = void 0;
@@ -23,7 +39,6 @@ describe('yasw_server#static_page ', function () {
         spyOn(fs, 'createReadStream').andCallFake(function (filename) {
             read_stream = saved_createReadStream(filename);
             read_stream.on('end', function () {
-                expect(fake_response.statusCode).toEqual(200);
                 done();
             });
             return read_stream;
@@ -31,6 +46,7 @@ describe('yasw_server#static_page ', function () {
         page = server.static_page("/index.html", fake_response);
         expect(fs.createReadStream).toHaveBeenCalledWith("public/index.html");
     });
+
     it("should set the return status to 404 if the file doesn't exist", function (done) {
         var fake_response, saved_response_end;
         fake_response = new http_mocks.createResponse();
