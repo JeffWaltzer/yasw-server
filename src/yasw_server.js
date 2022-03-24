@@ -90,8 +90,6 @@ exports.createServer= function(parameters) {
     if (filename == '/')
       filename= "/index.html";
 
-    var status= 200;
-
     if (filename === "/index.html") {
       response.setHeader("location", "/game.html");
       response.statusCode = 302;
@@ -101,7 +99,7 @@ exports.createServer= function(parameters) {
       return;
     }
 
-    yasw_server.static_page(filename, response, status, on_response_headers_written);
+    yasw_server.static_page(filename, response, on_response_headers_written);
   };
 
   yasw_server.listen= function(port, done) {
@@ -132,16 +130,13 @@ exports.createServer= function(parameters) {
       on_headers_written();
   };
 
-  // ToDo: WTF is status and why is it here?
-  yasw_server.static_page= function(page, response, status, on_headers_written) {
+  yasw_server.static_page= function(page, response, on_headers_written) {
     var filename= "public" + page;
     var file_extension= page.split(".").pop();
     var read_stream= fs.createReadStream(filename);
-    if (!status)
-      status= 200;
 
     read_stream.on('open', function () {
-      yasw_server.on_open(file_extension, response, status, read_stream, on_headers_written);
+      yasw_server.on_open(file_extension, response, 200, read_stream, on_headers_written);
     });
 
     read_stream.on('error', function() {
