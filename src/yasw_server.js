@@ -87,19 +87,11 @@ exports.createServer= function(parameters) {
 
   yasw_server.on_request= function(request, response, on_response_headers_written) {
     var filename= url.parse(request.url).pathname;
-    if (filename == '/')
-      filename= "/index.html";
 
-    if (filename === "/index.html") {
-      response.setHeader("location", "/game.html");
-      response.statusCode = 302;
-      if (on_response_headers_written)
-        on_response_headers_written();
-      response.end();
-      return;
-    }
-
-    yasw_server.static_page(filename, response, on_response_headers_written);
+    if (filename === '/' || filename === "/index.html")
+      yasw_server.redirect_to("/game.html", response, on_response_headers_written);
+    else
+      yasw_server.static_page(filename, response, on_response_headers_written);
   };
 
   yasw_server.listen= function(port, done) {
@@ -143,6 +135,14 @@ exports.createServer= function(parameters) {
       response.statusCode = 404;
       response.end();
     });
+  };
+
+  yasw_server.redirect_to= function(new_destination, response, on_response_headers_written) {
+      response.setHeader("location", new_destination);
+      response.statusCode = 302;
+      if (on_response_headers_written)
+        on_response_headers_written();
+      response.end();
   };
 
   return yasw_server;
