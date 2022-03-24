@@ -89,10 +89,16 @@ exports.createServer= function(parameters) {
     var filename= url.parse(request.url).pathname;
     if (filename == '/')
       filename= "/index.html";
+
     var status= 200;
+
     if (filename === "/index.html") {
-      status= 302;
       response.setHeader("location", "/game.html");
+      response.statusCode = 302;
+      if (on_response_headers_written)
+        on_response_headers_written();
+      response.end();
+      return;
     }
 
     yasw_server.static_page(filename, response, status, on_response_headers_written);
