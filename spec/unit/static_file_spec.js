@@ -32,10 +32,6 @@ describe('yasw_server#static_page ', () => {
     saved_createReadStream = fs.createReadStream;
     fake_response = new http_mocks.createResponse();
     spyOn(fs, 'createReadStream').andCallThrough();
-    // spyOn(fs, 'createReadStream').andCallFake((filename) => {
-    //   read_stream = saved_createReadStream(filename);
-    //   return read_stream;
-    // });
     page = server.static_page("/index.html", fake_response);
     expect(fs.createReadStream).toHaveBeenCalledWith("public/index.html");
     done();
