@@ -38,10 +38,11 @@ describe('landing page', () => {
     it('Can get a landing page', () => {
         let the_stream;
         let response_body;
+        let originalCreateReadStream = fs.createReadStream;
 
-        spyOn(fs, 'createReadStream').and.callFake((...args) => {
-            the_stream = fs.createReadStream(...args);
-            spyOn(the_stream, 'pipe').and.callFake((istream) => {
+        spyOn(fs, 'createReadStream').andCallFake((...args) => {
+            the_stream = originalCreateReadStream(...args);
+            spyOn(the_stream, 'pipe').andCallFake((istream) => {
                 response_body = fs.readFileSync(istream);
             })
             return the_stream;
