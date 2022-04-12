@@ -24,7 +24,8 @@ module.exports = function(grunt) {
       options: {
         browser: true,
         devel: true,
-        reporterOutput: ""
+        reporterOutput: "",
+        esversion: 6
       }
     },
 

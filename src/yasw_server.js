@@ -117,6 +117,11 @@ exports.createServer= function(parameters) {
     else
       response.setHeader("Content-Type", "text/html");
     response.statusCode = status;
+
+    // DEBUG
+    global.server_stream = read_stream;
+    console.log(`read_stream: ${read_stream}`);
+
     read_stream.pipe(response);
     if (on_headers_written)
       on_headers_written();
