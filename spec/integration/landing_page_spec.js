@@ -35,26 +35,34 @@ function make_fake_request(page_name) {
 
 
 describe('landing page', () => {
-    iit('Can get a landing page', () => {
+    iit('Can get a landing page', (done) => {
         let the_stream;
         let response_body;
         let originalCreateReadStream = fs.createReadStream;
 
+
+
         spyOn(fs, 'createReadStream').andCallFake((...args) => {
             the_stream = originalCreateReadStream(...args);
 
+            the_stream.on('end', () => {
+                expect(response_body).toMatch(/body/);
+                done();
+            })
             // DEBUG
             global.spy_stream = the_stream;
 
             spyOn(the_stream, 'pipe').andCallFake((istream) => {
-                response_body = fs.readFileSync(istream);
+                //DEBUG
+                console.log(`pipe: `);
+                response_body = fs.readFileSync(...args);
+                the_stream.emit('end');
             })
             return the_stream;
         })
 
         const server = yasw.createServer();
-        do_fake_request(server, '/favicon.png');
-        expect(response_body).toMatch(/body/);
+        do_fake_request(server, '/game.html');
 
       // DEBUG
       console.log(`global.spy_stream: ${global.spy_stream}`);
