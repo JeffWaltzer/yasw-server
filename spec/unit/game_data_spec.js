@@ -1,23 +1,21 @@
 yasw = require('../../src/yasw_server');
+const http_mocks = require('node-mocks-http');
+
 
 function make_fake_response() {
-    return {
-        headers: {},
-        end: function () {},
-        on: function () {},
-        once: function () {},
-        emit: function () {},
-        write: function () {},
-        setHeader: function (key, value) {
-            this.headers[key] = value;
-        }
-    };
+    let fakeResponse = http_mocks.createResponse();
+    fakeResponse.headers = {};
+    fakeResponse.setHeader = (key, value) => {
+        fakeResponse.headers[key] = value;
+    }
+    return fakeResponse;
 }
 
 function make_fake_request(page_name) {
-    return {
+    return http_mocks.createRequest({
+        method: "GET",
         url: `http://localhost:3000${page_name}`
-    };
+    });
 }
 
 var check_content, check_request, check_status, do_fake_request, request, yasw;
@@ -26,7 +24,8 @@ do_fake_request = function (server, page_name) {
     var fake_request, fake_response, junk_on_response_headers_written;
     fake_request = make_fake_request(page_name);
     fake_response = make_fake_response();
-    junk_on_response_headers_written = function () {};
+    junk_on_response_headers_written = function () {
+    };
     server.on_request(fake_request, fake_response, junk_on_response_headers_written);
     return fake_response;
 };

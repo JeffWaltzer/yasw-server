@@ -3,45 +3,17 @@ const yasw = require('../../src/yasw_server');
 const fs = require('fs');
 const http_mocks = require('node-mocks-http');
 
-function make_fake_response() {
-    return {
-        headers: {},
-        end: function () {},
-        on: function () {},
-        once: function () {},
-        emit: function () {},
-        write: function () {},
-        setHeader: function (key, value) {
-            this.headers[key] = value;
-        }
-    };
-}
 
-function make_fake_request(page_name) {
-    return {
-        url: `http://localhost:3000${page_name}`
-    };
-}
-
-
- function do_fake_request (server, page_name) {
-    let fake_response, junk_on_response_headers_written;
-    // let fake_request = make_fake_request(page_name);
-    // fake_response = make_fake_response();
-
+function do_fake_request(server, page_name) {
     let fake_request = http_mocks.createRequest({
         method: 'GET',
         url: `/${page_name}`,
-        params: {}
-    })
+    });
+    let fake_response = http_mocks.createResponse();
 
-    fake_response = http_mocks.createResponse();
-
-    junk_on_response_headers_written = function () {};
-    server.on_request(fake_request, fake_response, junk_on_response_headers_written);
+    server.on_request(fake_request, fake_response);
     return fake_response;
 }
-
 
 describe('landing page', () => {
     it('Can get a landing page', (done) => {
@@ -49,7 +21,7 @@ describe('landing page', () => {
         let response_body;
         let originalCreateReadStream = fs.createReadStream;
 
-       spyOn(fs, 'createReadStream').andCallFake((...args) => {
+        spyOn(fs, 'createReadStream').andCallFake((...args) => {
             the_stream = originalCreateReadStream(...args);
 
             the_stream.on('end', () => {
