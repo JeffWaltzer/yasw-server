@@ -2,7 +2,7 @@ const request = require('request');
 const yasw = require('../../src/yasw_server');
 const fs = require('fs');
 const http_mocks = require('node-mocks-http');
-const {do_fake_request} = require('../helpers/do_fake_request')
+const {do_fake_request} = require('../helpers/http_fakes')
 
 describe('landing page', () => {
     it('Can get a landing page', (done) => {
