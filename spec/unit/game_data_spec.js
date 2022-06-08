@@ -1,5 +1,6 @@
 yasw = require('../../src/yasw_server');
 const http_mocks = require('node-mocks-http');
+const {do_fake_request} = require('../helpers/do_fake_request')
 
 
 function make_fake_response() {
@@ -18,17 +19,8 @@ function make_fake_request(page_name) {
     });
 }
 
-var check_content, check_request, check_status, do_fake_request, request, yasw;
+var check_content, check_request, check_status,  request, yasw;
 
-do_fake_request = function (server, page_name) {
-    var fake_request, fake_response, junk_on_response_headers_written;
-    fake_request = make_fake_request(page_name);
-    fake_response = make_fake_response();
-    junk_on_response_headers_written = function () {
-    };
-    server.on_request(fake_request, fake_response, junk_on_response_headers_written);
-    return fake_response;
-};
 
 check_request = function (page_name, expected_file, expected_content_type) {
     describe(`the server, when asked for '${page_name}'`, function () {
