@@ -26,7 +26,7 @@ describe('landing page', () => {
         })
 
         const server = yasw.createServer();
-        do_fake_request(server, '/game.html');
+        do_fake_request(server, '/index.html');
     });
 });
 

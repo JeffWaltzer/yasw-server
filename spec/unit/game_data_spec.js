@@ -3,7 +3,7 @@ const {do_fake_request, make_fake_request, make_fake_response} = require('../hel
 
 var check_request, yasw;
 
-check_request = function (page_name, expected_file, expected_content_type) {
+check_request = function (page_name, expected_file) {
     describe(`the server, when asked for '${page_name}'`, function () {
         var server;
         server = void 0;
@@ -57,8 +57,6 @@ check_redirect = function (page_name, expected_status, expected_target) {
     });
 };
 
-check_redirect("", 302, "/game.html")
-check_redirect("/index.html", 302, "/game.html");
-
-check_request("/game.html", "/game.html", "a/html");
-check_request("/controllers/ship_command.js", "/controllers/ship_command.js", "text/javascript")
+check_redirect("", 302, "/index.html")
+check_request("/index.html", "/index.html");
+check_request("/controllers/ship_command.js", "/controllers/ship_command.js");

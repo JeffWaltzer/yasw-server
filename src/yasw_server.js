@@ -88,8 +88,8 @@ exports.createServer= function(parameters) {
   yasw_server.on_request= function(request, response, on_response_headers_written) {
     var filename= url.parse(request.url).pathname;
 
-    if (filename === '/' || filename === "/index.html")
-      yasw_server.redirect_to("/game.html", response, on_response_headers_written);
+    if (filename === '/')
+      yasw_server.redirect_to("/index.html", response, on_response_headers_written);
     else
       yasw_server.static_page(filename, response, on_response_headers_written);
   };
