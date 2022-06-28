@@ -87,9 +87,7 @@
     it("has the gamepad name displayed", function() {
       return expect(gamepad_editor.getElementsByClassName('gamepad-name')[0].textContent).toEqual("Fake Gamepad #1");
     });
-    it("has the gamepad thrust button binding displayed", function() {
-      return expect(gamepad_editor.getElementsByClassName('gamepad-thrust-button')[0].textContent).toEqual("9");
-    });
+    it("has the gamepad thrust button binding displayed");
     it("has the gamepad fire button binding displayed");
     it("has the gamepad left button binding displayed");
     return it("has the gamepad right button binding displayed");
