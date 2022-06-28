@@ -9,7 +9,7 @@ module.exports = function(config) {
                 'src/controllers/*.js',
                 'src/models/*.js',
                 'src/services/*.js',
-                'spec/obj/*.js'
+                'spec/*.js'
             ],
             frameworks: ['jasmine'],
             browsers: ['Chrome'],

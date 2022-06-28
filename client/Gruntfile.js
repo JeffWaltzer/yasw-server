@@ -61,5 +61,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('release', ['clean:release', 'copy:release']);
-  grunt.registerTask('default', ['clean:coffee','coffee', 'jshint','karma']);
+  grunt.registerTask('default', ['jshint','karma']);
 };
