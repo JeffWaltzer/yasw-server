@@ -13,7 +13,7 @@
     beforeEach(function() {
       server = yasw.createServer();
       server.game.add_player('0.5328');
-      return server.listen(3000);
+      return server.listen(3000, {write:  (junk) => {}});
     });
     setup_ship = function(socket, init_ship, test, done) {
       socket.on('error', function(e) {

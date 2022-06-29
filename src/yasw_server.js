@@ -94,13 +94,13 @@ exports.createServer= function(parameters) {
       yasw_server.static_page(filename, response, on_response_headers_written);
   };
 
-  yasw_server.listen= function(port, done) {
+  yasw_server.listen= function(port, output_stream, done) {
     http_server= http.createServer(yasw_server.on_request);
 
     var listener = http_server.listen(port, function() {if (done) done();});
     var engine_server = engine_io.attach(listener, {allowEIO3: true});
     engine_server.on('connection', yasw_server.on_new_websocket);
-    console.log("Ready for games on port %d!", port);
+    output_stream.write(`Ready for games on port ${port}!\n`);
   };
 
   yasw_server.shutdown= function(done) {
