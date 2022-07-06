@@ -1,3 +1,5 @@
+const underscore = require('underscore');
+
 (function() {
   var custom_matchers;
 

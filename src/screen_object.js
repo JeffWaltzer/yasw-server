@@ -1,3 +1,4 @@
+require('./accessor_patch');
 var _= require('underscore');
 var transforms= require('./transform');
 var vector= require('./vector');

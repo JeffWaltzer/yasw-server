@@ -91,13 +91,3 @@ describe("YaswServer#on_open", function () {
     check_content_type("page.js", "text/javascript")
     check_content_type("page.css", "text/css")
 });
-
-describe("YaswServer#on_new_websocket", () => {
-})
-
-describe("YaswServer#listen", () => {
-})
-
-describe("YaswServer#shutdown", () => {
-})
-

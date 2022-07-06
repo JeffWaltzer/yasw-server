@@ -30,7 +30,7 @@
     var server;
     server = void 0;
     beforeEach(function() {
-      this.addMatchers(custom_matchers);
+      jasmine.addMatchers(custom_matchers);
       return server = yasw.createServer();
     });
     it("shows the sun", function() {

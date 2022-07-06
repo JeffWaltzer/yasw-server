@@ -30,7 +30,7 @@
     server = void 0;
     beforeEach(function() {
       var ship;
-      this.addMatchers(custom_matchers);
+      jasmine.addMatchers(custom_matchers);
       server = yasw.createServer();
       ship = server.game.game_field.add_ship({
         heading: -Math.PI / 2
@@ -66,7 +66,7 @@
     var server;
     server = void 0;
     beforeEach(function() {
-      this.addMatchers(custom_matchers);
+      jasmine.addMatchers(custom_matchers);
       server = yasw.createServer();
       server.game.game_field.add_ship({
         position: [0, 0],
