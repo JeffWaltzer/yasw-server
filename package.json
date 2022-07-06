@@ -10,7 +10,6 @@
     "node-mocks-http": "^1.11.0"
   },
   "dependencies": {
-    "angular": "^1.8.2",
     "underscore": "^1.13.1"
   },
   "scripts": {
