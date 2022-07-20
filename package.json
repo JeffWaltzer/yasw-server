@@ -1,15 +1,15 @@
 {
   "devDependencies": {
-    "engine.io-client": "^6.0.2",
-    "jasmine-core": "^3.8.0",
-    "jasmine-node": "^3.0.0",
-    "karma": "^6.3.16",
-    "karma-jasmine": "^4.0.1",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "node-mocks-http": "^1.11.0"
+    "engine.io-client": ">=6.0.2",
+    "jasmine-core": ">=4.2.0",
+    "jasmine-node": ">=3.0.0",
+    "karma": ">=6.3.16",
+    "karma-jasmine": ">=4.0.1",
+    "karma-phantomjs-launcher": ">=1.0.4",
+    "node-mocks-http": ">=1.11.0"
   },
   "dependencies": {
-    "underscore": "^1.13.1"
+    "underscore": ">=1.13.1"
   },
   "scripts": {
     "test": "npx jasmine-node --forceexit spec",
