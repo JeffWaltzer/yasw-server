@@ -114,6 +114,8 @@ exports.createServer= function(parameters) {
       response.setHeader("Content-Type", "text/javascript");
     else if (file_extension === "css")
       response.setHeader("Content-Type", "text/css");
+    else if (file_extension === "svg")
+      response.setHeader("Content-Type", "image/svg+xml");
     else
       response.setHeader("Content-Type", "text/html");
     response.statusCode = status;

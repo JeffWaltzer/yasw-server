@@ -90,6 +90,7 @@ describe("YaswServer#on_open", function () {
     check_content_type("page.html", "text/html")
     check_content_type("page.js", "text/javascript")
     check_content_type("page.css", "text/css")
+    check_content_type("page.svg", "image/svg+xml")
 });
 
 describe("YaswServer#on_new_websocket", () => {
