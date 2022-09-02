@@ -15,15 +15,27 @@ root.render(
 let exampleSocket;
 try {
   exampleSocket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
+
+  //DEBUG
+  console.log(`exampleSocket:${exampleSocket}`);
+
   exampleSocket.onopen = (event) => {
     console.log(`onopen: event: ${event}`);
 
-    exampleSocket.send("ferd is a ferd");
+    // exampleSocket.on("message", (the_message) => {
+    //   console.log(`the_message: ${the_message}`);
+    // })
+    exampleSocket.onmessage =  (the_message) => {
+      console.log(`the_message: ${the_message}`);
+    };
+
+    // exampleSocket.send("ferd is a ferd");
   };
 }
 catch (e) {
   console.log(`error: ${e}`);
 }
+
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
