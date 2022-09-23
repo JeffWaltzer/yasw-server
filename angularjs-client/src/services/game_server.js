@@ -23,7 +23,6 @@ angular.module('YASW').factory('game_server', ["$location", "SVG" ,function($loc
           color: a_wireframe.color,
           polygon_string: SVG.polygon_string(a_wireframe.points),
           score: index === 0 ? a_polygon.score : null,
-          position: a_polygon.position
         });
       });
 
