@@ -79,14 +79,133 @@
 //
 //   })
 // });
+
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import App from './App'
 
-it('loads and displays greeting', async () => {
-  const {container} = render(<App url="/greeting" />)
+const the_sun_json = {
+  "polygons": [
+    {
+      "wireframe": [
+        {
+          "points": [
+            [512, 532],
+            [526, 526],
+            [532, 512],
+            [526, 498],
+            [512, 492],
+            [498, 498],
+            [492, 512],
+            [498, 526]
+          ],
+          "color": "orange"
+        }
+      ],
+      "score": 0,
+      "position": [
+        512,
+        512
+      ]
+    },
+  ],
+  "field_size": [
+    1024,
+    1024
+  ]
+};
 
-  let svg_tags = container.querySelectorAll("svg")
-  expect(svg_tags.length).toEqual(1);
+const two_suns_json = {
+  "polygons": [
+    {
+      "wireframe": [
+        {
+          "points": [
+            [512, 532],
+            [526, 526],
+            [532, 512],
+            [526, 498],
+            [512, 492],
+            [498, 498],
+            [492, 512],
+            [498, 526]
+          ],
+          "color": "orange"
+        }
+      ],
+      "score": 0,
+      "position": [
+        512,
+        512
+      ]
+    },
+    {
+      "wireframe": [
+        {
+          "points": [
+            [712, 732],
+            [726, 726],
+            [732, 712],
+            [726, 698],
+            [712, 692],
+            [698, 698],
+            [692, 712],
+            [698, 726]
+          ],
+          "color": "orange"
+        }
+      ],
+      "score": 0,
+      "position": [
+        712,
+        712
+      ]
+    }
+  ],
+  "field_size": [
+    1024,
+    1024
+  ]
+}
+
+describe('app with no JSON', () => {
+  let app;
+  let svg_tags;
+
+  beforeEach(() => {
+    const {container} = render(<App />);
+    svg_tags = container.querySelectorAll("svg");
+  });
+
+  it('produces exactly one svg tag', async () => {
+    expect(svg_tags.length).toEqual(1);
+  });
+
+  describe('the svg tag', () => {
+    let the_svg_tag;
+
+    beforeEach(() => {
+      the_svg_tag = svg_tags[0];
+    });
+
+    it('is full height', async () => {
+      expect(the_svg_tag.getAttribute('height')).toEqual("100%");
+    });
+
+    it('is full width', async () => {
+      expect(the_svg_tag.getAttribute('width')).toEqual("100%");
+    });
+
+    it('has the correct viewbox', async () => {
+      expect(the_svg_tag.getAttribute('viewBox')).toEqual("0 0 1024 1024");
+    });
+  });
+});
+
+it('displays the sun', async () => {
+  const {container} = render(<App gameboard={JSON.stringify(two_suns_json)} />)
+
+  let g_tags = container.querySelectorAll("g");
+  expect(g_tags.length).toEqual(2);
 })
