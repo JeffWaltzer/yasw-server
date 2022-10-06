@@ -85,8 +85,8 @@ import '@testing-library/jest-dom'
 import App from './App'
 
 it('loads and displays greeting', async () => {
-    const screen = render(<App url="/greeting" />)
+  const {container} = render(<App url="/greeting" />)
 
-     let svg_tags = screen.getByRole("svg")
-     expect(svg_tags.length).toEqual(1);
+  let svg_tags = container.querySelectorAll("svg")
+  expect(svg_tags.length).toEqual(1);
 })
