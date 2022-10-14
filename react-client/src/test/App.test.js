@@ -232,5 +232,10 @@ describe('game field', () => {
     expect(rect_tags.length).toEqual(1);
   })
 
+
+  it('displays the rect',  () => {
+    const rect_tags = container.querySelectorAll("polygon");
+    expect(rect_tags.length).toEqual(2);
+  })
 })
 

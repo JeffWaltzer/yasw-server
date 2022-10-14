@@ -8,7 +8,7 @@ function makeGTags(props) {
   const gameboard = JSON.parse(props.gameboard);
 
   return gameboard.polygons.map((polygon, index) => {
-    return(<g key={index}></g>);
+    return(<g key={index}><polygon/></g>);
   });
 }
 
