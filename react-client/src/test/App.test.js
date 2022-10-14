@@ -93,8 +93,7 @@ const config = {
 console.log("config: " + JSON.stringify(config))
 
 
-import {render, screen} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import {render} from '@testing-library/react'
 import '@testing-library/jest-dom'
 import App from '../App'
 
@@ -219,16 +218,16 @@ describe('app with no JSON', () => {
 describe('game field', () => {
   let container;
   beforeEach(()=>{
-    container = render(<App gameboard={JSON.stringify(two_suns_json)} />)
+    container = render(<App gameboard={JSON.stringify(two_suns_json)}/>)
         .container
   })
 
-  it('displays the sun', async () => {
+  it('displays the sun', () => {
     const g_tags = container.querySelectorAll("g");
     expect(g_tags.length).toEqual(2);
   })
 
-  xit('displays the rect', async () => {
+  it('displays the rect',  () => {
     const rect_tags = container.querySelectorAll("rect");
     expect(rect_tags.length).toEqual(1);
   })
