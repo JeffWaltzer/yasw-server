@@ -82,17 +82,6 @@
 
 
 
-const {defaults} = require('jest-config');
-
-/** @type {import('jest').Config} */
-const config = {
-  moduleFileExtensions: [...defaults.moduleFileExtensions, 'mts', 'cts'],
-};
-
-
-console.log("config: " + JSON.stringify(config))
-
-
 import {render} from '@testing-library/react'
 import '@testing-library/jest-dom'
 import App from '../App'
@@ -222,18 +211,18 @@ describe('game field', () => {
         .container
   })
 
-  it('displays the sun', () => {
+  it('generates the g tags', () => {
     const g_tags = container.querySelectorAll("g");
     expect(g_tags.length).toEqual(2);
   })
 
-  it('displays the rect',  () => {
+  it('generates the rect tag',  () => {
     const rect_tags = container.querySelectorAll("rect");
+    expect(rect_tags[0].width).toEqual("100%");
     expect(rect_tags.length).toEqual(1);
   })
 
-
-  it('displays the rect',  () => {
+  it('generates the polygon tags',  () => {
     const rect_tags = container.querySelectorAll("polygon");
     expect(rect_tags.length).toEqual(2);
   })

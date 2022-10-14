@@ -17,7 +17,7 @@ function App(props) {
       <svg height="100%" width="100%" viewBox="0 0 1024 1024">
         <rect width="100%" height="100%" style={{
           "fill": "rgb(0, 0, 0)",
-          "stroke-width":0,
+          "strokeWidth":0,
           "stroke":"rgb(255,0,0)"}}/>
         {makeGTags(props)}
       </svg>
