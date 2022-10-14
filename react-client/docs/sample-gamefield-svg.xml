@@ -1,0 +1,14 @@
+<svg width="100%" height="100%" ng-attr-view_box="0 0 {{field_size[0]}} {{field_size[1]}}" initial-focus="" viewBox="0 0 1024 1024">
+  <rect width="100%" height="100%" style="fill:rgb(0,0,0);stroke-width:0;stroke:rgb(255,0,0)"/>
+  <!-- ngRepeat: polygon in polygons() -->
+  <g ng-repeat="polygon in polygons()" class="ng-scope">
+    <polygon ng-attr-points="{{polygon.polygon_string}}" ng-attr-stroke="{{polygon.color}}" stroke-width="2" fill="none" points="512,532 526,526 532,512 526,498 512,492 498,498 492,512 498,526" stroke="orange"/>
+    <!-- ngIf: polygon.score -->
+  </g>
+  <!-- end ngRepeat: polygon in polygons() -->
+  <g ng-repeat="polygon in polygons()" class="ng-scope">
+    <polygon ng-attr-points="{{polygon.polygon_string}}" ng-attr-stroke="{{polygon.color}}" stroke-width="2" fill="none" points="603.3515942041485,294.92269802223547 572.1357049904276,299.9792047805321 600.1423204163823,314.6635329021274 591.8765398703194,303.1884785682983" stroke="green"/>
+    <!-- ngIf: polygon.score -->
+  </g>
+  <!-- end ngRepeat: polygon in polygons() -->
+</svg>
