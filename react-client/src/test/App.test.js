@@ -216,9 +216,22 @@ describe('app with no JSON', () => {
   });
 });
 
-it('displays the sun', async () => {
-  const {container} = render(<App gameboard={JSON.stringify(two_suns_json)} />)
+describe('game field', () => {
+  let container;
+  beforeEach(()=>{
+    container = render(<App gameboard={JSON.stringify(two_suns_json)} />)
+        .container
+  })
 
-  let g_tags = container.querySelectorAll("g");
-  expect(g_tags.length).toEqual(2);
+  it('displays the sun', async () => {
+    const g_tags = container.querySelectorAll("g");
+    expect(g_tags.length).toEqual(2);
+  })
+
+  xit('displays the rect', async () => {
+    const rect_tags = container.querySelectorAll("rect");
+    expect(rect_tags.length).toEqual(1);
+  })
+
 })
+
