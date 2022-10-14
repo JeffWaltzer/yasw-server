@@ -80,10 +80,23 @@
 //   })
 // });
 
+
+
+const {defaults} = require('jest-config');
+
+/** @type {import('jest').Config} */
+const config = {
+  moduleFileExtensions: [...defaults.moduleFileExtensions, 'mts', 'cts'],
+};
+
+
+console.log("config: " + JSON.stringify(config))
+
+
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
-import App from './App'
+import App from '../App'
 
 const the_sun_json = {
   "polygons": [
