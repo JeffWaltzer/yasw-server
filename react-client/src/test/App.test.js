@@ -218,8 +218,8 @@ describe('game field', () => {
 
   it('generates the rect tag',  () => {
     const rect_tags = container.querySelectorAll("rect");
-    expect(rect_tags[0].width).toEqual("100%");
     expect(rect_tags.length).toEqual(1);
+    expect(rect_tags[0].getAttribute("width")).toEqual("100%");
   })
 
   it('generates the polygon tags',  () => {
