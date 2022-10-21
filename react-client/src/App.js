@@ -1,6 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
 
+function makePolygonPoints(polygon) {
+
+  return "512,532 526,526 532,512 526,498 512,492 498,498 492,512 498,526";
+}
+
 function makeGTags(props) {
   if (!props.gameboard)
     return [];
@@ -8,7 +13,7 @@ function makeGTags(props) {
   const gameboard = JSON.parse(props.gameboard);
 
   return gameboard.polygons.map((polygon, index) => {
-    return(<g key={index}><polygon/></g>);
+    return(<g key={index}><polygon points={makePolygonPoints(polygon)}/></g>);
   });
 }
 

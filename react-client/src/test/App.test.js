@@ -248,6 +248,33 @@ describe('game field', () => {
     it('are generated',  () => {
       expect(polygon_tags.length).toEqual(2);
     });
+
+    describe("the first polygon's points", () => {
+      let the_points;
+
+      beforeEach(() => {
+        the_points = polygon_tags[0].getAttribute('points');
+      });
+
+      it ('has the correct list', () => {
+        expect(the_points).toEqual("512,532 526,526 532,512 526,498 512,492 498,498 492,512 498,526");
+      });
+    });
+
+    describe("the second polygon's points", () => {
+      let the_points;
+
+      beforeEach(() => {
+        the_points = polygon_tags[1].getAttribute('points');
+      });
+
+      it ('has the correct list', () => {
+        expect(the_points).toEqual("712,732 726,726 732,712 726,698 712,692 698,698 692,712 698,726");
+      });
+    });
   });
 })
+
+
+
 
