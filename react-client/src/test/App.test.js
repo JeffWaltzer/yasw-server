@@ -179,7 +179,7 @@ describe('app with no JSON', () => {
     svg_tags = container.querySelectorAll("svg");
   });
 
-  it('produces exactly one svg tag', async () => {
+  it('produces exactly one svg tag', () => {
     expect(svg_tags.length).toEqual(1);
   });
 
@@ -190,15 +190,15 @@ describe('app with no JSON', () => {
       the_svg_tag = svg_tags[0];
     });
 
-    it('is full height', async () => {
+    it('is full height', () => {
       expect(the_svg_tag.getAttribute('height')).toEqual("100%");
     });
 
-    it('is full width', async () => {
+    it('is full width', () => {
       expect(the_svg_tag.getAttribute('width')).toEqual("100%");
     });
 
-    it('has the correct viewbox', async () => {
+    it('has the correct viewbox', () => {
       expect(the_svg_tag.getAttribute('viewBox')).toEqual("0 0 1024 1024");
     });
   });
@@ -216,16 +216,38 @@ describe('game field', () => {
     expect(g_tags.length).toEqual(2);
   })
 
-  it('generates the rect tag',  () => {
-    const rect_tags = container.querySelectorAll("rect");
-    expect(rect_tags.length).toEqual(1);
-    const the_tag= rect_tags[0];
-    expect(the_tag.getAttribute("width")).toEqual("100%");
-  })
+  describe('the rect tag for the background', () => {
+    let rect_tags, the_tag;
 
-  it('generates the polygon tags',  () => {
-    const rect_tags = container.querySelectorAll("polygon");
-    expect(rect_tags.length).toEqual(2);
-  })
+    beforeEach(() => {
+      rect_tags = container.querySelectorAll("rect");
+      the_tag= rect_tags[0];
+    });
+
+    it('has the correct width',  () => {
+      expect(the_tag.getAttribute("width")).toEqual("100%");
+    });
+
+    it('has the correct height',  () => {
+      expect(the_tag.getAttribute("height")).toEqual("100%");
+    });
+
+    it('has the correct style',  () => {
+      expect(the_tag.getAttribute("style")).
+        toEqual("fill: rgb(0, 0, 0); stroke-width: 0; stroke: rgb(255,0,0);");
+    });
+  });
+
+  describe('the polygon tags',  () => {
+    let polygon_tags;
+
+    beforeEach(() => {
+      polygon_tags = container.querySelectorAll("polygon");
+    });
+
+    it('are generated',  () => {
+      expect(polygon_tags.length).toEqual(2);
+    });
+  });
 })
 
