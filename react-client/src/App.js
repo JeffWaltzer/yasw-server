@@ -1,9 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
+import { wireframe_to_svg_points }  from './wireframe_to_svg_points';
 
 function makePolygonPoints(polygon) {
-
-  return "512,532 526,526 532,512 526,498 512,492 498,498 492,512 498,526";
+  return wireframe_to_svg_points(polygon.wireframe[0].points);
 }
 
 function makeGTags(props) {

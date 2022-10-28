@@ -1,4 +1,4 @@
-const { wireframe_to_svg_points } =  require('../wireframe_to_svg_points');
+import { wireframe_to_svg_points } from '../wireframe_to_svg_points';
 
 describe("wireframe_to_svg_points", () => {
   let wireframe = [
