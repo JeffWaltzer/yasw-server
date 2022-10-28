@@ -1,10 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import { wireframe_to_svg_points }  from './wireframe_to_svg_points';
+import { makePolygonPoints } from './makePolygonPoints';
 
-function makePolygonPoints(polygon) {
-  return wireframe_to_svg_points(polygon.wireframe[0].points);
-}
 
 function makeGTags(props) {
   if (!props.gameboard)
