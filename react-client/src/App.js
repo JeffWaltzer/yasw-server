@@ -12,28 +12,23 @@ function GTag(props) {
 }
 
 function App(props) {
-  if (!props.gameboard)
-    return (
-      <svg height="100%" width="100%" viewBox="0 0 1024 1024">
-        <rect width="100%" height="100%" style={{
-          "fill": "rgb(0, 0, 0)",
-          "strokeWidth":0,
-          "stroke":"rgb(255,0,0)"}}/>
-      </svg>
-    );
+  let polygons = props.gameboard ?
+      JSON.parse(props.gameboard).polygons :
+      [];
 
-  const gameboard = JSON.parse(props.gameboard);
   return (
       <svg height="100%" width="100%" viewBox="0 0 1024 1024">
         <rect width="100%" height="100%" style={{
           "fill": "rgb(0, 0, 0)",
           "strokeWidth":0,
           "stroke":"rgb(255,0,0)"}}/>
-      {gameboard.polygons.map((polygon, index) => {
-          return (
-              <GTag key={index} polygon={polygon} index={index} />
-          );
-      })}
+          {
+            polygons.map((polygon, index) => {
+              return (
+                  <GTag key={index} polygon={polygon} index={index} />
+              );
+            })
+          }
       </svg>
   );
 }
