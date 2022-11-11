@@ -12,7 +12,9 @@ function makeGTags(props) {
   const gameboard = JSON.parse(props.gameboard);
 
   return gameboard.polygons.map((polygon, index) => {
-    return(GTag({polygon: polygon, index: index}));
+    return (
+        <GTag key={`g-${index}`} polygon={polygon} index={index} />
+    );
   });
 }
 
@@ -20,14 +22,14 @@ function GTag(props) {
   const polygon = props.polygon;
   const index = props.index;
   return(
-      <g key={index}><polygon points={makePolygonPoints(polygon)}/></g>
+      <g key={index}><polygon key="{index}-poly" points={makePolygonPoints(polygon)}/></g>
   );
 }
 
 function App(props) {
   return (
       <svg height="100%" width="100%" viewBox="0 0 1024 1024">
-        <rect width="100%" height="100%" style={{
+        <rect key="9999" width="100%" height="100%" style={{
           "fill": "rgb(0, 0, 0)",
           "strokeWidth":0,
           "stroke":"rgb(255,0,0)"}}/>
