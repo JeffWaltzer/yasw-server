@@ -3,6 +3,8 @@ import './App.css';
 import { makePolygonPoints } from './makePolygonPoints';
 
 
+// make this a react component?
+// or just line 14 ( <G> </G> )
 function makeGTags(props) {
   if (!props.gameboard)
     return [];
@@ -10,8 +12,16 @@ function makeGTags(props) {
   const gameboard = JSON.parse(props.gameboard);
 
   return gameboard.polygons.map((polygon, index) => {
-    return(<g key={index}><polygon points={makePolygonPoints(polygon)}/></g>);
+    return(GTag({polygon: polygon, index: index}));
   });
+}
+
+function GTag(props) {
+  const polygon = props.polygon;
+  const index = props.index;
+  return(
+      <g key={index}><polygon points={makePolygonPoints(polygon)}/></g>
+  );
 }
 
 function App(props) {
