@@ -7,7 +7,7 @@ function GTag(props) {
   const polygon = props.polygon;
   const index = props.index;
   return(
-      <g><polygon points={makePolygonPoints(polygon)}/></g>
+      <g><polygon points={makePolygonPoints(polygon.wireframe[0])}/></g>
   );
 }
 
