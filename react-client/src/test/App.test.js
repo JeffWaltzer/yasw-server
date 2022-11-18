@@ -345,8 +345,8 @@ describe('gamefield with polygon with two wireframes', () => {
       the_points = polygon_tags[1].getAttribute('points');
     });
 
-    xit ('has the correct list', () => {
-      expect(the_points).toEqual("512,532 526,526 532,512 526,498 512,492 498,498 492,512 498,526");
+    it ('has the correct list', () => {
+      expect(the_points).toEqual("512,532 526,526 492,512 498,526");
     });
   });
 

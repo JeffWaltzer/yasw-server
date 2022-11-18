@@ -1,14 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
-import { makePolygonPoints } from './makePolygonPoints';
+import {makePolygonPoints} from './makePolygonPoints';
 
 
 function GTag(props) {
-  const polygon = props.polygon;
-  const index = props.index;
-  return(
-      <g><polygon points={makePolygonPoints(polygon.wireframe[0])}/></g>
-  );
+    const polygon = props.polygon;
+    const index = props.index;
+
+
+    const items = polygon.wireframe.map((wf, index) => {
+        return <polygon key={index} points={makePolygonPoints(wf)}/>;
+    })
+
+    return (<g>{items}</g>);
 }
 
 function App(props) {
