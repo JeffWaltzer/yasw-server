@@ -9,7 +9,8 @@ function GTag(props) {
     let items = polygon.wireframe.map((wf, index) => {
       return <polygon key={index} points={makePolygonPoints(wf)} stroke={wf.color}/>;
     })
-  items.push(<text key="9999">{polygon.score}</text>);
+    if (polygon.score > 0)
+      items.push(<text key="9999">{polygon.score}</text>);
 
     return (<g>{items}</g>);
 }
