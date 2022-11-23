@@ -104,7 +104,7 @@ const the_sun_json = {
           "color": "orange"
         }
       ],
-      "score": 0,
+      "score": 1,
       "position": [
         512,
         512
@@ -174,7 +174,7 @@ const two_suns_json = {
           "color": "blue"
         }
       ],
-      "score": 0,
+      "score": 1,
       "position": [
         512,
         512
@@ -186,6 +186,7 @@ const two_suns_json = {
           "points": [
             [712, 732],
             [726, 726],
+
             [732, 712],
             [726, 698],
             [712, 692],
@@ -196,7 +197,7 @@ const two_suns_json = {
           "color": "green"
         }
       ],
-      "score": 0,
+      "score": 2,
       "position": [
         712,
         712
@@ -319,6 +320,63 @@ describe('game field', () => {
 
       it ('has the correct stroke color', () => {
         expect(the_stroke).toEqual("green");
+      });
+    });
+  });
+});
+
+
+describe('a score', () => {
+  let container;
+  beforeEach(()=>{
+    container = render(<App gameboard={JSON.stringify(two_suns_json)}/>)
+        .container
+  })
+
+  describe('the text tag for the first score',  () => {
+    let text_tags;
+
+    beforeEach(() => {
+      text_tags = container.querySelectorAll("text");
+    });
+
+    it('are generated',  () => {
+      expect(text_tags.length).toEqual(2);
+    });
+
+    describe("the text tag", () => {
+      let the_text;
+
+      beforeEach(() => {
+        the_text = text_tags[0].textContent;
+      });
+
+      it ('is correct', () => {
+        expect(the_text).toEqual("1");
+      });
+    });
+  });
+
+  describe('the text tag for the second score',  () => {
+    let text_tags;
+
+    beforeEach(() => {
+      text_tags = container.querySelectorAll("text");
+    });
+
+    it('are generated',  () => {
+      expect(text_tags.length).toEqual(2);
+    });
+
+    describe("the text tag", () => {
+      let the_text;
+
+      beforeEach(() => {
+        the_text = text_tags[1].textContent;
+      });
+
+      it ('is correct', () => {
+        expect(the_text).toEqual("2");
       });
     });
   });
