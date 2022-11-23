@@ -171,7 +171,7 @@ const two_suns_json = {
             [492, 512],
             [498, 526]
           ],
-          "color": "orange"
+          "color": "blue"
         }
       ],
       "score": 0,
@@ -193,7 +193,7 @@ const two_suns_json = {
             [692, 712],
             [698, 726]
           ],
-          "color": "orange"
+          "color": "green"
         }
       ],
       "score": 0,
@@ -288,27 +288,37 @@ describe('game field', () => {
       expect(polygon_tags.length).toEqual(2);
     });
 
-    describe("the first polygon's points", () => {
-      let the_points;
+    describe("the first polygon", () => {
+      let the_points, the_stroke;
 
       beforeEach(() => {
         the_points = polygon_tags[0].getAttribute('points');
+        the_stroke = polygon_tags[0].getAttribute('stroke');
       });
 
-      it ('has the correct list', () => {
+      it ('has the correct points', () => {
         expect(the_points).toEqual("512,532 526,526 532,512 526,498 512,492 498,498 492,512 498,526");
+      });
+
+      it ('has the correct stroke color', () => {
+        expect(the_stroke).toEqual("blue");
       });
     });
 
     describe("the second polygon's points", () => {
-      let the_points;
+      let the_points, the_stroke;
 
       beforeEach(() => {
         the_points = polygon_tags[1].getAttribute('points');
+        the_stroke = polygon_tags[1].getAttribute('stroke');
       });
 
       it ('has the correct list', () => {
         expect(the_points).toEqual("712,732 726,726 732,712 726,698 712,692 698,698 692,712 698,726");
+      });
+
+      it ('has the correct stroke color', () => {
+        expect(the_stroke).toEqual("green");
       });
     });
   });
@@ -352,5 +362,3 @@ describe('gamefield with polygon with two wireframes', () => {
 
 
 })
-
-

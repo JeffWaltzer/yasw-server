@@ -6,9 +6,8 @@ function GTag(props) {
     const polygon = props.polygon;
     const index = props.index;
 
-
     const items = polygon.wireframe.map((wf, index) => {
-        return <polygon key={index} points={makePolygonPoints(wf)}/>;
+      return <polygon key={index} points={makePolygonPoints(wf)} stroke={wf.color}/>;
     })
 
     return (<g>{items}</g>);
