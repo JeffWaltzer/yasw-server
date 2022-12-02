@@ -10,7 +10,7 @@ function GTag(props) {
       return <polygon key={index} points={makePolygonPoints(wf)} stroke={wf.color}/>;
     })
     if (polygon.score > 0)
-      items.push(<text key="9999">{polygon.score}</text>);
+      items.push(<text key={`score-${index}` }>{polygon.score}</text>);
 
     return (<g>{items}</g>);
 }
