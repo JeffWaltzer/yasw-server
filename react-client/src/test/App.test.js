@@ -102,7 +102,6 @@ const two_suns_json = {
           "points": [
             [712, 732],
             [726, 726],
-
             [732, 712],
             [726, 698],
             [712, 692],
@@ -285,13 +284,19 @@ describe('a score', () => {
     });
 
     describe("the text tag", () => {
-      let the_text;
 
-      beforeEach(() => {
-        the_text = text_tags[1].textContent;
+      it ("has correct X position", () => {
+        const x_position = text_tags[1].getAttribute('x');
+        expect(x_position).toEqual("712");
       });
 
-      it ('is correct', () => {
+      it ("has correct Y position", () => {
+        const y_position = text_tags[1].getAttribute('y');
+        expect(y_position).toEqual("732");
+      });
+
+      it ('has correct text', () => {
+        const the_text = text_tags[1].textContent;
         expect(the_text).toEqual("2");
       });
     });
