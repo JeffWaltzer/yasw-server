@@ -60,12 +60,18 @@
     it('kicks off a digest cycle', function() {
       return expect(scope.$digest).toHaveBeenCalled();
     });
+		it('has the correct ship 0 position', function() {
+				expect(scope.polygons()[0].position).toEqual([0,0]);
+		});
     it('dispatches the ship 0 coordinates', function() {
       return expect(scope.polygons()[0].polygon_string).toEqual('0,0 1,1');
     });
     it('dispatches the ship 0 score', function() {
       return expect(scope.polygons()[0].score).toEqual(23);
     });
+		it('has the correct ship 1 position', function() {
+				expect(scope.polygons()[1].position).toEqual([200,400]);
+		});
     it('dispatches the ship 1 coordinates', function() {
       return expect(scope.polygons()[1].polygon_string).toEqual('202,402 203,403');
     });
