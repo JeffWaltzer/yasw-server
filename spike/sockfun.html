@@ -1,0 +1,22 @@
+<html>
+<head>
+  <script>
+      const exampleSocket = new WebSocket("ws://localhost:3000/engine.io/?EIO=3&transport=websocket");
+
+      exampleSocket.onopen = (event) => {
+          console.log("socket is open");
+      };
+
+      exampleSocket.onmessage = (message) => {
+        console.log(message);
+      };
+
+      exampleSocket.onerror= (message) => {
+        console.log(`ERROR: ${message}`);
+      };
+  </script>
+</head>
+<body>
+
+</body>
+</html>
