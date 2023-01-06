@@ -86,59 +86,48 @@ const the_sun_json = {
 
 describe('a score', () => {
     let container;
-    beforeEach(()=>{
+    beforeEach(() => {
         container = render(<App gameboard={JSON.stringify(two_suns_json)}/>)
             .container
     })
 
-    describe('the text tag for the first score',  () => {
+    describe('the text tag for the first score', () => {
         let text_tags;
 
         beforeEach(() => {
             text_tags = container.querySelectorAll("text");
         });
 
-        it('are generated',  () => {
-            expect(text_tags.length).toEqual(2);
-        });
-
         describe("the text tag", () => {
-            let the_text;
-
-            beforeEach(() => {
-                the_text = text_tags[0].textContent;
+            it("has correct X position", () => {
+                const x_position = text_tags[0].getAttribute('x');
+                expect(x_position).toEqual("712");
             });
 
-            it ('is correct', () => {
+            it("has correct Y position", () => {
+                const y_position = text_tags[0].getAttribute('y');
+                expect(y_position).toEqual("732");
+            });
+
+            it('is correct', () => {
+                const the_text = text_tags[0].textContent;
                 expect(the_text).toEqual("1");
             });
         });
-    });
 
-    describe('the text tag for the second score',  () => {
-        let text_tags;
-
-        beforeEach(() => {
-            text_tags = container.querySelectorAll("text");
-        });
-
-        it('are generated',  () => {
-            expect(text_tags.length).toEqual(2);
-        });
-
-        describe("the text tag", () => {
-
-            it ("has correct X position", () => {
+        describe('the text tag for the second score', () => {
+            it("has correct X position", () => {
                 const x_position = text_tags[1].getAttribute('x');
                 expect(x_position).toEqual("712");
             });
 
-            it ("has correct Y position", () => {
+            it("has correct Y position", () => {
                 const y_position = text_tags[1].getAttribute('y');
                 expect(y_position).toEqual("732");
             });
 
-            it ('has correct text', () => {
+            it('has correct text', () => {
+                text_tags = container.querySelectorAll("text");
                 const the_text = text_tags[1].textContent;
                 expect(the_text).toEqual("2");
             });
