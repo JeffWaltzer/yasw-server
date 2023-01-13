@@ -4,13 +4,9 @@ import './index.css';
 import Gameboard from './Gameboard';
 import reportWebVitals from './reportWebVitals';
 
+console.log("in index.js");
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <Gameboard />
-  </React.StrictMode>
-);
 
 let exampleSocket;
 try {
@@ -26,11 +22,18 @@ try {
     //   console.log(`the_message: ${the_message}`);
     // })
     exampleSocket.onmessage =  (the_message) => {
-      console.log(`the_message: ${the_message}`);
+      root.render(
+        <React.StrictMode>
+          <Gameboard gameboard={the_message}/>
+        </React.StrictMode>
+      );
+      // console.log(`the_message: ${the_message}`);
     };
 
-    // exampleSocket.send("ferd is a ferd");
-  };
+    exampleSocket.onerror = (error) => {
+      console.log(`error: ${error}`);
+    };
+  }
 }
 catch (e) {
   console.log(`error: ${e}`);
