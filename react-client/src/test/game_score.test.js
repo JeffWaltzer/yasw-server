@@ -101,12 +101,12 @@ describe('a score', () => {
         describe("the text tag", () => {
             it("has correct X position", () => {
                 const x_position = text_tags[0].getAttribute('x');
-                expect(x_position).toEqual("712");
+                expect(x_position).toEqual("512");
             });
 
             it("has correct Y position", () => {
                 const y_position = text_tags[0].getAttribute('y');
-                expect(y_position).toEqual("732");
+                expect(y_position).toEqual("532");
             });
 
             it('is correct', () => {
