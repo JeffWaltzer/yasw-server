@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react'
 import '@testing-library/jest-dom'
-import App from '../App'
+import Gameboard from '../Gameboard'
 
 const two_wireframe_sun = {
   "polygons": [
@@ -46,7 +46,7 @@ describe('gamefield with polygon with two wireframes', () => {
     let container;
 
   beforeEach(() => {
-        container = render(<App gameboard={JSON.stringify(two_wireframe_sun)}/>)
+        container = render(<Gameboard gameboard={JSON.stringify(two_wireframe_sun)}/>)
             .container;
     });
 

@@ -1,12 +1,12 @@
 import {render} from "@testing-library/react";
-import App from "../App";
+import Gameboard from "../Gameboard";
 
 describe('app with no JSON', () => {
     let app;
     let svg_tags;
 
     beforeEach(() => {
-        const {container} = render(<App />);
+        const {container} = render(<Gameboard />);
         svg_tags = container.querySelectorAll("svg");
     });
 

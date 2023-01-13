@@ -1,4 +1,4 @@
-import './App.css';
+import './Gameboard.css';
 import {makePolygonPoints} from './makePolygonPoints';
 
 
@@ -19,7 +19,7 @@ function GTag(props) {
     return (<g>{items}</g>);
 }
 
-function App(props) {
+function Gameboard(props) {
   let polygons = props.gameboard ?
       JSON.parse(props.gameboard).polygons :
       [];
@@ -41,4 +41,4 @@ function App(props) {
   );
 }
 
-export default App;
+export default Gameboard;

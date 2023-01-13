@@ -1,5 +1,5 @@
 import {render} from "@testing-library/react";
-import App from "../App";
+import Gameboard from "../Gameboard";
 
 
 const two_suns_json = {
@@ -58,7 +58,7 @@ const two_suns_json = {
 describe('game field', () => {
     let container;
     beforeEach(()=>{
-        container = render(<App gameboard={JSON.stringify(two_suns_json)}/>)
+        container = render(<Gameboard gameboard={JSON.stringify(two_suns_json)}/>)
             .container
     })
 

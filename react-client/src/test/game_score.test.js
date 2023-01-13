@@ -1,5 +1,5 @@
 import {render} from "@testing-library/react";
-import App from "../App";
+import Gameboard from "../Gameboard";
 const two_suns_json = {
     "polygons": [
         {
@@ -87,7 +87,7 @@ const the_sun_json = {
 describe('a score', () => {
     let container;
     beforeEach(() => {
-        container = render(<App gameboard={JSON.stringify(two_suns_json)}/>)
+        container = render(<Gameboard gameboard={JSON.stringify(two_suns_json)}/>)
             .container
     })
 
@@ -138,7 +138,7 @@ describe('a score', () => {
 describe('a score of 0', () => {
     let container;
     beforeEach(()=>{
-        container = render(<App gameboard={JSON.stringify(the_sun_json)}/>)
+        container = render(<Gameboard gameboard={JSON.stringify(the_sun_json)}/>)
             .container
     });
 
