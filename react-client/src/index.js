@@ -12,22 +12,13 @@ let exampleSocket;
 try {
   exampleSocket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
 
-  //DEBUG
-  console.log(`exampleSocket:${exampleSocket}`);
-
   exampleSocket.onopen = (event) => {
-    console.log(`onopen: event: ${event}`);
-
-    // exampleSocket.on("message", (the_message) => {
-    //   console.log(`the_message: ${the_message}`);
-    // })
     exampleSocket.onmessage =  (the_message) => {
       root.render(
         <React.StrictMode>
-          <Gameboard gameboard={the_message}/>
+          <Gameboard gameboard={the_message.data.slice(1)}/>
         </React.StrictMode>
       );
-      // console.log(`the_message: ${the_message}`);
     };
 
     exampleSocket.onerror = (error) => {
