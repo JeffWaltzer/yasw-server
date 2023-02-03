@@ -4,27 +4,33 @@ import './index.css';
 import Gameboard from './Gameboard';
 import reportWebVitals from './reportWebVitals';
 
-console.log("in index.js");
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+function on_error(error) {
+  console.log(`error: ${error}`);
+};
+
+function gameboard_json(the_message) {
+  return the_message.data.slice(1)
+};
+
+function render_gameboard(the_message) {
+  root.render(
+    <React.StrictMode>
+      <Gameboard gameboard={gameboard_json(the_message)}/>
+    </React.StrictMode>
+  );
+};
 
 let exampleSocket;
 try {
   exampleSocket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
 
   exampleSocket.onopen = (event) => {
-    exampleSocket.onmessage =  (the_message) => {
-      root.render(
-        <React.StrictMode>
-          <Gameboard gameboard={the_message.data.slice(1)}/>
-        </React.StrictMode>
-      );
-    };
+    exampleSocket.onmessage = render_gameboard;
+  };
 
-    exampleSocket.onerror = (error) => {
-      console.log(`error: ${error}`);
-    };
-  }
+  exampleSocket.onerror = on_error;
 }
 catch (e) {
   console.log(`error: ${e}`);
