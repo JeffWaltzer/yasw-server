@@ -14,10 +14,16 @@ function gameboard_json(the_message) {
   return the_message.data.slice(1)
 };
 
+function onKeyDown(event) {
+  console.log('onKeyDown', event);
+}
+
 function render_gameboard(the_message) {
   root.render(
     <React.StrictMode>
-      <Gameboard gameboard={gameboard_json(the_message)}/>
+      <div onKeyDown={onKeyDown}>
+        <Gameboard gameboard={gameboard_json(the_message)}/>
+      </div>
     </React.StrictMode>
   );
 };
@@ -35,6 +41,8 @@ try {
 catch (e) {
   console.log(`error: ${e}`);
 }
+
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
