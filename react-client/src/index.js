@@ -21,9 +21,7 @@ function onKeyDown(event) {
 function render_gameboard(the_message) {
   root.render(
     <React.StrictMode>
-      <div onKeyDown={onKeyDown}>
-        <Gameboard gameboard={gameboard_json(the_message)}/>
-      </div>
+      <Gameboard gameboard={gameboard_json(the_message)}/>
     </React.StrictMode>
   );
 };
