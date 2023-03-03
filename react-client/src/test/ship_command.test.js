@@ -95,8 +95,12 @@ describe("Keyboard", () => {
   fire_up_state_tests.forEach(function(test_conditions) {
     describe(`When fire key is ${test_conditions.fire_key}`, () => {
       describe(" and we receive up", () => {
+        beforeEach(()=>{
+          keyboard.fire_key = test_conditions.fire_key;
+          keyboard.onKeyUp(32);
+        });
         it(`fire key is ${test_conditions.expected_state}`, () => {
-          // expect(keyboard.fire_key).toEqual(test_conditions.expected_state);
+          expect(keyboard.fire_key).toEqual(test_conditions.expected_state);
         });
       });
     });
@@ -114,8 +118,14 @@ describe("Keyboard", () => {
   fire_down_state_tests.forEach(function(test_conditions) {
     describe(`When fire key is ${test_conditions.fire_key}`, () => {
       describe(" and we receive key_down", () => {
+
+        beforeEach(()=>{
+          keyboard.fire_key = test_conditions.fire_key;
+          keyboard.onKeyDown(32);
+        })
+
         it(`fire key is ${test_conditions.expected_state}`, () => {
-          // expect(keyboard.fire_key).toEqual(test_conditions.expected_state);
+          expect(keyboard.fire_key).toEqual(test_conditions.expected_state);
         });
       });
     });
@@ -133,13 +143,17 @@ describe("Keyboard", () => {
   thrust_up_sent_tests.forEach(function(test_conditions) {
     describe(`When thrust key is ${test_conditions.thrust_key}`, () => {
       describe(" and we receive up", () => {
+        beforeEach(()=>{
+          keyboard.thrust_key = test_conditions.thrust_key;
+          keyboard.onKeyUp(40);
+        })
         if (test_conditions.expected_sent) {
           it(`sends ${test_conditions.expected_sent}`, () => {
-            // expect(game_server.send).toHaveBeenCalledWith(test_conditions.expected_sent);
+            expect(game_server.send).toHaveBeenCalledWith(test_conditions.expected_sent);
           });
         } else {
           it("does not send", () => {
-            // expect(game_server.send).not.toHaveBeenCalled();
+            expect(game_server.send).not.toHaveBeenCalled();
           });
         }
       });

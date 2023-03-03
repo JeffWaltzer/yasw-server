@@ -7,6 +7,18 @@ export default class Keyboard {
     this.game_server = game_server;
   }
 
+  onKeyUp(keycode) {
+    if(keycode===40){
+      if(this.thrust_key==='down') {
+        this.game_server.send('thrust_off');
+      }
+      this.thrust_key= "up";
+    } else {
+      this.fire_key= "up";
+    }
+
+  }
+
   onKeyDown(key_code) {
     if (this.fire_key === 'up') {
       this.game_server.send("fire");
