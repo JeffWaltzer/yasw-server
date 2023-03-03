@@ -1,4 +1,4 @@
-import  Keyboard  from '../keyboard';
+import {Keyboard, THRUST_KEY, FIRE_KEY}  from '../keyboard';
 import  GameServer  from '../game_server';
 
 describe("Keyboard", () => {
@@ -67,7 +67,7 @@ describe("Keyboard", () => {
       describe(" and we receive down", () => {
         beforeEach(()=> {
           keyboard.fire_key = test_conditions.fire_key;
-          keyboard.onKeyDown(32);
+          keyboard.onKeyDown(FIRE_KEY);
         });
         if (test_conditions.expected_sent) {
           it(`sends ${test_conditions.expected_sent}`, () => {
@@ -97,7 +97,7 @@ describe("Keyboard", () => {
       describe(" and we receive up", () => {
         beforeEach(()=>{
           keyboard.fire_key = test_conditions.fire_key;
-          keyboard.onKeyUp(32);
+          keyboard.onKeyUp(FIRE_KEY);
         });
         it(`fire key is ${test_conditions.expected_state}`, () => {
           expect(keyboard.fire_key).toEqual(test_conditions.expected_state);
@@ -121,7 +121,7 @@ describe("Keyboard", () => {
 
         beforeEach(()=>{
           keyboard.fire_key = test_conditions.fire_key;
-          keyboard.onKeyDown(32);
+          keyboard.onKeyDown(FIRE_KEY);
         })
 
         it(`fire key is ${test_conditions.expected_state}`, () => {
@@ -145,7 +145,7 @@ describe("Keyboard", () => {
       describe(" and we receive up", () => {
         beforeEach(()=>{
           keyboard.thrust_key = test_conditions.thrust_key;
-          keyboard.onKeyUp(40);
+          keyboard.onKeyUp(THRUST_KEY);
         })
         if (test_conditions.expected_sent) {
           it(`sends ${test_conditions.expected_sent}`, () => {
@@ -579,7 +579,7 @@ describe("Keyboard", () => {
 //         return describe(" and we receive up", function() {
 //           beforeEach(function() {
 //             return scope.onKeyUp({
-//               keyCode: 32
+//               keyCode: FIRE_KEY
 //             });
 //           });
 //           if (test_conditions.expected_sent) {
@@ -616,7 +616,7 @@ describe("Keyboard", () => {
 //         return describe(" and we receive down", function() {
 //           beforeEach(function() {
 //             return scope.onKeyDown({
-//               keyCode: 32
+//               keyCode: FIRE_KEY
 //             });
 //           });
 //           if (test_conditions.expected_sent) {
@@ -652,7 +652,7 @@ describe("Keyboard", () => {
 //         return describe(" and we receive up", function() {
 //           beforeEach(function() {
 //             return scope.onKeyUp({
-//               keyCode: 32
+//               keyCode: FIRE_KEY
 //             });
 //           });
 //           return it(`fire key is ${test_conditions.expected_state}`, function() {
@@ -682,7 +682,7 @@ describe("Keyboard", () => {
 //         return describe(" and we receive key_down", function() {
 //           beforeEach(function() {
 //             return scope.onKeyDown({
-//               keyCode: 32
+//               keyCode: FIRE_KEY
 //             });
 //           });
 //           return it(`fire key is ${test_conditions.expected_state}`, function() {
@@ -713,7 +713,7 @@ describe("Keyboard", () => {
 //         return describe(" and we receive up", function() {
 //           beforeEach(function() {
 //             return scope.onKeyUp({
-//               keyCode: 40
+//               keyCode: THRUST_KEY
 //             });
 //           });
 //           if (test_conditions.expected_sent) {
@@ -750,7 +750,7 @@ describe("Keyboard", () => {
 //         return describe(" and we receive down", function() {
 //           beforeEach(function() {
 //             return scope.onKeyDown({
-//               keyCode: 40
+//               keyCode: THRUST_KEY
 //             });
 //           });
 //           if (test_conditions.expected_sent) {
@@ -786,7 +786,7 @@ describe("Keyboard", () => {
 //         return describe(" and we receive up", function() {
 //           beforeEach(function() {
 //             return scope.onKeyUp({
-//               keyCode: 40
+//               keyCode: THRUST_KEY
 //             });
 //           });
 //           return it(`thrust key is ${test_conditions.expected_state}`, function() {
@@ -816,7 +816,7 @@ describe("Keyboard", () => {
 //         return describe(" and we receive key_down", function() {
 //           beforeEach(function() {
 //             return scope.onKeyDown({
-//               keyCode: 40
+//               keyCode: THRUST_KEY
 //             });
 //           });
 //           return it(`thrust key is ${test_conditions.expected_state}`, function() {

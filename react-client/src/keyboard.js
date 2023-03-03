@@ -1,4 +1,7 @@
-export default class Keyboard {
+export const THRUST_KEY = 40;
+export const FIRE_KEY = 32;
+
+export class Keyboard {
   constructor(game_server) {
     this.left_key = "up";
     this.right_key = "up";
@@ -8,7 +11,7 @@ export default class Keyboard {
   }
 
   onKeyUp(keycode) {
-    if(keycode===40){
+    if(keycode===THRUST_KEY){
       if(this.thrust_key==='down') {
         this.game_server.send('thrust_off');
       }
