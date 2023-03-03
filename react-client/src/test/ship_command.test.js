@@ -201,8 +201,12 @@ describe("Keyboard", () => {
   thrust_up_state_tests.forEach(function(test_conditions) {
     describe(`When thrust key is ${test_conditions.thrust_key}`, () => {
       describe(" and we receive up", () => {
+        beforeEach(()=>{
+          keyboard.thrust_key = test_conditions.thrust_key;
+          keyboard.onKeyUp(THRUST_KEY);
+        })
         it(`thrust key is ${test_conditions.expected_state}`, () => {
-          // expect(keyboard.thrust_key).toEqual(test_conditions.expected_state);
+          expect(keyboard.thrust_key).toEqual(test_conditions.expected_state);
         });
       });
     });
@@ -220,8 +224,13 @@ describe("Keyboard", () => {
   thrust_down_state_tests.forEach(function(test_conditions) {
     describe(`When thrust key is ${test_conditions.thrust_key}`, () => {
       describe(" and we receive key_down", () => {
+        beforeEach(()=>{
+          keyboard.thrust_key = test_conditions.thrust_key;
+          keyboard.onKeyDown(THRUST_KEY);
+        })
+
         it(`thrust key is ${test_conditions.expected_state}`, () => {
-          // expect(keyboard.thrust_key).toEqual(test_conditions.expected_state);
+          expect(keyboard.thrust_key).toEqual(test_conditions.expected_state);
         });
       });
     });

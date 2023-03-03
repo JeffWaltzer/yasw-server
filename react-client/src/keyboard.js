@@ -26,7 +26,7 @@ export class Keyboard {
     if(key_code===THRUST_KEY) {
       if (this.thrust_key === 'up') {
         this.game_server.send("thrust_on");
-        // this.thrust_key = "down"
+        this.thrust_key = "down"
       }
 
     }
