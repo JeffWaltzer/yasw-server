@@ -172,13 +172,17 @@ describe("Keyboard", () => {
   thrust_down_sent_tests.forEach(function(test_conditions) {
     describe(`When thrust key is ${test_conditions.thrust_key}`, () => {
       describe(" and we receive down", () => {
+        beforeEach(()=>{
+          keyboard.thrust_key = test_conditions.thrust_key;
+          keyboard.onKeyDown(THRUST_KEY);
+        })
         if (test_conditions.expected_sent) {
           it(`sends ${test_conditions.expected_sent}`, () => {
-            // expect(game_server.send).toHaveBeenCalledWith(test_conditions.expected_sent);
+            expect(game_server.send).toHaveBeenCalledWith(test_conditions.expected_sent);
           });
         } else {
           it("does not send", () => {
-            // expect(game_server.send).not.toHaveBeenCalled();
+            expect(game_server.send).not.toHaveBeenCalled();
           });
         }
       });

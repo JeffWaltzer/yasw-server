@@ -23,9 +23,18 @@ export class Keyboard {
   }
 
   onKeyDown(key_code) {
-    if (this.fire_key === 'up') {
-      this.game_server.send("fire");
-      this.fire_key ="down"
+    if(key_code===THRUST_KEY) {
+      if (this.thrust_key === 'up') {
+        this.game_server.send("thrust_on");
+        // this.thrust_key = "down"
+      }
+
+    }
+    if(key_code===FIRE_KEY) {
+      if (this.fire_key === 'up') {
+        this.game_server.send("fire");
+        this.fire_key = "down"
+      }
     }
   }
 };
