@@ -4,9 +4,11 @@ import  GameServer  from '../game_server';
 describe("Keyboard", () => {
   let game_server;
   let keyboard;
+  let raw_game_server;
 
   beforeEach(() => {
-    game_server = jest.spyOn(GameServer, 'send');
+    raw_game_server=new GameServer()
+    game_server = jest.spyOn(raw_game_server, 'send');
     keyboard = new Keyboard();
   });
 
@@ -44,7 +46,7 @@ describe("Keyboard", () => {
           });
         } else {
           it("does not send", () => {
-            expect(game_server.send).not.toHaveBeenCalled();
+            expect(raw_game_server.send).not.toHaveBeenCalled();
           });
         }
       });
