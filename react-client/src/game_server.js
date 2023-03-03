@@ -1,3 +1,5 @@
 export default class GameServer {
-  send() {}
+  send() {
+
+  }
 };

@@ -4,12 +4,11 @@ import  GameServer  from '../game_server';
 describe("Keyboard", () => {
   let game_server;
   let keyboard;
-  let raw_game_server;
 
   beforeEach(() => {
-    raw_game_server=new GameServer()
-    game_server = jest.spyOn(raw_game_server, 'send');
-    keyboard = new Keyboard();
+    game_server=new GameServer()
+    jest.spyOn(game_server, 'send');
+    keyboard = new Keyboard(game_server);
   });
 
   describe("Initial key states", () => {
@@ -46,7 +45,7 @@ describe("Keyboard", () => {
           });
         } else {
           it("does not send", () => {
-            expect(raw_game_server.send).not.toHaveBeenCalled();
+            expect(game_server.send).not.toHaveBeenCalled();
           });
         }
       });
@@ -66,13 +65,17 @@ describe("Keyboard", () => {
   fire_down_sent_tests.forEach(function(test_conditions) {
     describe(`When fire key is ${test_conditions.fire_key}`, () => {
       describe(" and we receive down", () => {
+        beforeEach(()=> {
+          keyboard.fire_key = test_conditions.fire_key;
+          keyboard.onKeyDown(32);
+        });
         if (test_conditions.expected_sent) {
           it(`sends ${test_conditions.expected_sent}`, () => {
-            // expect(game_server.send).toHaveBeenCalledWith(test_conditions.expected_sent);
+            expect(game_server.send).toHaveBeenCalledWith(test_conditions.expected_sent);
           });
         } else {
           it("does not send", () => {
-            // expect(game_server.send).not.toHaveBeenCalled();
+            expect(game_server.send).not.toHaveBeenCalled();
           });
         }
       });
