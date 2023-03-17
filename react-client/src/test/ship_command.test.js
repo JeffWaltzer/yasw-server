@@ -510,7 +510,7 @@ describe("Keyboard", () => {
       describe(` and right key is ${test_conditions.right_key}`, () => {
         describe(` and we receive ${test_conditions.event}`, () => {
           it(`right key is ${test_conditions.expected_right_key_state}`, () => {
-            // expect(keyboard.right_key).toEqual(test_conditions.expected_right_key_state);
+            expect(keyboard.right_key).toEqual(test_conditions.expected_right_key_state);
           });
           it(`left key is ${test_conditions.expected_left_key_state}`, () => {
             // expect(keyboard.left_key).toEqual(test_conditions.expected_left_key_state);
