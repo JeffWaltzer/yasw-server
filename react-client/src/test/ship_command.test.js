@@ -288,11 +288,11 @@ describe("Keyboard", () => {
   up_sent_tests.forEach(function (test_conditions) {
     describe(`When left key is ${test_conditions.left_key}`, () => {
       describe(` and right key is ${test_conditions.right_key}`, () => {
-        describe(` and we receive ${test_conditions.event}`, () => {
+        describe(` and we receive ${test_conditions.event} up`, () => {
           beforeEach(() => {
             keyboard.left_key = test_conditions.left_key;
             keyboard.right_key = test_conditions.right_key;
-            keyboard.onKeyDown(test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY);
+            keyboard.onKeyUp(test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY);
           })
 
           if (test_conditions.expected_sent) {

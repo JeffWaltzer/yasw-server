@@ -21,18 +21,29 @@ export class Keyboard {
     } else {
       this.fire_key= "up";
     }
-
+    if (keycode===RIGHT_KEY) {
+      if (this.left_key === "down" && this.right_key === "down")
+        this.game_server.send("rotate_left");
+      else if (this.left_key === "up" && this.right_key === "down")
+        this.game_server.send("rotate_stop");
+    }
+    if (keycode===LEFT_KEY) {
+      if (this.left_key === "down" && this.right_key === "down")
+        this.game_server.send("rotate_right");
+      else if (this.left_key === "down" && this.right_key === "up")
+        this.game_server.send("rotate_stop");
+    }
   }
 
   onKeyDown(key_code) {
-    if(key_code===THRUST_KEY) {
+    if (key_code===THRUST_KEY) {
       if (this.thrust_key === 'up') {
         this.game_server.send("thrust_on");
         this.thrust_key = "down"
       }
 
     }
-    if(key_code===FIRE_KEY) {
+    if (key_code===FIRE_KEY) {
       if (this.fire_key === 'up') {
         this.game_server.send("fire");
         this.fire_key = "down"
