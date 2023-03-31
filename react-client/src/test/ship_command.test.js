@@ -1,4 +1,4 @@
-import {Keyboard, THRUST_KEY, FIRE_KEY, RIGHT_KEY, LEFT_KEY} from '../keyboard';
+import {Keyboard, THRUST_KEY, FIRE_KEY, RIGHT_KEY, LEFT_KEY, CLONE_KEY} from '../keyboard';
 import GameServer from '../game_server';
 
 describe("Keyboard", () => {
@@ -539,8 +539,13 @@ describe("Keyboard", () => {
     });
   });
   describe("we receive clone_key_down", () => {
+
+    beforeEach(() => {
+      keyboard.onKeyDown(CLONE_KEY);
+    })
+
     it("sends 'clone'", () => {
-      // expect(game_server.send).toHaveBeenCalledWith('clone');
+      expect(game_server.send).toHaveBeenCalledWith('clone');
     });
   });
 });

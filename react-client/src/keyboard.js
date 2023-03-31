@@ -2,6 +2,7 @@ export const THRUST_KEY = 40;
 export const FIRE_KEY = 32;
 export const LEFT_KEY = 37;
 export const RIGHT_KEY = 39;
+export const CLONE_KEY = 83;
 
 export class Keyboard {
   constructor(game_server) {
@@ -59,6 +60,9 @@ export class Keyboard {
       }
       this.left_key = 'down';
     }
+
+    if (key_code===CLONE_KEY)
+      this.game_server.send("clone")
 
     if (key_code===RIGHT_KEY) {
       if (this.left_key === "down" && this.right_key === "up")
