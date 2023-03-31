@@ -61,11 +61,7 @@ export class Keyboard {
     }
 
     if (key_code===RIGHT_KEY) {
-      if (this.left_key === "down" && this.right_key === "down") {
-        this.game_server.send("rotate_left");
-      } else if (this.left_key === "up" && this.right_key === "down")
-        this.game_server.send("rotate_stop");
-      else if (this.left_key === "down" && this.right_key === "up")
+      if (this.left_key === "down" && this.right_key === "up")
         this.game_server.send("rotate_stop");
       else if (this.left_key === "up" && this.right_key === "up") {
         this.game_server.send("rotate_right");

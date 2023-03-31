@@ -375,7 +375,7 @@ describe("Keyboard", () => {
             });
           } else {
             it("does not send", () => {
-              // expect(game_server.send).not.toHaveBeenCalled();
+              expect(game_server.send).not.toHaveBeenCalled();
             });
           }
         });
