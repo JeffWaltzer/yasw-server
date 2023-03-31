@@ -362,9 +362,16 @@ describe("Keyboard", () => {
     describe(`When left key is ${test_conditions.left_key}`, () => {
       describe(` and right key is ${test_conditions.right_key}`, () => {
         describe(` and we receive ${test_conditions.event}`, () => {
+
+          beforeEach(() => {
+            keyboard.left_key = test_conditions.left_key;
+            keyboard.right_key = test_conditions.right_key;
+            keyboard.onKeyDown(test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY);
+          })
+
           if (test_conditions.expected_sent) {
             it(`sends ${test_conditions.expected_sent}`, () => {
-              // expect(game_server.send).toHaveBeenCalledWith(test_conditions.expected_sent);
+              expect(game_server.send).toHaveBeenCalledWith(test_conditions.expected_sent);
             });
           } else {
             it("does not send", () => {
@@ -446,7 +453,7 @@ describe("Keyboard", () => {
             expect(keyboard.right_key).toEqual(test_conditions.expected_right_key_state);
           });
           it(`left key is ${test_conditions.expected_left_key_state}`, () => {
-            // expect(keyboard.left_key).toEqual(test_conditions.expected_left_key_state);
+            expect(keyboard.left_key).toEqual(test_conditions.expected_left_key_state);
           });
         });
       });

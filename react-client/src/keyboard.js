@@ -33,6 +33,7 @@ export class Keyboard {
         this.game_server.send("rotate_right");
       else if (this.left_key === "down" && this.right_key === "up")
         this.game_server.send("rotate_stop");
+      this.left_key='up';
     }
   }
 
@@ -51,15 +52,25 @@ export class Keyboard {
 
     }
     if (key_code===LEFT_KEY) {
+      if (this.left_key === "up" && this.right_key === "down")
+        this.game_server.send("rotate_stop");
+      else if (this.left_key === "up" && this.right_key === "up") {
+        this.game_server.send("rotate_left");
+      }
       this.left_key = 'down';
     }
 
     if (key_code===RIGHT_KEY) {
-      this.right_key = 'down';
-      if (this.left_key === "down" && this.right_key === "down")
+      if (this.left_key === "down" && this.right_key === "down") {
         this.game_server.send("rotate_left");
-      else if (this.left_key === "up" && this.right_key === "down")
+      } else if (this.left_key === "up" && this.right_key === "down")
         this.game_server.send("rotate_stop");
+      else if (this.left_key === "down" && this.right_key === "up")
+        this.game_server.send("rotate_stop");
+      else if (this.left_key === "up" && this.right_key === "up") {
+        this.game_server.send("rotate_right");
+      }
+      this.right_key = 'down';
     }
 
   }
