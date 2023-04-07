@@ -7,7 +7,7 @@ describe("Keyboard", () => {
 
   beforeEach(() => {
     game_server = new GameServer()
-    jest.spyOn(game_server, 'send');
+    jest.spyOn(game_server, 'send').mockReturnValue(null);
     keyboard = new Keyboard(game_server);
   });
 

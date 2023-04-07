@@ -15,7 +15,9 @@ function gameboard_json(the_message) {
 };
 
 function onKeyDown(event) {
-  console.log('onKeyDown', event);
+}
+
+function onKeyUp(event) {
 }
 
 function render_gameboard(the_message) {

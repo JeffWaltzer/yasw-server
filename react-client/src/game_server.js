@@ -1,5 +1,9 @@
 export default class GameServer {
-  send() {
+  constructor(websocket) {
+    this.websocket = websocket;
+  }
 
+  send(data) {
+    this.websocket.send(data)
   }
 };
