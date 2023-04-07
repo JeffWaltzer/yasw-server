@@ -1,4 +1,4 @@
-export default class GameServer {
+class GameServer {
   constructor(websocket) {
     this.websocket = websocket;
   }
@@ -7,3 +7,5 @@ export default class GameServer {
     this.websocket.send(data)
   }
 };
+
+export default GameServer;

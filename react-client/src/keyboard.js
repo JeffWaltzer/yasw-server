@@ -4,7 +4,7 @@ export const LEFT_KEY = 37;
 export const RIGHT_KEY = 39;
 export const CLONE_KEY = 83;
 
-export class Keyboard {
+class Keyboard {
   constructor(game_server) {
     this.left_key = "up";
     this.right_key = "up";
@@ -75,3 +75,5 @@ export class Keyboard {
 
   }
 };
+
+export default Keyboard;

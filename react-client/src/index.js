@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Gameboard from './Gameboard';
+import GameServer from './game_server.js';
+import Keyboard from './keyboard.js';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -14,12 +16,6 @@ function gameboard_json(the_message) {
   return the_message.data.slice(1)
 };
 
-function onKeyDown(event) {
-}
-
-function onKeyUp(event) {
-}
-
 function render_gameboard(the_message) {
   root.render(
     <React.StrictMode>
@@ -27,6 +23,7 @@ function render_gameboard(the_message) {
     </React.StrictMode>
   );
 };
+
 
 let exampleSocket;
 try {
@@ -42,7 +39,19 @@ catch (e) {
   console.log(`error: ${e}`);
 }
 
+const game_server = new GameServer(exampleSocket);
+const keyboard_state = new Keyboard(game_server);
 
+function onKeyDown(event) {
+  keyboard_state.onKeyDown(event.key_code);
+}
+
+function onKeyUp(event) {
+  keyboard_state.onKeyUp(event.key_code);
+}
+
+document.addEventListener('keydown', onKeyDown);
+document.addEventListener('keyup', onKeyUp);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
