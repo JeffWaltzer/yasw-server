@@ -1,10 +1,10 @@
-export const THRUST_KEY = 40;
-export const FIRE_KEY = 32;
-export const LEFT_KEY = 37;
-export const RIGHT_KEY = 39;
-export const CLONE_KEY = 83;
+ const THRUST_KEY = 40;
+ const FIRE_KEY = 32;
+ const LEFT_KEY = 37;
+ const RIGHT_KEY = 39;
+ const CLONE_KEY = "KeyS";
 
-class Keyboard {
+ class Keyboard {
   constructor(game_server) {
     this.left_key = "up";
     this.right_key = "up";
@@ -39,6 +39,7 @@ class Keyboard {
   }
 
   onKeyDown(key_code) {
+    console.log(`onKeyDown(${key_code})`)
     if (key_code===THRUST_KEY) {
       if (this.thrust_key === 'up') {
         this.game_server.send("thrust_on");
@@ -61,9 +62,10 @@ class Keyboard {
       this.left_key = 'down';
     }
 
-    if (key_code===CLONE_KEY)
-      this.game_server.send("clone")
-
+    if (key_code===CLONE_KEY) {
+      console.log("CLONE KEY HIT");
+      this.game_server.send("clone");
+    }
     if (key_code===RIGHT_KEY) {
       if (this.left_key === "down" && this.right_key === "up")
         this.game_server.send("rotate_stop");
@@ -76,4 +78,4 @@ class Keyboard {
   }
 };
 
-export default Keyboard;
+ export {Keyboard, THRUST_KEY,FIRE_KEY,LEFT_KEY,RIGHT_KEY,CLONE_KEY}

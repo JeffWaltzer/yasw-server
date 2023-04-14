@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Gameboard from './Gameboard';
 import GameServer from './game_server.js';
-import Keyboard from './keyboard.js';
+import {Keyboard} from './keyboard.js';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -43,11 +43,11 @@ const game_server = new GameServer(exampleSocket);
 const keyboard_state = new Keyboard(game_server);
 
 function onKeyDown(event) {
-  keyboard_state.onKeyDown(event.key_code);
+  keyboard_state.onKeyDown(event.code);
 }
 
 function onKeyUp(event) {
-  keyboard_state.onKeyUp(event.key_code);
+  keyboard_state.onKeyUp(event.code);
 }
 
 document.addEventListener('keydown', onKeyDown);
