@@ -1,7 +1,7 @@
- const THRUST_KEY = 40;
- const FIRE_KEY = 32;
- const LEFT_KEY = 37;
- const RIGHT_KEY = 39;
+ const THRUST_KEY = "ArrowDown";
+ const FIRE_KEY = "Space";
+ const LEFT_KEY = "ArrowLeft";
+ const RIGHT_KEY = "ArrowRight";
  const CLONE_KEY = "KeyS";
 
  class Keyboard {
