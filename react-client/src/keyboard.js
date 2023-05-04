@@ -39,7 +39,6 @@
   }
 
   onKeyDown(key_code) {
-    console.log(`onKeyDown(${key_code})`)
     if (key_code===THRUST_KEY) {
       if (this.thrust_key === 'up') {
         this.game_server.send("thrust_on");
@@ -63,7 +62,6 @@
     }
 
     if (key_code===CLONE_KEY) {
-      console.log("CLONE KEY HIT");
       this.game_server.send("clone");
     }
     if (key_code===RIGHT_KEY) {

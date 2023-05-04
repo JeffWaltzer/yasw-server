@@ -4,7 +4,6 @@ class GameServer {
   }
 
   send(data) {
-    console.log(data);
     this.websocket.send(data)
   }
 };
