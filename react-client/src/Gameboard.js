@@ -6,6 +6,9 @@ function Gameboard(props) {
       JSON.parse(props.gameboard).polygons :
       [];
 
+  if (!polygons || !polygons.map)
+    polygons = [];
+
   return (
       <svg height="100%" width="100%" viewBox="0 0 1024 1024">
         <rect width="100%" height="100%" style={{

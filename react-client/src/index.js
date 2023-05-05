@@ -7,21 +7,46 @@ import {Keyboard} from './keyboard.js';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const game_server = new GameServer(exampleSocket);
+const keyboard_state = new Keyboard(game_server);
 
 function on_error(error) {
-  console.log(`error: ${error}`);
+  console.log("error: ", error);
 };
 
-function gameboard_json(the_message) {
+function on_close(event) {
+  console.log("close:", event);
+};
+
+function message_type(the_message) {
+  the_message.data.slice(0,1)
+}
+
+function message_payload(the_message) {
   return the_message.data.slice(1)
 };
 
 function render_gameboard(the_message) {
-  root.render(
-    <React.StrictMode>
-      <Gameboard gameboard={gameboard_json(the_message)}/>
-    </React.StrictMode>
-  );
+  const message_json = message_payload(the_message);
+
+  switch (message_type(the_message) ) {
+    case '0':
+      game_server.sid = JSON.parse(message_json).sid
+      console.log("got sid: ", game_server.sid);
+      break;
+
+    case '4':
+      {
+        if (message_json) {
+          root.render(
+            <React.StrictMode>
+              <Gameboard gameboard={message_json}/>
+            </React.StrictMode>
+          );
+        }
+      }
+      break;
+  }
 };
 
 
@@ -34,13 +59,11 @@ try {
   };
 
   exampleSocket.onerror = on_error;
+  exampleSocket.onclose = on_close;
 }
 catch (e) {
   console.log(`error: ${e}`);
 }
-
-const game_server = new GameServer(exampleSocket);
-const keyboard_state = new Keyboard(game_server);
 
 function onKeyDown(event) {
   keyboard_state.onKeyDown(event.code);
