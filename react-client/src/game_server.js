@@ -5,14 +5,15 @@ class GameServer {
   }
 
   send(data) {
-    const send_value =  JSON.stringify(
+    const message = JSON.stringify(
       {
-        sid:    this.sid      ,
+        sid: this.sid,
         command: data
       }
-      )
-    this.websocket.send('4'+send_value)
+    )
+    const packet_type = '4';
+    this.websocket.send(packet_type + message)
   }
-};
+}
 
 export default GameServer;
