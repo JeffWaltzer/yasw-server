@@ -7,6 +7,24 @@ import {Keyboard} from './keyboard.js';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+
+
+let exampleSocket;
+try {
+  exampleSocket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
+
+  exampleSocket.onopen = (event) => {
+    exampleSocket.onmessage = render_gameboard;
+  };
+
+  exampleSocket.onerror = on_error;
+  exampleSocket.onclose = on_close;
+}
+catch (e) {
+  console.log(`error: ${e}`);
+}
+
 const game_server = new GameServer(exampleSocket);
 const keyboard_state = new Keyboard(game_server);
 
@@ -19,7 +37,7 @@ function on_close(event) {
 };
 
 function message_type(the_message) {
-  the_message.data.slice(0,1)
+  return the_message.data.slice(0,1)
 }
 
 function message_payload(the_message) {
@@ -28,10 +46,9 @@ function message_payload(the_message) {
 
 function render_gameboard(the_message) {
   const message_json = message_payload(the_message);
-
   switch (message_type(the_message) ) {
     case '0':
-      game_server.sid = JSON.parse(message_json).sid
+      game_server.sid = JSON.parse(message_json).sid;
       console.log("got sid: ", game_server.sid);
       break;
 
@@ -49,21 +66,6 @@ function render_gameboard(the_message) {
   }
 };
 
-
-let exampleSocket;
-try {
-  exampleSocket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
-
-  exampleSocket.onopen = (event) => {
-    exampleSocket.onmessage = render_gameboard;
-  };
-
-  exampleSocket.onerror = on_error;
-  exampleSocket.onclose = on_close;
-}
-catch (e) {
-  console.log(`error: ${e}`);
-}
 
 function onKeyDown(event) {
   keyboard_state.onKeyDown(event.code);

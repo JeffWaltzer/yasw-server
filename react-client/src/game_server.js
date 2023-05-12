@@ -5,8 +5,13 @@ class GameServer {
   }
 
   send(data) {
-    data.sid = this.sid;
-    this.websocket.send(data)
+    const send_value =  JSON.stringify(
+      {
+        sid:    this.sid      ,
+        command: data
+      }
+      )
+    this.websocket.send('4'+send_value)
   }
 };
 
