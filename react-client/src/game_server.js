@@ -1,13 +1,19 @@
 class GameServer {
   constructor(websocket) {
     this.websocket = websocket;
-    this.sid = null;
+    this._sid = null;
+  }
+
+  sid(new_value) {
+    if (new_value)
+      this._sid = new_value;
+    return this._sid;
   }
 
   send(data) {
     const message = JSON.stringify(
       {
-        sid: this.sid,
+        sid: this.sid(),
         command: data
       }
     )

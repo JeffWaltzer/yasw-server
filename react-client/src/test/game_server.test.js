@@ -6,7 +6,7 @@ describe('GameServer', () => {
       var data_sent = "not the data you're looking for";
       const fake_web_socket= {send: (data) => { data_sent = data; }};
       const game_server = new GameServer(fake_web_socket);
-      game_server.sid='fakesid'
+      game_server.sid('fakesid');
       game_server.send("some data");
 
       expect(data_sent).toEqual('4{"sid":"fakesid","command":"some data"}');

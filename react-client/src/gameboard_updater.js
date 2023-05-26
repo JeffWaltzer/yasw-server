@@ -1,16 +1,13 @@
 class GameboardUpdater {
-  constructor(websocket) {
+  constructor(websocket, game_server) {
     this._websocket = websocket;
-    websocket.onmessage = this.on_message;
-
-    console.log(`GameboardUpdater: this: ${JSON.stringify(this, null, 4)}`);
+    this._game_server = game_server;
+    websocket.onmessage = this.on_message.bind(this);
   }
 
-  sid() {
-    this._sid;
-  }
-
-  on_message() {
+  on_message(message) {
+    const message_json = message.data.slice(1);
+    this._game_server.sid(JSON.parse(message_json).sid);
   }
 }
 
