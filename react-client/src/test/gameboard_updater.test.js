@@ -2,12 +2,11 @@ import GameboardUpdater from '../gameboard_updater';
 
 describe("GameboardUpdater", () => {
   it("sets an onmessage callback on the websocket", () => {
-    const fake_websocket = {
-    };
-
-    const websocket = new GameboardUpdater(fake_websocket);
+    const fake_websocket = {};
+    const gameboard_updater = new GameboardUpdater(fake_websocket);
 
     expect(fake_websocket.onmessage).toBeDefined();
+    expect(fake_websocket.onmessage).toEqual(gameboard_updater.on_message);
   });
 
   xit("sets the sid from the first message", () => {
