@@ -5,10 +5,9 @@ import Gameboard from './Gameboard';
 import GameServer from './game_server.js';
 import {Keyboard} from './keyboard.js';
 import reportWebVitals from './reportWebVitals';
+import Message from './message'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-
 
 let exampleSocket;
 try {
@@ -36,28 +35,22 @@ function on_close(event) {
   console.log("close:", event);
 };
 
-function message_type(the_message) {
-  return the_message.data.slice(0,1)
-}
-
-function message_payload(the_message) {
-  return the_message.data.slice(1)
-};
-
 function render_gameboard(the_message) {
-  const message_json = message_payload(the_message);
-  switch (message_type(the_message) ) {
+  // const message_json = message_payload(the_message);
+  const message = new Message(the_message)
+
+  switch (message.type() ) {
     case '0':
-      game_server.sid = JSON.parse(message_json).sid;
-      console.log("got sid: ", game_server.sid);
+      game_server.sid( JSON.parse(message.payload()).sid);
+      console.log("got sid: ", game_server.sid());
       break;
 
     case '4':
       {
-        if (message_json) {
+        if (message.payload()) {
           root.render(
             <React.StrictMode>
-              <Gameboard gameboard={message_json}/>
+              <Gameboard gameboard={message.payload()}/>
             </React.StrictMode>
           );
         }
