@@ -19,7 +19,7 @@ describe("GameboardUpdater", () => {
 
     fake_websocket.onmessage({data: "0{\"sid\": 31416}"});
 
-    expect(game_server.sid()).toEqual("31416");
+    expect(game_server.sid()).toEqual(31416);
   });
 
 });
