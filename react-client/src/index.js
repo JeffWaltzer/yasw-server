@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import './index.css';
 import Gameboard from './Gameboard';
 import GameServer from './game_server.js';
@@ -7,14 +6,13 @@ import {Keyboard} from './keyboard.js';
 import reportWebVitals from './reportWebVitals';
 import Message from './message'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
 
 let exampleSocket;
 try {
   exampleSocket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
 
   exampleSocket.onopen = (event) => {
-    exampleSocket.onmessage = render_gameboard;
+    exampleSocket.onmessage = dispatch_message;
   };
 
   exampleSocket.onerror = on_error;
@@ -35,8 +33,8 @@ function on_close(event) {
   console.log("close:", event);
 };
 
-function render_gameboard(the_message) {
-  // const message_json = message_payload(the_message);
+
+function dispatch_message(the_message) {
   const message = new Message(the_message)
 
   switch (message.type() ) {
@@ -46,15 +44,7 @@ function render_gameboard(the_message) {
       break;
 
     case '4':
-      {
-        if (message.payload()) {
-          root.render(
-            <React.StrictMode>
-              <Gameboard gameboard={message.payload()}/>
-            </React.StrictMode>
-          );
-        }
-      }
+      game_server.render_gameboard(message);
       break;
   }
 };
