@@ -3,8 +3,6 @@ import React from 'react';
 import './index.css';
 import Gameboard from './Gameboard';
 
-
-
 class GameServer {
   constructor(websocket) {
     this.websocket = websocket;

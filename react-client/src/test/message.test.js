@@ -8,11 +8,11 @@ describe('Message', () => {
     message = new Message({data: '3{}'})
   })
 
-  it("finds correct type", () =>{
+  it("#type", () =>{
     expect(message.type()).toEqual('3')
   })
 
- it("finds correct payload", () =>{
+ it("#payload", () =>{
     expect(message.payload()).toEqual('{}')
   })
 
