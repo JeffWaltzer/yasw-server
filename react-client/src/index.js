@@ -4,21 +4,23 @@ import GameServer from './game_server.js';
 import {Keyboard} from './keyboard.js';
 import Message from './message'
 
-let exampleSocket;
-try {
-  exampleSocket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
+function createWebsocket() {
+  try {
+    const new_socket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
 
-  exampleSocket.onopen = (event) => {
-    exampleSocket.onmessage = dispatch_message;
-  };
+    new_socket.onopen = (event) => {
+      new_socket.onmessage = dispatch_message;
+    };
 
-  exampleSocket.onerror = on_error;
-  exampleSocket.onclose = on_close;
+    new_socket.onerror = on_error;
+    new_socket.onclose = on_close;
+    return new_socket;
+  } catch (e) {
+    console.log(`error: ${e}`);
+  }
 }
-catch (e) {
-  console.log(`error: ${e}`);
-}
 
+let exampleSocket = createWebsocket();
 const game_server = new GameServer(exampleSocket);
 const keyboard_state = new Keyboard(game_server);
 
