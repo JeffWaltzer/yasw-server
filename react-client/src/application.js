@@ -1,9 +1,10 @@
 import Message from "./message";
 import GameServer from "./game_server";
+import {Keyboard} from "./keyboard";
 
 export default class Application {
-  constructor(game_server) {
-    this._game_server = game_server;
+  constructor(document) {
+    this._document = document;
   }
 
   createWebsocket() {
@@ -11,6 +12,9 @@ export default class Application {
       this._socket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
 
       this._game_server = new GameServer(this._socket);
+      this._keyboard_state = new Keyboard(this.game_server());
+
+      this.hookup();
 
       this._socket.onopen = (event) => {
         this._socket.onmessage = this.dispatch_message.bind(this);
@@ -53,5 +57,17 @@ export default class Application {
 
   on_close(event) {
     console.log("close:", event);
+  }
+  onKeyDown(event) {
+    this._keyboard_state.onKeyDown(event.code);
+  }
+
+  onKeyUp(event) {
+    this._keyboard_state.onKeyUp(event.code);
+  }
+
+  hookup() {
+    document.addEventListener('keydown', this.onKeyDown.bind(this));
+    document.addEventListener('keyup', this.onKeyUp.bind(this));
   }
 }
