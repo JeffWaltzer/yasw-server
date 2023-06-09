@@ -1,4 +1,5 @@
 import Message from "./message";
+import GameServer from "./game_server";
 
 export default class Application {
   constructor(game_server) {
@@ -9,13 +10,15 @@ export default class Application {
     try {
       this._socket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
 
+      this._game_server = new GameServer(this._socket);
+
       this._socket.onopen = (event) => {
-        this._socket.onmessage = this.dispatch_message;
+        this._socket.onmessage = this.dispatch_message.bind(this);
       };
 
       this._socket.onerror = this.on_error;
       this._socket.onclose = this.on_close;
-      return this._socket;
+
     } catch (e) {
       console.log(`error: ${e}`);
     }
@@ -23,6 +26,10 @@ export default class Application {
 
   socket() {
     return this._socket;
+  }
+
+  game_server() {
+    return this._game_server;
   }
 
   dispatch_message(the_message) {
