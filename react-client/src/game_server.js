@@ -16,15 +16,13 @@ class GameServer {
   }
 
   render_gameboard(message) {
-    {
-      const root = ReactDOM.createRoot(document.getElementById('root'));
-      if (message.payload()) {
-        root.render(
-          <React.StrictMode>
-            <Gameboard gameboard={message.payload()}/>
-          </React.StrictMode>
-        );
-      }
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    if (message.payload()) {
+      root.render(
+        <React.StrictMode>
+          <Gameboard gameboard={message.payload()}/>
+        </React.StrictMode>
+      );
     }
   }
 

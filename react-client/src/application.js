@@ -9,23 +9,28 @@ export default class Application {
 
   createWebsocket() {
     try {
-      this._socket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
-
-      this._game_server = new GameServer(this._socket);
-      this._keyboard_state = new Keyboard(this.game_server());
-
-      this._keyboard_state.hookup();
-
-      this._socket.onopen = (event) => {
-        this._socket.onmessage = this.dispatch_message.bind(this);
-      };
-
-      this._socket.onerror = this.on_error;
-      this._socket.onclose = this.on_close;
-
+      this.hookup_application();
     } catch (e) {
       console.log(`error: ${e}`);
     }
+  }
+
+  hookup_application() {
+    this._socket = this.build_websocket();
+    this._game_server = new GameServer(this._socket);
+    this._keyboard_state = new Keyboard(this.game_server());
+    this._keyboard_state.hookup();
+  }
+
+  build_websocket() {
+    const web_socket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
+    web_socket.onopen = (event) => {
+      web_socket.onmessage = this.dispatch_message.bind(this);
+    };
+    web_socket.onerror = this.on_error;
+    web_socket.onclose = this.on_close;
+
+    return web_socket;
   }
 
   socket() {
@@ -47,6 +52,10 @@ export default class Application {
 
       case '4':
         this._game_server.render_gameboard(message);
+        break;
+
+      default:
+        console.log("We can't be here");
         break;
     }
   }
