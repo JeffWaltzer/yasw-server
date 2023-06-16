@@ -9,17 +9,13 @@ export default class Application {
 
   createWebsocket() {
     try {
-      this.hookup_application();
+      this._socket = this.build_websocket();
+      this._game_server = new GameServer(this._socket);
+      this._keyboard_state = new Keyboard(this.game_server());
+      this._keyboard_state.hookup();
     } catch (e) {
       console.log(`error: ${e}`);
     }
-  }
-
-  hookup_application() {
-    this._socket = this.build_websocket();
-    this._game_server = new GameServer(this._socket);
-    this._keyboard_state = new Keyboard(this.game_server());
-    this._keyboard_state.hookup();
   }
 
   build_websocket() {
