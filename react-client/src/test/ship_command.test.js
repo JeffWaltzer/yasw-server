@@ -67,7 +67,7 @@ describe("Keyboard", () => {
       describe(" and we receive down", () => {
         beforeEach(() => {
           keyboard.fire_key = test_conditions.fire_key;
-          keyboard.onKeyDown(FIRE_KEY);
+          keyboard.onKeyDown({code: FIRE_KEY});
         });
         if (test_conditions.expected_sent) {
           it(`sends ${test_conditions.expected_sent}`, () => {
@@ -97,7 +97,7 @@ describe("Keyboard", () => {
       describe(" and we receive up", () => {
         beforeEach(() => {
           keyboard.fire_key = test_conditions.fire_key;
-          keyboard.onKeyUp(FIRE_KEY);
+          keyboard.onKeyUp({code: FIRE_KEY});
         });
         it(`fire key is ${test_conditions.expected_state}`, () => {
           expect(keyboard.fire_key).toEqual(test_conditions.expected_state);
@@ -121,7 +121,7 @@ describe("Keyboard", () => {
 
         beforeEach(() => {
           keyboard.fire_key = test_conditions.fire_key;
-          keyboard.onKeyDown(FIRE_KEY);
+          keyboard.onKeyDown({code: FIRE_KEY});
         })
 
         it(`fire key is ${test_conditions.expected_state}`, () => {
@@ -145,7 +145,7 @@ describe("Keyboard", () => {
       describe(" and we receive up", () => {
         beforeEach(() => {
           keyboard.thrust_key = test_conditions.thrust_key;
-          keyboard.onKeyUp(THRUST_KEY);
+          keyboard.onKeyUp({code: THRUST_KEY});
         })
         if (test_conditions.expected_sent) {
           it(`sends ${test_conditions.expected_sent}`, () => {
@@ -174,7 +174,7 @@ describe("Keyboard", () => {
       describe(" and we receive down", () => {
         beforeEach(() => {
           keyboard.thrust_key = test_conditions.thrust_key;
-          keyboard.onKeyDown(THRUST_KEY);
+          keyboard.onKeyDown({code: THRUST_KEY});
         })
         if (test_conditions.expected_sent) {
           it(`sends ${test_conditions.expected_sent}`, () => {
@@ -203,7 +203,7 @@ describe("Keyboard", () => {
       describe(" and we receive up", () => {
         beforeEach(() => {
           keyboard.thrust_key = test_conditions.thrust_key;
-          keyboard.onKeyUp(THRUST_KEY);
+          keyboard.onKeyUp({code: THRUST_KEY});
         })
         it(`thrust key is ${test_conditions.expected_state}`, () => {
           expect(keyboard.thrust_key).toEqual(test_conditions.expected_state);
@@ -226,7 +226,7 @@ describe("Keyboard", () => {
       describe(" and we receive key_down", () => {
         beforeEach(() => {
           keyboard.thrust_key = test_conditions.thrust_key;
-          keyboard.onKeyDown(THRUST_KEY);
+          keyboard.onKeyDown({code: THRUST_KEY});
         })
 
         it(`thrust key is ${test_conditions.expected_state}`, () => {
@@ -292,7 +292,7 @@ describe("Keyboard", () => {
           beforeEach(() => {
             keyboard.left_key = test_conditions.left_key;
             keyboard.right_key = test_conditions.right_key;
-            keyboard.onKeyUp(test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY);
+            keyboard.onKeyUp({code: test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY});
           })
 
           if (test_conditions.expected_sent) {
@@ -366,7 +366,7 @@ describe("Keyboard", () => {
           beforeEach(() => {
             keyboard.left_key = test_conditions.left_key;
             keyboard.right_key = test_conditions.right_key;
-            keyboard.onKeyDown(test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY);
+            keyboard.onKeyDown({code: test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY});
           })
 
           if (test_conditions.expected_sent) {
@@ -447,7 +447,7 @@ describe("Keyboard", () => {
           beforeEach(() => {
             keyboard.left_key = test_conditions.left_key;
             keyboard.right_key = test_conditions.right_key;
-            keyboard.onKeyUp(test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY);
+            keyboard.onKeyUp({code: test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY});
           })
           it(`right key is ${test_conditions.expected_right_key_state}`, () => {
             expect(keyboard.right_key).toEqual(test_conditions.expected_right_key_state);
@@ -525,7 +525,7 @@ describe("Keyboard", () => {
           beforeEach(() => {
             keyboard.left_key = test_conditions.left_key;
             keyboard.right_key = test_conditions.right_key;
-            keyboard.onKeyDown(test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY);
+            keyboard.onKeyDown({code: test_conditions.event === 'left' ? LEFT_KEY : RIGHT_KEY});
           })
 
           it(`right key is ${test_conditions.expected_right_key_state}`, () => {
@@ -541,7 +541,7 @@ describe("Keyboard", () => {
   describe("we receive clone_key_down", () => {
 
     beforeEach(() => {
-      keyboard.onKeyDown(CLONE_KEY);
+      keyboard.onKeyDown({code: CLONE_KEY});
     })
 
     it("sends 'clone'", () => {

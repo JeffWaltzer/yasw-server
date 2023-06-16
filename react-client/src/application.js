@@ -14,7 +14,7 @@ export default class Application {
       this._game_server = new GameServer(this._socket);
       this._keyboard_state = new Keyboard(this.game_server());
 
-      this.hookup();
+      this._keyboard_state.hookup();
 
       this._socket.onopen = (event) => {
         this._socket.onmessage = this.dispatch_message.bind(this);
@@ -58,16 +58,5 @@ export default class Application {
   on_close(event) {
     console.log("close:", event);
   }
-  onKeyDown(event) {
-    this._keyboard_state.onKeyDown(event.code);
-  }
 
-  onKeyUp(event) {
-    this._keyboard_state.onKeyUp(event.code);
-  }
-
-  hookup() {
-    document.addEventListener('keydown', this.onKeyDown.bind(this));
-    document.addEventListener('keyup', this.onKeyUp.bind(this));
-  }
 }

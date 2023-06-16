@@ -13,7 +13,8 @@
     this.game_server = game_server;
   }
 
-  onKeyUp(keycode) {
+  onKeyUp(event) {
+    const keycode = event.code
     if(keycode===THRUST_KEY){
       if(this.thrust_key==='down') {
         this.game_server.send('thrust_off');
@@ -38,21 +39,22 @@
     }
   }
 
-  onKeyDown(key_code) {
-    if (key_code===THRUST_KEY) {
+  onKeyDown(event) {
+    const keycode = event.code
+    if (keycode===THRUST_KEY) {
       if (this.thrust_key === 'up') {
         this.game_server.send("thrust_on");
         this.thrust_key = "down"
       }
     }
-    if (key_code===FIRE_KEY) {
+    if (keycode===FIRE_KEY) {
       if (this.fire_key === 'up') {
         this.game_server.send("fire");
         this.fire_key = "down"
       }
 
     }
-    if (key_code===LEFT_KEY) {
+    if (keycode===LEFT_KEY) {
       if (this.left_key === "up" && this.right_key === "down")
         this.game_server.send("rotate_stop");
       else if (this.left_key === "up" && this.right_key === "up") {
@@ -61,10 +63,10 @@
       this.left_key = 'down';
     }
 
-    if (key_code===CLONE_KEY) {
+    if (keycode===CLONE_KEY) {
       this.game_server.send("clone");
     }
-    if (key_code===RIGHT_KEY) {
+    if (keycode===RIGHT_KEY) {
       if (this.left_key === "down" && this.right_key === "up")
         this.game_server.send("rotate_stop");
       else if (this.left_key === "up" && this.right_key === "up") {
@@ -74,6 +76,16 @@
     }
 
   }
-};
+
+   hookup() {
+     document.addEventListener('keydown', (event)=>{
+       this.onKeyDown(event.code)
+     });
+     document.addEventListener('keyup',  (event)=> {
+       this.onKeyUp(event.code)
+     })
+   }
+
+}
 
  export {Keyboard, THRUST_KEY,FIRE_KEY,LEFT_KEY,RIGHT_KEY,CLONE_KEY}
