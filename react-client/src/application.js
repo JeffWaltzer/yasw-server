@@ -3,11 +3,12 @@ import GameServer from "./game_server";
 import {Keyboard} from "./keyboard";
 
 export default class Application {
-  constructor(document) {
+  constructor(document, websocket_implementation) {
     this._document = document;
+		this._websocket_implementation = websocket_implementation;
   }
 
-  createWebsocket() {
+  run() {
     try {
       this._socket = this.build_websocket();
       this._game_server = new GameServer(this._socket);
@@ -19,7 +20,7 @@ export default class Application {
   }
 
   build_websocket() {
-    const web_socket = new WebSocket(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
+    const web_socket = new this._websocket_implementation(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
     web_socket.onopen = (event) => {
       web_socket.onmessage = this.dispatch_message.bind(this);
     };
@@ -38,7 +39,7 @@ export default class Application {
   }
 
   dispatch_message(the_message) {
-    const message = new Message(the_message)
+    const message = new Message(the_message);
 
     switch (message.type()) {
       case '0':
