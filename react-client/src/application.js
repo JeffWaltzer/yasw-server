@@ -5,7 +5,7 @@ import {Keyboard} from "./keyboard";
 export default class Application {
   constructor(document, websocket_implementation) {
     this._document = document;
-		this._websocket_implementation = websocket_implementation;
+    this._websocket_implementation = websocket_implementation;
   }
 
   run() {
