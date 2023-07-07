@@ -25,13 +25,15 @@ describe('Application', () => {
     });
 
     describe('sets up application', () => {
+      let the_application;
+      let fake_keyboard;
 
-      it('calls build_websocket', () => {
-        const the_application = application();
+      beforeEach(() => {
+        the_application = application();
         jest.spyOn(the_application, 'build_websocket').mockImplementation(() => {
         })
         jest.spyOn(the_application, 'build_game_server')
-        const fake_keyboard = {
+        fake_keyboard = {
           hookup: () => {
           }
         };
@@ -40,8 +42,24 @@ describe('Application', () => {
         })
         jest.spyOn(fake_keyboard, 'hookup')
         the_application.run()
+      })
+
+      it('calls build_websocket', () => {
         expect(the_application.build_websocket).toHaveBeenCalled();
       });
+
+      it('calls build_websocket', () => {
+        expect(the_application.build_game_server).toHaveBeenCalled();
+      });
+
+      it('calls build_websocket', () => {
+        expect(the_application.build_keyboard).toHaveBeenCalled();
+      });
+
+      it('calls build_websocket', () => {
+        expect(fake_keyboard.hookup).toHaveBeenCalled();
+      });
+
     })
 
   });
