@@ -14,18 +14,36 @@ describe('Application', () => {
     application = () => new Application(fake_document, context_for_spyon.FakeWebSocket);
   })
 
-  it("can be instantiated", () => {
-    expect(new Application(fake_document, context_for_spyon.FakeWebSocket)).toBeDefined();
-  });
-
   describe('#run', () => {
-
+    //TODO make a non negative version of this test.
     it('catches errors', () => {
-      jest.spyOn(application(), 'build_websocket').mockImplementation(() => {
+      const application1 = application();
+      jest.spyOn(application1, 'build_websocket').mockImplementation(() => {
         throw 'hell';
       })
-      expect(() => application().run()).not.toThrow('hell')
+      expect(() => application1.run()).not.toThrow('hell')
     });
+
+    describe('sets up application', () => {
+
+      it('calls build_websocket', () => {
+        const the_application = application();
+        jest.spyOn(the_application, 'build_websocket').mockImplementation(() => {
+        })
+        jest.spyOn(the_application, 'build_game_server')
+        const fake_keyboard = {
+          hookup: () => {
+          }
+        };
+        jest.spyOn(the_application, 'build_keyboard').mockImplementation(() => {
+          return fake_keyboard;
+        })
+        jest.spyOn(fake_keyboard, 'hookup')
+        the_application.run()
+        expect(the_application.build_websocket).toHaveBeenCalled();
+      });
+    })
+
   });
 
   describe('#build_websocket', () => {

@@ -11,12 +11,20 @@ export default class Application {
   run() {
     try {
       this._socket = this.build_websocket();
-      this._game_server = new GameServer(this._socket);
-      this._keyboard_state = new Keyboard(this.game_server());
+      this._game_server = this.build_game_server();
+      this._keyboard_state = this.build_keyboard();
       this._keyboard_state.hookup();
     } catch (e) {
       console.log(`error: ${e}`);
     }
+  }
+
+  build_keyboard() {
+    return new Keyboard(this.game_server());
+  }
+
+  build_game_server() {
+    return new GameServer(this._socket);
   }
 
   build_websocket() {
