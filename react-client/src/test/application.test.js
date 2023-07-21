@@ -71,4 +71,28 @@ describe('Application', () => {
       expect(context_for_spyon.FakeWebSocket).toHaveBeenCalled();
     });
   });
+
+    describe('#dispatch_message', () => {
+      describe('a type 0 message', () => {
+        let the_application;
+        let the_game_server;
+
+        beforeEach(() => {
+          const raw_message = {
+            data: '0' + JSON.stringify({
+              sid: 'this is a fine sid',
+            }),
+          };
+
+          the_application = application();
+          the_application._game_server = the_application.build_game_server();
+          the_game_server = the_application.game_server();
+          the_application.dispatch_message(raw_message);
+        });
+
+        it('sets the game server sid', () => {
+          expect(the_game_server.sid()).toEqual('this is a fine sid');
+        });
+      });
+    });
 })

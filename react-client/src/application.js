@@ -52,7 +52,6 @@ export default class Application {
     switch (message.type()) {
       case '0':
         this._game_server.sid(JSON.parse(message.payload()).sid);
-        console.log("got sid: ", this._game_server.sid());
         break;
 
       case '4':
