@@ -1,4 +1,5 @@
 import Application from '../application';
+import Message from '../message';
 
 const context_for_spyon = {
   FakeWebSocket: () => {
@@ -92,6 +93,31 @@ describe('Application', () => {
 
         it('sets the game server sid', () => {
           expect(the_game_server.sid()).toEqual('this is a fine sid');
+        });
+      });
+
+      describe('a type 4 message', () => {
+        let the_application;
+        let the_game_server;
+        let message;
+
+        beforeEach(() => {
+          const raw_message = {
+            data: '4' + JSON.stringify({
+            }),
+          };
+          message = new Message(raw_message);
+
+          the_application = application();
+          the_application._game_server = the_application.build_game_server();
+          the_game_server = the_application.game_server();
+          jest.spyOn(the_game_server, 'render_gameboard').mockImplementation(() => {});
+
+          the_application.dispatch_message(raw_message);
+        });
+
+        it('renders the gameboard', () => {
+          expect(the_game_server.render_gameboard).toHaveBeenCalledWith(message);
         });
       });
     });
