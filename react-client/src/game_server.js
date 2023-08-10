@@ -17,15 +17,19 @@ class GameServer {
 
   render_gameboard(message) {
     const root = ReactDOM.createRoot(document.getElementById('root'));
-    if (message.payload()) {
+    this.render_payload(root,message.payload());
+  }
+
+
+  render_payload(root,payload) {
+    if (payload) {
       root.render(
         <React.StrictMode>
-          <Gameboard gameboard={message.payload()}/>
+          <Gameboard gameboard={payload}/>
         </React.StrictMode>
       );
     }
   }
-
 
   send(data) {
     const message = JSON.stringify(
