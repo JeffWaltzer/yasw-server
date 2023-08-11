@@ -3,53 +3,40 @@ import GameServer from '../game_server'
 describe('GameServer', () => {
   describe('#render_gameboard', () => {
     let game_server;
+    let fake_root;
+    let fake_payload;
+    let fake_message;
 
     beforeEach(() => {
       game_server = new GameServer({})
-    })
-
-    it('calls create_root ', () => {
-      const fake_root = {
+      fake_root = {
         render: () => {
           return {}
         }
       };
+      fake_payload = {};
 
-      const fake_message = {
+      fake_message = {
         payload: () => {
-          return {}
+          return fake_payload
         }
-      };
-
+      }
       jest.spyOn(game_server, 'create_root').mockImplementation(() => {
         return fake_root;
       })
+
+      jest.spyOn(game_server, 'render_payload').mockImplementation(() => {
+      })
+
       game_server.render_gameboard(fake_message);
+    })
+
+    it('calls create_root ', () => {
       expect(game_server.root).toBe(fake_root)
     })
 
     it('calls render_payload ', () => {
-      const fake_root = {
-        render: () => {
-          return {}
-        }
-      };
-
-      const fake_payload = {
-      };
-
-      const fake_message ={
-        payload: ()=> {return fake_payload}
-      }
-
-      jest.spyOn(game_server, 'create_root').mockImplementation(() => {
-        return fake_root;
-      })
-
-      jest.spyOn(game_server,'render_payload').mockImplementation(()=>{})
-
-      game_server.render_gameboard(fake_message);
-      expect(game_server.render_payload).toHaveBeenCalledWith(fake_root,fake_payload)
+      expect(game_server.render_payload).toHaveBeenCalledWith(fake_root, fake_payload)
     })
   })
 

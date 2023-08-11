@@ -20,7 +20,6 @@ class GameServer {
     this.render_payload(this.root,message.payload());
   }
 
-
   create_root() {
     return ReactDOM.createRoot(document.getElementById('root'));
   }
