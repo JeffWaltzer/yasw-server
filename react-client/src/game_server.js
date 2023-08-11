@@ -16,10 +16,14 @@ class GameServer {
   }
 
   render_gameboard(message) {
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    this.render_payload(root,message.payload());
+    this.root ||= this.create_root();
+    this.render_payload(this.root,message.payload());
   }
 
+
+  create_root() {
+    return ReactDOM.createRoot(document.getElementById('root'));
+  }
 
   render_payload(root,payload) {
     if (payload) {
