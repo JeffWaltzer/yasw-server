@@ -28,7 +28,28 @@ describe('GameServer', () => {
       expect(game_server.root).toBe(fake_root)
     })
 
-    it('calls render_gameboard ', () => {
+    it('calls render_payload ', () => {
+      const fake_root = {
+        render: () => {
+          return {}
+        }
+      };
+
+      const fake_payload = {
+      };
+
+      const fake_message ={
+        payload: ()=> {return fake_payload}
+      }
+
+      jest.spyOn(game_server, 'create_root').mockImplementation(() => {
+        return fake_root;
+      })
+
+      jest.spyOn(game_server,'render_payload').mockImplementation(()=>{})
+
+      game_server.render_gameboard(fake_message);
+      expect(game_server.render_payload).toHaveBeenCalledWith(fake_root,fake_payload)
     })
   })
 
