@@ -10,7 +10,7 @@ function Gameboard(props) {
     polygons = [];
 
   return (
-      <svg height="95vh" width="95vw" viewBox="0 0 1024 1024">
+      <svg height="100%" width="100%" viewBox="0 0 1024 1024">
         <rect width="100%" height="100%" style={{
           "fill": "rgb(0, 0, 0)",
           "strokeWidth":0,
