@@ -43,12 +43,34 @@ const two_wireframe_sun = {
 }
 
 describe('gamefield with polygon with two wireframes', () => {
-    let container;
+  let container;
 
   beforeEach(() => {
-        container = render(<Gameboard gameboard={JSON.stringify(two_wireframe_sun)}/>)
-            .container;
+    container = render(<Gameboard gameboard={JSON.stringify({})}/>).container;
+  });
+
+  describe("The first wireframes", () => {
+    let the_points;
+    let polygon_tags;
+
+    beforeEach(() => {
+      polygon_tags = container.querySelectorAll("polygon");
     });
+
+    it ('has the correct list', () => {
+      console.log(polygon_tags);
+      expect(polygon_tags.length).toEqual(0);
+    });
+  })
+});
+
+describe('gamefield with polygon with two wireframes', () => {
+  let container;
+
+  beforeEach(() => {
+    container = render(<Gameboard gameboard={JSON.stringify(two_wireframe_sun)}/>)
+      .container;
+  });
 
   describe("The first wireframes", () => {
     let the_points;
@@ -79,4 +101,3 @@ describe('gamefield with polygon with two wireframes', () => {
   });
 
 })
-

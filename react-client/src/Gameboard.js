@@ -6,7 +6,7 @@ function Gameboard(props) {
       JSON.parse(props.gameboard).polygons :
       [];
 
-  if (!polygons || !polygons.map)
+  if (!polygons)
     polygons = [];
 
   return (
