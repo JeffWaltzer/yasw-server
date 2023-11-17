@@ -42,6 +42,9 @@ describe('Application', () => {
           return fake_keyboard;
         })
         jest.spyOn(fake_keyboard, 'hookup')
+
+        jest.spyOn(the_application, 'build_gamepads');
+
         the_application.run()
       })
 
@@ -61,6 +64,9 @@ describe('Application', () => {
         expect(fake_keyboard.hookup).toHaveBeenCalled();
       });
 
+      it('calls build_gamepads', () => {
+        expect(the_application.build_gamepads).toHaveBeenCalled();
+      });
     })
 
   });
