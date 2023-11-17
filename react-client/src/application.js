@@ -13,8 +13,9 @@ export default class Application {
       this._socket = this.build_websocket();
       this._game_server = this.build_game_server();
       this._keyboard_state = this.build_keyboard();
-      this.build_gamepads();
+      this._gamepads = this.build_gamepads();
       this._keyboard_state.hookup();
+      this._gamepads.start_polling();
     } catch (e) {
       console.log(`error: ${e}`);
     }

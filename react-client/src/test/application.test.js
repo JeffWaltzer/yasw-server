@@ -28,6 +28,7 @@ describe('Application', () => {
     describe('sets up application', () => {
       let the_application;
       let fake_keyboard;
+      let fake_gamepads;
 
       beforeEach(() => {
         the_application = application();
@@ -38,12 +39,20 @@ describe('Application', () => {
           hookup: () => {
           }
         };
+
+        fake_gamepads = {
+          start_polling: () => {}
+        };
+        jest.spyOn(fake_gamepads, 'start_polling');
+
         jest.spyOn(the_application, 'build_keyboard').mockImplementation(() => {
           return fake_keyboard;
         })
         jest.spyOn(fake_keyboard, 'hookup')
 
-        jest.spyOn(the_application, 'build_gamepads');
+        jest.spyOn(the_application, 'build_gamepads').mockImplementation(() => {
+          return fake_gamepads;
+        });
 
         the_application.run()
       })
@@ -66,6 +75,10 @@ describe('Application', () => {
 
       it('calls build_gamepads', () => {
         expect(the_application.build_gamepads).toHaveBeenCalled();
+      });
+
+      it('starts the gamepad polling', () => {
+        expect(fake_gamepads.start_polling).toHaveBeenCalled();
       });
     })
 
