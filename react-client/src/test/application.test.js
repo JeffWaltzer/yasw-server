@@ -1,5 +1,6 @@
 import Application from '../application';
 import Message from '../message';
+import {GamePads} from "../gamePads";
 
 const context_for_spyon = {
   FakeWebSocket: () => {
@@ -40,9 +41,8 @@ describe('Application', () => {
           }
         };
 
-        fake_gamepads = {
-          start_polling: () => {}
-        };
+        fake_gamepads = new GamePads();
+
         jest.spyOn(fake_gamepads, 'start_polling');
 
         jest.spyOn(the_application, 'build_keyboard').mockImplementation(() => {
@@ -92,52 +92,52 @@ describe('Application', () => {
     });
   });
 
-    describe('#dispatch_message', () => {
-      describe('a type 0 message', () => {
-        let the_application;
-        let the_game_server;
+  describe('#dispatch_message', () => {
+    describe('a type 0 message', () => {
+      let the_application;
+      let the_game_server;
 
-        beforeEach(() => {
-          const raw_message = {
-            data: '0' + JSON.stringify({
-              sid: 'this is a fine sid',
-            }),
-          };
+      beforeEach(() => {
+        const raw_message = {
+          data: '0' + JSON.stringify({
+            sid: 'this is a fine sid',
+          }),
+        };
 
-          the_application = application();
-          the_application._game_server = the_application.build_game_server();
-          the_game_server = the_application.game_server();
-          the_application.dispatch_message(raw_message);
-        });
-
-        it('sets the game server sid', () => {
-          expect(the_game_server.sid()).toEqual('this is a fine sid');
-        });
+        the_application = application();
+        the_application._game_server = the_application.build_game_server();
+        the_game_server = the_application.game_server();
+        the_application.dispatch_message(raw_message);
       });
 
-      describe('a type 4 message', () => {
-        let the_application;
-        let the_game_server;
-        let message;
-
-        beforeEach(() => {
-          const raw_message = {
-            data: '4' + JSON.stringify({
-            }),
-          };
-          message = new Message(raw_message);
-
-          the_application = application();
-          the_application._game_server = the_application.build_game_server();
-          the_game_server = the_application.game_server();
-          jest.spyOn(the_game_server, 'render_gameboard').mockImplementation(() => {});
-
-          the_application.dispatch_message(raw_message);
-        });
-
-        it('renders the gameboard', () => {
-          expect(the_game_server.render_gameboard).toHaveBeenCalledWith(message);
-        });
+      it('sets the game server sid', () => {
+        expect(the_game_server.sid()).toEqual('this is a fine sid');
       });
     });
+
+    describe('a type 4 message', () => {
+      let the_application;
+      let the_game_server;
+      let message;
+
+      beforeEach(() => {
+        const raw_message = {
+          data: '4' + JSON.stringify({}),
+        };
+        message = new Message(raw_message);
+
+        the_application = application();
+        the_application._game_server = the_application.build_game_server();
+        the_game_server = the_application.game_server();
+        jest.spyOn(the_game_server, 'render_gameboard').mockImplementation(() => {
+        });
+
+        the_application.dispatch_message(raw_message);
+      });
+
+      it('renders the gameboard', () => {
+        expect(the_game_server.render_gameboard).toHaveBeenCalledWith(message);
+      });
+    });
+  });
 })
