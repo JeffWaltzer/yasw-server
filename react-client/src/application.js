@@ -1,6 +1,7 @@
 import Message from "./message";
 import GameServer from "./game_server";
 import {Keyboard} from "./keyboard";
+import {GamePads} from "./gamePads";
 
 export default class Application {
   constructor(document, websocket_implementation) {
@@ -41,6 +42,7 @@ export default class Application {
   }
 
   build_gamepads() {
+    return new GamePads();
   }
 
   socket() {

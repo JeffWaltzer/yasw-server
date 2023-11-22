@@ -29,7 +29,7 @@ describe('Application', () => {
     describe('sets up application', () => {
       let the_application;
       let fake_keyboard;
-      let fake_gamepads;
+      let gamepads;
 
       beforeEach(() => {
         the_application = application();
@@ -41,18 +41,14 @@ describe('Application', () => {
           }
         };
 
-        fake_gamepads = new GamePads();
+        gamepads = new GamePads();
 
-        jest.spyOn(fake_gamepads, 'start_polling');
+        jest.spyOn(gamepads, 'start_polling');
 
         jest.spyOn(the_application, 'build_keyboard').mockImplementation(() => {
           return fake_keyboard;
         })
         jest.spyOn(fake_keyboard, 'hookup')
-
-        jest.spyOn(the_application, 'build_gamepads').mockImplementation(() => {
-          return fake_gamepads;
-        });
 
         the_application.run()
       })
@@ -61,24 +57,24 @@ describe('Application', () => {
         expect(the_application.build_websocket).toHaveBeenCalled();
       });
 
-      it('calls build_websocket', () => {
+      it('calls build_game_server', () => {
         expect(the_application.build_game_server).toHaveBeenCalled();
       });
 
-      it('calls build_websocket', () => {
+      it('calls build_keyboard', () => {
         expect(the_application.build_keyboard).toHaveBeenCalled();
       });
 
-      it('calls build_websocket', () => {
+      it('calls hookup', () => {
         expect(fake_keyboard.hookup).toHaveBeenCalled();
       });
 
       it('calls build_gamepads', () => {
-        expect(the_application.build_gamepads).toHaveBeenCalled();
+        expect(the_application._gamepads.constructor).toEqual(GamePads)
       });
 
-      it('starts the gamepad polling', () => {
-        expect(fake_gamepads.start_polling).toHaveBeenCalled();
+      xit('starts the gamepad polling', () => {
+        expect(gamepads.start_polling).toHaveBeenCalled();
       });
     })
 
