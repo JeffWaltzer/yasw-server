@@ -5,6 +5,16 @@ describe('Gamepads', () => {
     expect(GamePads._active).toEqual([])
   })
 
+  describe("#poll", () => {
+    it('notices new gamepad',()=>{
+      jest.spyOn(window,"getGamepads").mockImplementation(()=>{
+        return [{}]
+      })
+      GamePads.poll()
+      expect(GamePads._active.length).toEqual(1)
+    })
+  })
+
   describe('#start_polling', () => {
     beforeEach(() => {
       jest.useFakeTimers('legacy');
