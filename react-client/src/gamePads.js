@@ -1,7 +1,8 @@
 export class GamePads {
   start_polling() {
-    setInterval(()=>{},30)
+    setInterval(GamePads.poll, 30)
   };
 
-
+  static poll() {
+  }
 }
