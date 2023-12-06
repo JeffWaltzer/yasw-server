@@ -5,8 +5,9 @@ import {GamePads} from "./gamePads";
 
 export default class Application {
   constructor(document, websocket_implementation) {
-    this._document = document;
-    this._websocket_implementation = websocket_implementation;
+  this._document = document;
+  this._websocket_implementation = websocket_implementation;
+  this._gamepads = this.build_gamepads();
   }
 
   run() {
@@ -14,7 +15,6 @@ export default class Application {
       this._socket = this.build_websocket();
       this._game_server = this.build_game_server();
       this._keyboard_state = this.build_keyboard();
-      this._gamepads = this.build_gamepads();
       this._keyboard_state.hookup();
       this._gamepads.start_polling();
     } catch (e) {

@@ -41,7 +41,7 @@ describe('Application', () => {
           }
         };
 
-        gamepads = new GamePads();
+        gamepads = the_application._gamepads;
 
         jest.spyOn(gamepads, 'start_polling');
 
@@ -73,7 +73,7 @@ describe('Application', () => {
         expect(the_application._gamepads.constructor).toEqual(GamePads)
       });
 
-      xit('starts the gamepad polling', () => {
+      it('starts the gamepad polling', () => {
         expect(gamepads.start_polling).toHaveBeenCalled();
       });
     })
