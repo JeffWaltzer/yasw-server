@@ -10,7 +10,7 @@ describe('Gamepads', () => {
       navigator.getGamepads = () => { throw "shouldn't happen; dummy function called"; };
     });
 
-    it('notices new gamepad',()=>{
+    it('notices a new gamepad',()=>{
       jest.spyOn(navigator,"getGamepads").mockImplementation(()=>{
         return [{}]
       })
@@ -32,3 +32,4 @@ describe('Gamepads', () => {
     });
   })
 })
+
