@@ -6,8 +6,12 @@ describe('Gamepads', () => {
   })
 
   describe("#poll", () => {
+    beforeEach(() => {
+      navigator.getGamepads = () => { throw "shouldn't happen; dummy function called"; };
+    });
+
     it('notices new gamepad',()=>{
-      jest.spyOn(window,"getGamepads").mockImplementation(()=>{
+      jest.spyOn(navigator,"getGamepads").mockImplementation(()=>{
         return [{}]
       })
       GamePads.poll()

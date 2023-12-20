@@ -7,5 +7,6 @@ export class GamePads {
   };
 
   static poll() {
+    this._active = navigator.getGamepads();
   }
 }
