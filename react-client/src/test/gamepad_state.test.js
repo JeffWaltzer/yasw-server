@@ -32,6 +32,8 @@
   //     });
   //   }));
 
+  import Gamepad from "../gamePad";
+
     describe("Initial button states", function() {
       let gamepad;
 
