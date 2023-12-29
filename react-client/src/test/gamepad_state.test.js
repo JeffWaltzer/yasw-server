@@ -90,6 +90,62 @@ describe("thrust_up_sent_tests", () => {
   });
 })
 
+
+const thrust_down_sent_tests = [
+  {
+    thrust_button: "up",
+    expected_sent: 'thrust_on'
+  },
+  {
+    thrust_button: "down",
+    expected_sent: null
+  }
+];
+thrust_down_sent_tests.forEach((test_conditions) => {
+  describe(`When thrust button is ${test_conditions.thrust_button}`, function () {
+
+    const make_fake_gamepad = (thrust) => {
+      const fake_socket = {};
+      const fake_gamepad = new Gamepad(fake_socket);
+      fake_gamepad.thrust(thrust)
+      return fake_gamepad;
+    }
+
+    let the_gamepad;
+
+    const stub_socket = {
+      send: () => {
+      }
+    }
+
+    beforeEach(() => {
+      the_gamepad = new Gamepad(stub_socket);
+      the_gamepad._last_gamepad_state.thrust = (test_conditions.thrust_button === 'down');
+      jest.spyOn(the_gamepad.command_socket(), "send");
+    });
+
+
+    describe(" and we receive down", function () {
+      beforeEach(function () {
+        the_gamepad.interpret_command(make_fake_gamepad(true));
+      });
+      if (test_conditions.expected_sent) {
+        it(`sends ${test_conditions.expected_sent}`, function () {
+          expect(the_gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
+            command: test_conditions.expected_sent
+          }));
+        });
+      } else {
+        it("does not send", function () {
+          expect(the_gamepad.command_socket().send).not.toHaveBeenCalled();
+        });
+      }
+    });
+  });
+})
+;
+
+
 describe("Initial button states", function () {
   let gamepad;
 
