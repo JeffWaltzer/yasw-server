@@ -34,6 +34,17 @@
 
 import Gamepad from "../gamePad";
 
+const make_fake_gamepad = (thrust) => {
+  const fake_socket = {};
+  const fake_gamepad = new Gamepad(fake_socket);
+  fake_gamepad.thrust(thrust)
+  return fake_gamepad;
+}
+
+const stub_socket = { send: () => {} }
+
+let gamepad;
+
 describe("thrust_up_sent_tests", () => {
   const thrust_up_sent_tests = [
     {
@@ -48,29 +59,15 @@ describe("thrust_up_sent_tests", () => {
 
   thrust_up_sent_tests.forEach((test_conditions) => {
     describe(`When thrust button is ${test_conditions.thrust_button}`, function () {
-      let the_gamepad;
-      const make_fake_gamepad = (thrust) => {
-        const fake_socket = {};
-        const fake_gamepad = new Gamepad(fake_socket);
-        fake_gamepad.thrust(thrust)
-        return fake_gamepad;
-      }
-
-      const stub_socket = {
-        send: () => {
-        }
-      }
-
       beforeEach(() => {
-        // createController();
-        the_gamepad = new Gamepad(stub_socket);
-        the_gamepad._last_gamepad_state.thrust = (test_conditions.thrust_button === 'down');
-        jest.spyOn(the_gamepad.command_socket(), "send");
+        gamepad = new Gamepad(stub_socket);
+        gamepad._last_gamepad_state.thrust = (test_conditions.thrust_button === 'down');
+        jest.spyOn(gamepad.command_socket(), "send");
       });
 
       describe(" and we receive up", () => {
         beforeEach(() => {
-          the_gamepad.interpret_command(make_fake_gamepad(false))
+          gamepad.interpret_command(make_fake_gamepad(false))
         })
 
         if (test_conditions.expected_sent) {
@@ -78,11 +75,11 @@ describe("thrust_up_sent_tests", () => {
             const expected_command = JSON.stringify({
               command: test_conditions.expected_sent
             });
-            expect(the_gamepad.command_socket().send).toHaveBeenCalledWith(expected_command);
+            expect(gamepad.command_socket().send).toHaveBeenCalledWith(expected_command);
           });
         } else {
           it("does not send", () => {
-            expect(the_gamepad.command_socket().send).not.toHaveBeenCalled();
+            expect(gamepad.command_socket().send).not.toHaveBeenCalled();
           });
         }
       });
@@ -103,57 +100,34 @@ const thrust_down_sent_tests = [
 ];
 thrust_down_sent_tests.forEach((test_conditions) => {
   describe(`When thrust button is ${test_conditions.thrust_button}`, function () {
-
-    const make_fake_gamepad = (thrust) => {
-      const fake_socket = {};
-      const fake_gamepad = new Gamepad(fake_socket);
-      fake_gamepad.thrust(thrust)
-      return fake_gamepad;
-    }
-
-    let the_gamepad;
-
-    const stub_socket = {
-      send: () => {
-      }
-    }
-
     beforeEach(() => {
-      the_gamepad = new Gamepad(stub_socket);
-      the_gamepad._last_gamepad_state.thrust = (test_conditions.thrust_button === 'down');
-      jest.spyOn(the_gamepad.command_socket(), "send");
+      gamepad = new Gamepad(stub_socket);
+      gamepad._last_gamepad_state.thrust = (test_conditions.thrust_button === 'down');
+      jest.spyOn(gamepad.command_socket(), "send");
     });
 
 
     describe(" and we receive down", function () {
       beforeEach(function () {
-        the_gamepad.interpret_command(make_fake_gamepad(true));
+        gamepad.interpret_command(make_fake_gamepad(true));
       });
       if (test_conditions.expected_sent) {
         it(`sends ${test_conditions.expected_sent}`, function () {
-          expect(the_gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
+          expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
             command: test_conditions.expected_sent
           }));
         });
       } else {
         it("does not send", function () {
-          expect(the_gamepad.command_socket().send).not.toHaveBeenCalled();
+          expect(gamepad.command_socket().send).not.toHaveBeenCalled();
         });
       }
     });
   });
-})
-;
+});
 
 
 describe("Initial button states", function () {
-  let gamepad;
-
-  const stub_socket = {
-    send: () => {
-    }
-  }
-
   beforeEach(() => {
     gamepad = new Gamepad(stub_socket);
   });
@@ -194,22 +168,22 @@ describe("Initial button states", function () {
 //     return describe(`When the fire button is ${test_conditions.buttons.fire}`, function() {
 //       beforeEach(function() {
 //         createController();
-//         the_gamepad.last_gamepad_state.fire(test_conditions.buttons.fire === 'down');
-//         return spyOn(the_gamepad.command_socket(), "send");
+//         gamepad.last_gamepad_state.fire(test_conditions.buttons.fire === 'down');
+//         return spyOn(gamepad.command_socket(), "send");
 //       });
 //       return describe(" and we receive up", function() {
 //         beforeEach(function() {
-//           return the_gamepad.interpret_command(make_fake_gamepad({
+//           return gamepad.interpret_command(make_fake_gamepad({
 //             fire: false
 //           }));
 //         });
 //         if (test_conditions.expected_sent) {
 //           return it(`sends ${test_conditions.expected_sent}`, function() {
-//             return expect(the_gamepad.command_socket().send).toHaveBeenCalledWith(test_conditions.expected_sent);
+//             return expect(gamepad.command_socket().send).toHaveBeenCalledWith(test_conditions.expected_sent);
 //           });
 //         } else {
 //           return it("does not send", function() {
-//             return expect(the_gamepad.command_socket().send).not.toHaveBeenCalled();
+//             return expect(gamepad.command_socket().send).not.toHaveBeenCalled();
 //           });
 //         }
 //       });
@@ -229,24 +203,24 @@ describe("Initial button states", function () {
 //     return describe(`When fire button is ${test_conditions.fire_button}`, function() {
 //       beforeEach(function() {
 //         createController();
-//         the_gamepad.last_gamepad_state.fire(test_conditions.fire_button === 'down');
-//         return spyOn(the_gamepad.command_socket(), "send");
+//         gamepad.last_gamepad_state.fire(test_conditions.fire_button === 'down');
+//         return spyOn(gamepad.command_socket(), "send");
 //       });
 //       return describe(" and we receive down", function() {
 //         beforeEach(function() {
-//           return the_gamepad.interpret_command(make_fake_gamepad({
+//           return gamepad.interpret_command(make_fake_gamepad({
 //             fire: true
 //           }));
 //         });
 //         if (test_conditions.expected_sent) {
 //           return it(`sends ${test_conditions.expected_sent}`, function() {
-//             return expect(the_gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
+//             return expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
 //               command: test_conditions.expected_sent
 //             }));
 //           });
 //         } else {
 //           return it("does not send", function() {
-//             return expect(the_gamepad.command_socket().send).not.toHaveBeenCalled();
+//             return expect(gamepad.command_socket().send).not.toHaveBeenCalled();
 //           });
 //         }
 //       });
@@ -266,16 +240,16 @@ describe("Initial button states", function () {
 //     return describe(`When fire button is ${test_conditions.fire_button}`, function() {
 //       beforeEach(function() {
 //         createController();
-//         return the_gamepad.last_gamepad_state.fire(test_conditions.fire_button === 'down');
+//         return gamepad.last_gamepad_state.fire(test_conditions.fire_button === 'down');
 //       });
 //       return describe(" and we receive up", function() {
 //         beforeEach(function() {
-//           return the_gamepad.interpret_command(make_fake_gamepad({
+//           return gamepad.interpret_command(make_fake_gamepad({
 //             fire: false
 //           }));
 //         });
 //         return it(`fire button is ${test_conditions.expected_state}`, function() {
-//           return expect(the_gamepad.last_gamepad_state.fire()).toEqual(test_conditions.expected_state === 'down');
+//           return expect(gamepad.last_gamepad_state.fire()).toEqual(test_conditions.expected_state === 'down');
 //         });
 //       });
 //     });
@@ -294,16 +268,16 @@ describe("Initial button states", function () {
 //     return describe(`When fire button is ${test_conditions.fire_button}`, function() {
 //       beforeEach(function() {
 //         createController();
-//         return the_gamepad.last_gamepad_state.fire(test_conditions.fire_button === 'down');
+//         return gamepad.last_gamepad_state.fire(test_conditions.fire_button === 'down');
 //       });
 //       return describe(" and we receive button_down", function() {
 //         beforeEach(function() {
-//           return the_gamepad.interpret_command(make_fake_gamepad({
+//           return gamepad.interpret_command(make_fake_gamepad({
 //             fire: true
 //           }));
 //         });
 //         return it(`fire button is ${test_conditions.expected_state}`, function() {
-//           return expect(the_gamepad.last_gamepad_state.fire()).toEqual(test_conditions.expected_state === 'down');
+//           return expect(gamepad.last_gamepad_state.fire()).toEqual(test_conditions.expected_state === 'down');
 //         });
 //       });
 //     });
@@ -322,24 +296,24 @@ describe("Initial button states", function () {
 //     return describe(`When thrust button is ${test_conditions.thrust_button}`, function() {
 //       beforeEach(function() {
 //         createController();
-//         the_gamepad.last_gamepad_state.thrust(test_conditions.thrust_button === 'down');
-//         return spyOn(the_gamepad.command_socket(), "send");
+//         gamepad.last_gamepad_state.thrust(test_conditions.thrust_button === 'down');
+//         return spyOn(gamepad.command_socket(), "send");
 //       });
 //       return describe(" and we receive up", function() {
 //         beforeEach(function() {
-//           return the_gamepad.interpret_command(make_fake_gamepad({
+//           return gamepad.interpret_command(make_fake_gamepad({
 //             thrust: false
 //           }));
 //         });
 //         if (test_conditions.expected_sent) {
 //           return it(`sends ${test_conditions.expected_sent}`, function() {
-//             return expect(the_gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
+//             return expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
 //               command: test_conditions.expected_sent
 //             }));
 //           });
 //         } else {
 //           return it("does not send", function() {
-//             return expect(the_gamepad.command_socket().send).not.toHaveBeenCalled();
+//             return expect(gamepad.command_socket().send).not.toHaveBeenCalled();
 //           });
 //         }
 //       });
@@ -359,24 +333,24 @@ describe("Initial button states", function () {
 //     return describe(`When thrust button is ${test_conditions.thrust_button}`, function() {
 //       beforeEach(function() {
 //         createController();
-//         the_gamepad.last_gamepad_state.thrust(test_conditions.thrust_button === 'down');
-//         return spyOn(the_gamepad.command_socket(), "send");
+//         gamepad.last_gamepad_state.thrust(test_conditions.thrust_button === 'down');
+//         return spyOn(gamepad.command_socket(), "send");
 //       });
 //       return describe(" and we receive down", function() {
 //         beforeEach(function() {
-//           return the_gamepad.interpret_command(make_fake_gamepad({
+//           return gamepad.interpret_command(make_fake_gamepad({
 //             thrust: true
 //           }));
 //         });
 //         if (test_conditions.expected_sent) {
 //           return it(`sends ${test_conditions.expected_sent}`, function() {
-//             return expect(the_gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
+//             return expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
 //               command: test_conditions.expected_sent
 //             }));
 //           });
 //         } else {
 //           return it("does not send", function() {
-//             return expect(the_gamepad.command_socket().send).not.toHaveBeenCalled();
+//             return expect(gamepad.command_socket().send).not.toHaveBeenCalled();
 //           });
 //         }
 //       });
@@ -396,16 +370,16 @@ describe("Initial button states", function () {
 //     return describe(`When thrust button is ${test_conditions.thrust_button}`, function() {
 //       beforeEach(function() {
 //         createController();
-//         return the_gamepad.last_gamepad_state.thrust(test_conditions.thrust_button === 'down');
+//         return gamepad.last_gamepad_state.thrust(test_conditions.thrust_button === 'down');
 //       });
 //       return describe(" and we receive up", function() {
 //         beforeEach(function() {
-//           return the_gamepad.interpret_command(make_fake_gamepad({
+//           return gamepad.interpret_command(make_fake_gamepad({
 //             thrust: false
 //           }));
 //         });
 //         return it(`thrust button is ${test_conditions.expected_state}`, function() {
-//           return expect(the_gamepad.last_gamepad_state.thrust()).toEqual(test_conditions.expected_state === 'down');
+//           return expect(gamepad.last_gamepad_state.thrust()).toEqual(test_conditions.expected_state === 'down');
 //         });
 //       });
 //     });
@@ -424,16 +398,16 @@ describe("Initial button states", function () {
 //     return describe(`When thrust button is ${test_conditions.thrust_button}`, function() {
 //       beforeEach(function() {
 //         createController();
-//         return the_gamepad.last_gamepad_state.thrust(test_conditions.thrust_button === 'down');
+//         return gamepad.last_gamepad_state.thrust(test_conditions.thrust_button === 'down');
 //       });
 //       return describe(" and we receive button_down", function() {
 //         beforeEach(function() {
-//           return the_gamepad.interpret_command(make_fake_gamepad({
+//           return gamepad.interpret_command(make_fake_gamepad({
 //             thrust: true
 //           }));
 //         });
 //         return it(`thrust button is ${test_conditions.expected_state}`, function() {
-//           return expect(the_gamepad.last_gamepad_state.thrust()).toEqual(test_conditions.expected_state === 'down');
+//           return expect(gamepad.last_gamepad_state.thrust()).toEqual(test_conditions.expected_state === 'down');
 //         });
 //       });
 //     });
@@ -558,9 +532,9 @@ describe("Initial button states", function () {
 //       controller = void 0;
 //       beforeEach(function() {
 //         controller = createController();
-//         the_gamepad.last_gamepad_state.left(test_conditions.left_button === 'down');
-//         the_gamepad.last_gamepad_state.right(test_conditions.right_button === 'down');
-//         return spyOn(the_gamepad.command_socket(), "send");
+//         gamepad.last_gamepad_state.left(test_conditions.left_button === 'down');
+//         gamepad.last_gamepad_state.right(test_conditions.right_button === 'down');
+//         return spyOn(gamepad.command_socket(), "send");
 //       });
 //       return describe(`and we receive left ${test_conditions.new_left_button}, right ${test_conditions.new_right_button}`, function() {
 //         beforeEach(function() {
@@ -569,17 +543,17 @@ describe("Initial button states", function () {
 //             left: test_conditions.new_left_button === 'down',
 //             right: test_conditions.new_right_button === 'down'
 //           });
-//           return the_gamepad.interpret_command(new_gamepad);
+//           return gamepad.interpret_command(new_gamepad);
 //         });
 //         if (test_conditions.expected_sent) {
 //           return it(`sends ${test_conditions.expected_sent}`, function() {
-//             return expect(the_gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
+//             return expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
 //               command: test_conditions.expected_sent
 //             }));
 //           });
 //         } else {
 //           return it("does not send", function() {
-//             return expect(the_gamepad.command_socket().send).not.toHaveBeenCalled();
+//             return expect(gamepad.command_socket().send).not.toHaveBeenCalled();
 //           });
 //         }
 //       });
