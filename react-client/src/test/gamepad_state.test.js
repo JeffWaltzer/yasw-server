@@ -45,7 +45,6 @@ const setup_gamepad = (thrust_button_state) => {
   gamepad = new Gamepad(stub_socket);
   gamepad._last_gamepad_state.thrust = (thrust_button_state === 'down');
   jest.spyOn(gamepad.command_socket(), "send");
-
 };
 
 const stub_socket = { send: () => {} }
@@ -110,17 +109,22 @@ describe("sent tests", () => {
           beforeEach(function () {
             gamepad.interpret_command(make_gamepad_state(true));
           });
-          if (test_conditions.expected_sent) {
-            it(`sends ${test_conditions.expected_sent}`, function () {
-              expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
-                command: test_conditions.expected_sent
-              }));
-            });
-          } else {
-            it("does not send", function () {
-              expect(gamepad.command_socket().send).not.toHaveBeenCalled();
-            });
+
+          const should_send = (expected_sent) => {
+            if (expected_sent) {
+              it(`sends ${expected_sent}`, function () {
+                expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify(
+                  { command: expected_sent }
+                ));
+              });
+            } else {
+              it("does not send", function () {
+                expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+              });
+            }
           }
+
+          should_send(test_conditions.expected_sent);
         });
       });
     });
