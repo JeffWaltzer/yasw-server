@@ -47,6 +47,20 @@ const setup_gamepad = (thrust_button_state) => {
   jest.spyOn(gamepad.command_socket(), "send");
 };
 
+const should_send = (expected_sent) => {
+  if (expected_sent) {
+    it(`sends ${expected_sent}`, function () {
+      expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify(
+        { command: expected_sent }
+      ));
+    });
+  } else {
+    it("does not send", function () {
+      expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+    });
+  }
+}
+
 const stub_socket = { send: () => {} }
 
 let gamepad;
@@ -73,18 +87,7 @@ describe("sent tests", () => {
             gamepad.interpret_command(make_gamepad_state(false))
           })
 
-          if (test_conditions.expected_sent) {
-            it(`sends ${test_conditions.expected_sent}`, () => {
-              const expected_command = JSON.stringify({
-                command: test_conditions.expected_sent
-              });
-              expect(gamepad.command_socket().send).toHaveBeenCalledWith(expected_command);
-            });
-          } else {
-            it("does not send", () => {
-              expect(gamepad.command_socket().send).not.toHaveBeenCalled();
-            });
-          }
+          should_send(test_conditions.expected_sent);
         });
       });
     });
@@ -109,20 +112,6 @@ describe("sent tests", () => {
           beforeEach(function () {
             gamepad.interpret_command(make_gamepad_state(true));
           });
-
-          const should_send = (expected_sent) => {
-            if (expected_sent) {
-              it(`sends ${expected_sent}`, function () {
-                expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify(
-                  { command: expected_sent }
-                ));
-              });
-            } else {
-              it("does not send", function () {
-                expect(gamepad.command_socket().send).not.toHaveBeenCalled();
-              });
-            }
-          }
 
           should_send(test_conditions.expected_sent);
         });
