@@ -41,8 +41,8 @@ const make_gamepad_state = (thrust) => {
   return fake_gamepad;
 }
 
-const make_gamepad = (thrust_button_state) => {
-  const gamepad = new Gamepad(stub_socket);
+const make_gamepad = (thrust_button_state, socket) => {
+  const gamepad = new Gamepad(socket);
   gamepad._last_gamepad_state.thrust = (thrust_button_state === 'down');
   jest.spyOn(gamepad.command_socket(), "send");
   return gamepad;
@@ -81,7 +81,7 @@ describe("sent tests", () => {
 
     thrust_up_sent_tests.forEach((test_conditions) => {
       describe(`When thrust button is ${test_conditions.thrust_button}`, function () {
-        beforeEach(() => { gamepad = make_gamepad(test_conditions.thrust_button); });
+        beforeEach(() => { gamepad = make_gamepad(test_conditions.thrust_button, stub_socket); });
 
         describe(" and we receive up", () => {
           beforeEach(() => {
@@ -107,7 +107,7 @@ describe("sent tests", () => {
     ];
     thrust_down_sent_tests.forEach((test_conditions) => {
       describe(`When thrust button is ${test_conditions.thrust_button}`, function () {
-        beforeEach(() => { gamepad = make_gamepad(test_conditions.thrust_button) });
+        beforeEach(() => { gamepad = make_gamepad(test_conditions.thrust_button, stub_socket) });
 
         describe(" and we receive down", function () {
           beforeEach(function () {
