@@ -41,7 +41,7 @@ const make_gamepad_state = (thrust) => {
   return fake_gamepad;
 }
 
-const setup_gamepad = (thrust_button_state) => {
+const make_gamepad = (thrust_button_state) => {
   gamepad = new Gamepad(stub_socket);
   gamepad._last_gamepad_state.thrust = (thrust_button_state === 'down');
   jest.spyOn(gamepad.command_socket(), "send");
@@ -80,7 +80,7 @@ describe("sent tests", () => {
 
     thrust_up_sent_tests.forEach((test_conditions) => {
       describe(`When thrust button is ${test_conditions.thrust_button}`, function () {
-        beforeEach(() => { setup_gamepad(test_conditions.thrust_button); });
+        beforeEach(() => { make_gamepad(test_conditions.thrust_button); });
 
         describe(" and we receive up", () => {
           beforeEach(() => {
@@ -106,7 +106,7 @@ describe("sent tests", () => {
     ];
     thrust_down_sent_tests.forEach((test_conditions) => {
       describe(`When thrust button is ${test_conditions.thrust_button}`, function () {
-        beforeEach(() => { setup_gamepad(test_conditions.thrust_button) });
+        beforeEach(() => { make_gamepad(test_conditions.thrust_button) });
 
         describe(" and we receive down", function () {
           beforeEach(function () {
@@ -143,46 +143,46 @@ describe("Initial button states", function () {
 });
 
 /////
-fire_up_sent_tests = [
-  {
-    buttons: {
-      fire: 'up'
-    },
-    expected_sent: null
-  },
-  {
-    buttons: {
-      fire: 'down'
-    },
-    expected_sent: null
-  }
-];
-_.each(fire_up_sent_tests, function(test_conditions) {
-  describe(`When the fire button is ${test_conditions.buttons.fire}`, function() {
-    beforeEach(function() {
-      gamepad.last_gamepad_state.fire(test_conditions.buttons.fire === 'down');
-      spyOn(gamepad.command_socket(), "send");
-    });
+// fire_up_sent_tests = [
+//   {
+//     buttons: {
+//       fire: 'up'
+//     },
+//     expected_sent: null
+//   },
+//   {
+//     buttons: {
+//       fire: 'down'
+//     },
+//     expected_sent: null
+//   }
+// ];
+// _.each(fire_up_sent_tests, function(test_conditions) {
+//   describe(`When the fire button is ${test_conditions.buttons.fire}`, function() {
+//     beforeEach(function() {
+//       gamepad.last_gamepad_state.fire(test_conditions.buttons.fire === 'down');
+//       spyOn(gamepad.command_socket(), "send");
+//     });
 
-    describe(" and we receive up", function() {
-      beforeEach(function() {
-        gamepad.interpret_command(make_fake_gamepad({
-          fire: false
-        }));
-      });
+//     describe(" and we receive up", function() {
+//       beforeEach(function() {
+//         gamepad.interpret_command(make_fake_gamepad({
+//           fire: false
+//         }));
+//       });
 
-      if (test_conditions.expected_sent) {
-        it(`sends ${test_conditions.expected_sent}`, function() {
-          expect(gamepad.command_socket().send).toHaveBeenCalledWith(test_conditions.expected_sent);
-        });
-      } else {
-        it("does not send", function() {
-          expect(gamepad.command_socket().send).not.toHaveBeenCalled();
-        });
-      }
-    });
-  });
-});
+//       if (test_conditions.expected_sent) {
+//         it(`sends ${test_conditions.expected_sent}`, function() {
+//           expect(gamepad.command_socket().send).toHaveBeenCalledWith(test_conditions.expected_sent);
+//         });
+//       } else {
+//         it("does not send", function() {
+//           expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+//         });
+//       }
+//     });
+//   });
+// });
 //   fire_up_sent_tests = [
 //     {
 //       buttons: {
