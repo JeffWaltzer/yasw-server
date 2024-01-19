@@ -27,9 +27,4 @@ export default class GamePad {
     return this._socket;
   }
 
-  thrust(new_value = undefined) {
-    if (new_value !== undefined)
-      this._thrust = new_value;
-    return this._thrust;
-  }
 }

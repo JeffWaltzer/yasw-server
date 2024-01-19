@@ -33,12 +33,12 @@
 //   }));
 
 import Gamepad from "../gamePad";
+import GamePadState from "../gamePadState";
 
 const make_gamepad_state = (thrust) => {
-  const fake_socket = {};
-  const fake_gamepad = new Gamepad(fake_socket);
-  fake_gamepad.thrust(thrust)
-  return fake_gamepad;
+  const fake_gamepad_state = new GamePadState();
+  fake_gamepad_state.thrust(thrust)
+  return fake_gamepad_state;
 }
 
 const make_gamepad = (thrust_button_state, socket) => {
