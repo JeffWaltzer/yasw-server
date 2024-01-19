@@ -36,8 +36,7 @@ import Gamepad from "../gamePad";
 import GamePadState from "../gamePadState";
 
 const make_gamepad_state = (thrust) => {
-  const fake_gamepad_state = new GamePadState();
-  fake_gamepad_state.thrust(thrust)
+  const fake_gamepad_state = new GamePadState({thrust: thrust});
   return fake_gamepad_state;
 }
 
