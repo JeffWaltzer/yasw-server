@@ -43,7 +43,7 @@ const make_gamepad_state = (thrust) => {
 
 const make_gamepad = (thrust_button_state, socket) => {
   const gamepad = new Gamepad(socket);
-  gamepad._old_gamepad_state.thrust = (thrust_button_state === 'down');
+  gamepad._old_gamepad_state.thrust(thrust_button_state === 'down');
   jest.spyOn(gamepad.command_socket(), "send");
   return gamepad;
 };
@@ -131,7 +131,7 @@ describe("Initial button states", function () {
   });
 
   it("start thrust up", function () {
-    expect(gamepad._old_gamepad_state.thrust).toBeFalsy();
+    expect(gamepad._old_gamepad_state.thrust()).toBeFalsy();
   });
 
   it("start rotate right up", function () {
