@@ -58,7 +58,6 @@ describe('gamefield with polygon with two wireframes', () => {
     });
 
     it ('has the correct list', () => {
-      console.log(polygon_tags);
       expect(polygon_tags.length).toEqual(0);
     });
   })
