@@ -9,8 +9,6 @@ export default class GamePad {
   }
 
   interpret_command(new_gamepad_state) {
-    console.log('new_gamepad_state',new_gamepad_state);//DEBUG
-    console.log('this._old_gamepad_state',this._old_gamepad_state); //DEBUG
     if (this._old_gamepad_state) {
       if (this._old_gamepad_state.thrust() && !new_gamepad_state.thrust())
         this.sendCommand("{\"command\":\"thrust_off\"}");
