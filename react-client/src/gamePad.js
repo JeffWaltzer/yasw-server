@@ -14,6 +14,8 @@ export default class GamePad {
         this.sendCommand("{\"command\":\"thrust_off\"}");
       if (!this._old_gamepad_state.thrust() && new_gamepad_state.thrust())
         this.sendCommand("{\"command\":\"thrust_on\"}")
+      if (!this._old_gamepad_state.fire() && new_gamepad_state.fire())
+        this.sendCommand("{\"command\":\"fire\"}");
     }
     this._old_gamepad_state = new_gamepad_state;
   }
