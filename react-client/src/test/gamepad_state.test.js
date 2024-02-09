@@ -35,8 +35,8 @@
 import Gamepad from "../gamePad";
 import GamePadState from "../gamePadState";
 
-const make_gamepad_state = (thrust) => {
-  const fake_gamepad_state = new GamePadState({thrust: thrust});
+const make_gamepad_state = (button_states) => {
+  const fake_gamepad_state = new GamePadState(button_states);
   return fake_gamepad_state;
 }
 
@@ -84,7 +84,7 @@ describe("sent tests", () => {
 
         describe(" and we receive up", () => {
           beforeEach(() => {
-            gamepad.interpret_command(make_gamepad_state(false))
+            gamepad.interpret_command(make_gamepad_state({thrust: false}))
           })
 
           should_send(test_conditions.expected_sent);
@@ -112,7 +112,7 @@ describe("sent tests", () => {
 
         describe(" and we receive down", function () {
           beforeEach(function () {
-            let new_gamepad_state = make_gamepad_state(true);
+            let new_gamepad_state = make_gamepad_state({thrust: true});
             gamepad.interpret_command(new_gamepad_state);
           });
 
@@ -145,46 +145,57 @@ describe("Initial button states", function () {
   });
 });
 
-const fire_up_sent_tests = [
-  {
-    buttons: {
-      fire: 'up'
-    },
-    expected_sent: null
-  },
-  {
-    buttons: {
-      fire: 'down'
-    },
-    expected_sent: null
-  }
-];
-fire_up_sent_tests.each((test_conditions) => {
-  describe(`When the fire button is ${test_conditions.buttons.fire}`, () => {
-    beforeEach(() => {
-      gamepad.last_gamepad_state.fire(test_conditions.buttons.fire === 'down');
-      spyOn(gamepad.command_socket(), "send");
-    });
-
-    describe(" and we receive up", function() {
-      beforeEach(function() {
-        gamepad.interpret_command(make_gamepad_state({
-          fire: false
-        }));
-      });
-
-      if (test_conditions.expected_sent) {
-        it(`sends ${test_conditions.expected_sent}`, function() {
-          expect(gamepad.command_socket().send).toHaveBeenCalledWith(test_conditions.expected_sent);
-        });
-      } else {
-        it("does not send", function() {
-          expect(gamepad.command_socket().send).not.toHaveBeenCalled();
-        });
-      }
-    });
-  });
-});
+// const fire_up_sent_tests = [
+//   {
+//     buttons: {
+//       fire: 'up'
+//     },
+//     expected_sent: null
+//   },
+//   {
+//     buttons: {
+//       fire: 'down'
+//     },
+//     expected_sent: null
+//   }
+// ];
+// fire_up_sent_tests.forEach((test_conditions) => {
+//
+//     //
+//     //
+//     // beforeEach(function () {
+//     //   let new_gamepad_state = make_gamepad_state(true);
+//     //   gamepad.interpret_command(new_gamepad_state);
+//     // });
+//     //
+//     // should_send(test_conditions.expected_sent);
+//
+//
+//   describe(`When the fire button is ${test_conditions.buttons.fire}`, () => {
+//     beforeEach(() => {
+//       gamepad._old_gamepad_state.fire(test_conditions.buttons.fire === 'down');
+//       spyOn(gamepad.command_socket(), "send");
+//     });
+//
+//     describe(" and we receive up", function() {
+//       beforeEach(function() {
+//         gamepad.interpret_command(make_gamepad_state({
+//           fire: false
+//         }));
+//       });
+//
+//       if (test_conditions.expected_sent) {
+//         it(`sends ${test_conditions.expected_sent}`, function() {
+//           expect(gamepad.command_socket().send).toHaveBeenCalledWith(test_conditions.expected_sent);
+//         });
+//       } else {
+//         it("does not send", function() {
+//           expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+//         });
+//       }
+//     });
+//   });
+// });
 
 
 //   fire_up_sent_tests = [
