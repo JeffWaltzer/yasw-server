@@ -33,6 +33,16 @@ const stub_socket = { send: () => {} };
 
 let gamepad;
 
+describe("interpret_command", ()=> {
+  it("updates the gamepad state", () => {
+    const gamepad = make_gamepad({thrust: "up"}, stub_socket);
+    const new_gamepad_state = make_gamepad_state({thrust: true});
+    gamepad.interpret_command(new_gamepad_state);
+
+    expect(gamepad._old_gamepad_state).toEqual(new_gamepad_state);
+  });
+});
+
 describe("sent tests", () => {
   describe("for thrust_up events", () => {
     const thrust_up_sent_tests = [
