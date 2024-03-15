@@ -195,6 +195,151 @@ fire_down_sent_tests.forEach((test_conditions) => {
 })
 
 
+const sent_tests = [
+  {
+    left_button: "down",
+    right_button: "down",
+    new_left_button: "down",
+    new_right_button: "down",
+    expected_sent: null
+  },
+  {
+    left_button: "down",
+    right_button: "down",
+    new_left_button: "down",
+    new_right_button: "up",
+    expected_sent: "rotate_left"
+  },
+  {
+    left_button: "down",
+    right_button: "down",
+    new_left_button: "up",
+    new_right_button: "down",
+    expected_sent: "rotate_right"
+  },
+  {
+    left_button: "down",
+    right_button: "down",
+    new_left_button: "up",
+    new_right_button: "up",
+    expected_sent: null
+  },
+  {
+    left_button: "down",
+    right_button: "up",
+    new_left_button: "down",
+    new_right_button: "down",
+    expected_sent: "rotate_stop"
+  },
+  {
+    left_button: "down",
+    right_button: "up",
+    new_left_button: "down",
+    new_right_button: "up",
+    expected_sent: null
+  },
+  {
+    left_button: "down",
+    right_button: "up",
+    new_left_button: "up",
+    new_right_button: "down",
+    expected_sent: "rotate_right"
+  },
+  {
+    left_button: "down",
+    right_button: "up",
+    new_left_button: "up",
+    new_right_button: "up",
+    expected_sent: "rotate_stop"
+  },
+  {
+    left_button: "up",
+    right_button: "down",
+    new_left_button: "down",
+    new_right_button: "down",
+    expected_sent: "rotate_stop"
+  },
+  {
+    left_button: "up",
+    right_button: "down",
+    new_left_button: "down",
+    new_right_button: "up",
+    expected_sent: "rotate_left"
+  },
+  {
+    left_button: "up",
+    right_button: "down",
+    new_left_button: "up",
+    new_right_button: "down",
+    expected_sent: null
+  },
+  {
+    left_button: "up",
+    right_button: "down",
+    new_left_button: "up",
+    new_right_button: "up",
+    expected_sent: "rotate_stop"
+  },
+  {
+    left_button: "up",
+    right_button: "up",
+    new_left_button: "down",
+    new_right_button: "down",
+    expected_sent: null
+  },
+  {
+    left_button: "up",
+    right_button: "up",
+    new_left_button: "down",
+    new_right_button: "up",
+    expected_sent: "rotate_left"
+  },
+  {
+    left_button: "up",
+    right_button: "up",
+    new_left_button: "up",
+    new_right_button: "down",
+    expected_sent: "rotate_right"
+  },
+  {
+    left_button: "up",
+    right_button: "up",
+    new_left_button: "up",
+    new_right_button: "up",
+    expected_sent: null
+  }
+];
+sent_tests.forEach((test_conditions) => {
+  describe(`When left button is ${test_conditions.left_button} and right button is ${test_conditions.right_button}`, () => {
+    var controller = null;
+    beforeEach(() => {
+      gamepad.last_gamepad_state.left(test_conditions.left_button === 'down');
+      gamepad.last_gamepad_state.right(test_conditions.right_button === 'down');
+      jest.spyOn(gamepad.command_socket(), "send");
+    });
+    describe(`and we receive left ${test_conditions.new_left_button}, right ${test_conditions.new_right_button}`, () => {
+      beforeEach(() => {
+        let new_gamepad = make_gamepad_state({
+          left: test_conditions.new_left_button === 'down',
+          right: test_conditions.new_right_button === 'down'
+        });
+        gamepad.interpret_command(new_gamepad);
+      });
+      if (test_conditions.expected_sent) {
+        it(`sends ${test_conditions.expected_sent}`, () => {
+          expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
+            command: test_conditions.expected_sent
+          }));
+        });
+      } else {
+        it("does not send", () => {
+          expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+        });
+      }
+    });
+  });
+});
+
 //   sent_tests = [
 //     {
 //       left_button: "down",
