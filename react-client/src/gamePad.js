@@ -4,8 +4,7 @@ export default class GamePad {
 
   constructor(socket) {
     this._socket = socket;
-    this._old_gamepad_state = new GamePadState({thrust: false});
-    this._old_gamepad_state.thrust(false);
+    this._old_gamepad_state = new GamePadState({});
   }
 
   interpret_command(new_gamepad_state) {
@@ -16,6 +15,8 @@ export default class GamePad {
         this.sendCommand("{\"command\":\"thrust_on\"}")
       if (!this._old_gamepad_state.fire() && new_gamepad_state.fire())
         this.sendCommand("{\"command\":\"fire\"}");
+      if (this._old_gamepad_state.right() && !new_gamepad_state.right() )
+        this.sendCommand("{\"command\":\"rotate_left\"}");
     }
     this._old_gamepad_state = new_gamepad_state;
   }
