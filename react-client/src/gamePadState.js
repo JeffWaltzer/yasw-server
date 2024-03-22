@@ -6,6 +6,7 @@ export default class GamePadState {
     this._thrust = args.thrust === undefined ? false : args.thrust;
     this._fire = args.fire === undefined ? false : args.fire;
     this._right = args.right === undefined ? false : args.right;
+    this._left = args.left === undefined ? false : args.left;
   }
 
   thrust() {
@@ -20,6 +21,6 @@ export default class GamePadState {
     return this._right;
   }
   left() {
-    // return this._right;
+    return this._left;
   }
 }

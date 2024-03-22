@@ -196,27 +196,27 @@ fire_down_sent_tests.forEach((test_conditions) => {
 
 
 const sent_tests = [
-  // {
-  //   left_button: "down",
-  //   right_button: "down",
-  //   new_left_button: "down",
-  //   new_right_button: "down",
-  //   expected_sent: null
-  // },
-  // {
-  //   left_button: "down",
-  //   right_button: "down",
-  //   new_left_button: "down",
-  //   new_right_button: "up",
-  //   expected_sent: "rotate_left"
-  // },
-  // {
-  //   left_button: "down",
-  //   right_button: "down",
-  //   new_left_button: "up",
-  //   new_right_button: "down",
-  //   expected_sent: "rotate_right"
-  // },
+  {
+    left_button: "down",
+    right_button: "down",
+    new_left_button: "down",
+    new_right_button: "down",
+    expected_sent: null
+  },
+  {
+    left_button: "down",
+    right_button: "down",
+    new_left_button: "down",
+    new_right_button: "up",
+    expected_sent: "rotate_left"
+  },
+  {
+    left_button: "down",
+    right_button: "down",
+    new_left_button: "up",
+    new_right_button: "down",
+    expected_sent: "rotate_right"
+  },
   // {
   //   left_button: "down",
   //   right_button: "down",
@@ -321,8 +321,8 @@ sent_tests.forEach((test_conditions) => {
 
       const new_gamepad_state = make_gamepad_state(
         {
-          left: false,
-          right: false
+          left: test_conditions.new_left_button === 'down',
+          right: test_conditions.new_right_button === 'down'
         });
       gamepad.interpret_command(new_gamepad_state);
 
