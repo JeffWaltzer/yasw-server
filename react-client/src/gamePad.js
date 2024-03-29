@@ -15,12 +15,19 @@ export default class GamePad {
         this.sendCommand("{\"command\":\"thrust_on\"}")
       if (!this._old_gamepad_state.fire() && new_gamepad_state.fire())
         this.sendCommand("{\"command\":\"fire\"}");
-      if (new_gamepad_state.left() || new_gamepad_state.right()) {
-        if (this._old_gamepad_state.right() && !new_gamepad_state.right())
-          this.sendCommand("{\"command\":\"rotate_left\"}");
-        if (this._old_gamepad_state.left() && !new_gamepad_state.left())
-          this.sendCommand("{\"command\":\"rotate_right\"}");
-     }
+
+
+
+      const new_left = new_gamepad_state.left();
+      const new_right = new_gamepad_state.right();
+      const old_left = this._old_gamepad_state.left();
+      const old_right = this._old_gamepad_state.right();
+
+      if (new_left && old_right && !new_right)
+        this.sendCommand("{\"command\":\"rotate_left\"}");
+
+      if (new_right && old_left && !new_left)
+        this.sendCommand("{\"command\":\"rotate_right\"}");
     }
     this._old_gamepad_state = new_gamepad_state;
   }
