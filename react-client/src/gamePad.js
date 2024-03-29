@@ -28,6 +28,9 @@ export default class GamePad {
 
       if (new_right && old_left && !new_left)
         this.sendCommand("{\"command\":\"rotate_right\"}");
+
+      if (old_left && !old_right && new_left && new_right)
+        this.sendCommand("{\"command\":\"rotate_stop\"}");
     }
     this._old_gamepad_state = new_gamepad_state;
   }
