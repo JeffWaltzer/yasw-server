@@ -231,13 +231,13 @@ const sent_tests = [
     new_right_button: "down",
     expected_sent: "rotate_stop"
   },
-  // {
-  //   left_button: "down",
-  //   right_button: "up",
-  //   new_left_button: "down",
-  //   new_right_button: "up",
-  //   expected_sent: null
-  // },
+  {
+    left_button: "down",
+    right_button: "up",
+    new_left_button: "down",
+    new_right_button: "up",
+    expected_sent: null
+  },
   // {
   //   left_button: "down",
   //   right_button: "up",
@@ -324,9 +324,9 @@ sent_tests.forEach((test_conditions) => {
           left: test_conditions.new_left_button === 'down',
           right: test_conditions.new_right_button === 'down'
         });
-      gamepad.interpret_command(new_gamepad_state);
-
       jest.spyOn(gamepad.command_socket(), "send");
+
+      gamepad.interpret_command(new_gamepad_state);
     });
     describe(`and we receive left ${test_conditions.new_left_button}, right ${test_conditions.new_right_button}`, () => {
       beforeEach(() => {

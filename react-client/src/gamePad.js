@@ -17,20 +17,26 @@ export default class GamePad {
         this.sendCommand("{\"command\":\"fire\"}");
 
 
-
       const new_left = new_gamepad_state.left();
       const new_right = new_gamepad_state.right();
       const old_left = this._old_gamepad_state.left();
       const old_right = this._old_gamepad_state.right();
 
-      if (new_left && old_right && !new_right)
-        this.sendCommand("{\"command\":\"rotate_left\"}");
+      if (old_left !== new_left || old_right !== new_right) {
+        if (!old_left && old_right && new_left && !new_right)
+          this.sendCommand("{\"command\":\"rotate_left\"}");
 
-      if (new_right && old_left && !new_left)
-        this.sendCommand("{\"command\":\"rotate_right\"}");
+        if (old_left && old_right && new_left && !new_right)
+          this.sendCommand("{\"command\":\"rotate_left\"}");
 
-      if (old_left && !old_right && new_left && new_right)
-        this.sendCommand("{\"command\":\"rotate_stop\"}");
+        if (old_left &&               !new_left && new_right)
+          this.sendCommand("{\"command\":\"rotate_right\"}");
+
+        if (old_left && !old_right && new_left && new_right)
+          this.sendCommand("{\"command\":\"rotate_stop\"}");
+      }
+      else
+        throw "Horrible death";
     }
     this._old_gamepad_state = new_gamepad_state;
   }
