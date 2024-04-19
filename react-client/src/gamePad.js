@@ -23,12 +23,14 @@ export default class GamePad {
       const old_right = this._old_gamepad_state.right();
 
       if (old_left !== new_left || old_right !== new_right) {
-        if (!old_left && old_right && new_left && !new_right)
+        if (!old_left && old_right && new_left && !new_right) {
+          console.log("DEBUG DEBUG Rotate Left 1 ")
           this.sendCommand("{\"command\":\"rotate_left\"}");
-
-        if (old_left && old_right && new_left && !new_right)
+        }
+        if (old_left && old_right && new_left && !new_right) {
+          console.log("DEBUG DEBUG Rotate Left 2 ", [old_left , old_right , new_left , new_right])
           this.sendCommand("{\"command\":\"rotate_left\"}");
-
+        }
         if (old_left &&               !new_left && new_right)
           this.sendCommand("{\"command\":\"rotate_right\"}");
 

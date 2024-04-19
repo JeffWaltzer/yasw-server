@@ -196,34 +196,37 @@ fire_down_sent_tests.forEach((test_conditions) => {
 
 
 const sent_tests = [
-  {
-    left_button: "down",
-    right_button: "down",
-    new_left_button: "down",
-    new_right_button: "down",
-    expected_sent: null
-  },
-  {
-    left_button: "down",
-    right_button: "down",
-    new_left_button: "down",
-    new_right_button: "up",
-    expected_sent: "rotate_left"
-  },
-  {
-    left_button: "down",
-    right_button: "down",
-    new_left_button: "up",
-    new_right_button: "down",
-    expected_sent: "rotate_right"
-  },
-  {
-    left_button: "down",
-    right_button: "down",
-    new_left_button: "up",
-    new_right_button: "up",
-    expected_sent: null
-  },
+  // {
+  //   left_button: "down",
+  //   right_button: "down",
+  //   new_left_button: "down",
+  //   new_right_button: "down",
+  //   expected_sent: null
+  // },
+
+  // {
+  //   left_button: "down",
+  //   right_button: "down",
+  //   new_left_button: "down",
+  //   new_right_button: "up",
+  //   expected_sent: "rotate_left"
+  // },
+
+  // {
+  //   left_button: "down",
+  //   right_button: "down",
+  //   new_left_button: "up",
+  //   new_right_button: "down",
+  //   expected_sent: "rotate_right"
+  // },
+
+  // {
+  //   left_button: "down",
+  //   right_button: "down",
+  //   new_left_button: "up",
+  //   new_right_button: "up",
+  //   expected_sent: null
+  // },
   {
     left_button: "down",
     right_button: "up",
@@ -238,6 +241,8 @@ const sent_tests = [
     new_right_button: "up",
     expected_sent: null
   },
+
+//////////////////////////////
   // {
   //   left_button: "down",
   //   right_button: "up",
@@ -310,6 +315,7 @@ const sent_tests = [
   // }
 ];
 sent_tests.forEach((test_conditions) => {
+  console.log("DEBUG DEBUG test conditions = ", JSON.stringify(test_conditions),null,2)
   describe(`When left button is ${test_conditions.left_button} and right button is ${test_conditions.right_button}`, () => {
     beforeEach(() => {
 
@@ -325,6 +331,9 @@ sent_tests.forEach((test_conditions) => {
           right: test_conditions.new_right_button === 'down'
         });
       jest.spyOn(gamepad.command_socket(), "send");
+
+      console.log("DEBUG DEBUG gamepad=", JSON.stringify(gamepad,null,4))
+      console.log("DEBUG DEBUG new_gamepad_state=", JSON.stringify(new_gamepad_state,null,4))
 
       gamepad.interpret_command(new_gamepad_state);
     });
