@@ -13,20 +13,6 @@ const make_gamepad = (button_states, socket) => {
   return gamepad;
 };
 
-const should_send = (gamepad, expected_sent) => {
-  if (expected_sent) {
-    it(`sends ${expected_sent}`, function () {
-      expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify(
-        { command: expected_sent }
-      ));
-    });
-  } else {
-    it("does not send", function () {
-      expect(gamepad.command_socket().send).not.toHaveBeenCalled();
-    });
-  }
-}
-
 const stub_socket = { send: () => {} };
 
 describe("interpret_command", ()=> {
@@ -243,21 +229,21 @@ fire_down_sent_tests.forEach((test_conditions) => {
 
 
 const sent_tests = [
-  // {
-  //   left_button: "down",
-  //   right_button: "down",
-  //   new_left_button: "down",
-  //   new_right_button: "down",
-  //   expected_sent: null
-  // },
+  {
+    left_button: "down",
+    right_button: "down",
+    new_left_button: "down",
+    new_right_button: "down",
+    expected_sent: null
+  },
 
-  // {
-  //   left_button: "down",
-  //   right_button: "down",
-  //   new_left_button: "down",
-  //   new_right_button: "up",
-  //   expected_sent: "rotate_left"
-  // },
+  {
+    left_button: "down",
+    right_button: "down",
+    new_left_button: "down",
+    new_right_button: "up",
+    expected_sent: "rotate_left"
+  },
 
   {
     left_button: "down",
@@ -267,21 +253,22 @@ const sent_tests = [
     expected_sent: "rotate_right"
   },
 
-  // {                             
-  //   left_button: "down",
-  //   right_button: "down",
-  //   new_left_button: "up",
-  //   new_right_button: "up",
-  //   expected_sent: null
-  // },
+  {                             
+    left_button: "down",
+    right_button: "down",
+    new_left_button: "up",
+    new_right_button: "up",
+    expected_sent: null
+  },
 
-  // {
-  //   left_button: "down",
-  //   right_button: "up",
-  //   new_left_button: "down",
-  //   new_right_button: "down",
-  //   expected_sent: "rotate_stop"
-  // },
+  {
+    left_button: "down",
+    right_button: "up",
+    new_left_button: "down",
+    new_right_button: "down",
+    expected_sent: "rotate_stop"
+  },
+
   {
     left_button: "down",
     right_button: "up",
