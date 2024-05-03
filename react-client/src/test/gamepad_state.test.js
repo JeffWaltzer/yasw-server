@@ -277,21 +277,21 @@ const sent_tests = [
     expected_sent: null
   },
 
-//////////////////////////////
-  // {
-  //   left_button: "down",
-  //   right_button: "up",
-  //   new_left_button: "up",
-  //   new_right_button: "down",
-  //   expected_sent: "rotate_right"
-  // },
-  // {
-  //   left_button: "down",
-  //   right_button: "up",
-  //   new_left_button: "up",
-  //   new_right_button: "up",
-  //   expected_sent: "rotate_stop"
-  // },
+  {
+    left_button: "down",
+    right_button: "up",
+    new_left_button: "up",
+    new_right_button: "down",
+    expected_sent: "rotate_right"
+  },
+
+  {
+    left_button: "down",
+    right_button: "up",
+    new_left_button: "up",
+    new_right_button: "up",
+    expected_sent: "rotate_stop"
+  },
   // {
   //   left_button: "up",
   //   right_button: "down",
