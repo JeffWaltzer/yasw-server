@@ -34,6 +34,8 @@ export default class GamePad {
         if (old_left &&               !new_left && new_right)
           this.sendCommand("{\"command\":\"rotate_right\"}");
 
+
+
         if (old_left && !old_right && new_left && new_right)
           this.sendCommand("{\"command\":\"rotate_stop\"}");
 
@@ -41,6 +43,9 @@ export default class GamePad {
           this.sendCommand("{\"command\":\"rotate_stop\"}");
 
         if (!old_left && old_right && new_left && new_right)
+          this.sendCommand("{\"command\":\"rotate_stop\"}");
+
+        if (!old_left && old_right && !new_left && !new_right)
           this.sendCommand("{\"command\":\"rotate_stop\"}");
 
       }

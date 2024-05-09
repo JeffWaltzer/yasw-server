@@ -313,13 +313,13 @@ const sent_tests = [
   //   new_right_button: "down",
   //   expected_sent: null
   // },
-  // {
-  //   left_button: "up",
-  //   right_button: "down",
-  //   new_left_button: "up",
-  //   new_right_button: "up",
-  //   expected_sent: "rotate_stop"
-  // },
+  {
+    left_button: "up",
+    right_button: "down",
+    new_left_button: "up",
+    new_right_button: "up",
+    expected_sent: "rotate_stop"
+  },
   // {
   //   left_button: "up",
   //   right_button: "up",
