@@ -16,36 +16,29 @@ export default class GamePad {
       if (!this._old_gamepad_state.fire() && new_gamepad_state.fire())
         this.sendCommand("{\"command\":\"fire\"}");
 
-
-      const new_left = new_gamepad_state.left();
-      const new_right = new_gamepad_state.right();
-      const old_left = this._old_gamepad_state.left();
-      const old_right = this._old_gamepad_state.right();
-
-      if (old_left !== new_left || old_right !== new_right) {
-        if (!old_left && old_right && new_left && !new_right) {
+      if (this._old_gamepad_state.left() !== new_gamepad_state.left() || this._old_gamepad_state.right() !== new_gamepad_state.right()) {
+        if (this._old_gamepad_state.rotating_right() && new_gamepad_state.left() && !new_gamepad_state.right()) {
           this.sendCommand("{\"command\":\"rotate_left\"}");
         }
 
-        if (old_left && old_right && new_left && !new_right) {
+        if (this._old_gamepad_state.left() && this._old_gamepad_state.right() && new_gamepad_state.left() && !new_gamepad_state.right()) {
           this.sendCommand("{\"command\":\"rotate_left\"}");
         }
 
-        if (old_left &&               !new_left && new_right)
+        if (this._old_gamepad_state.left() && !new_gamepad_state.left() && new_gamepad_state.right())
           this.sendCommand("{\"command\":\"rotate_right\"}");
 
 
-
-        if (old_left && !old_right && new_left && new_right)
+        if (this._old_gamepad_state.rotating_left() && new_gamepad_state.left() && new_gamepad_state.right())
           this.sendCommand("{\"command\":\"rotate_stop\"}");
 
-        if (old_left && !old_right && !new_left && !new_right)
+        if (this._old_gamepad_state.rotating_left() && !new_gamepad_state.left() && !new_gamepad_state.right())
           this.sendCommand("{\"command\":\"rotate_stop\"}");
 
-        if (!old_left && old_right && new_left && new_right)
+        if (this._old_gamepad_state.rotating_right() && new_gamepad_state.left() && new_gamepad_state.right())
           this.sendCommand("{\"command\":\"rotate_stop\"}");
 
-        if (!old_left && old_right && !new_left && !new_right)
+        if (this._old_gamepad_state.rotating_right() && !new_gamepad_state.left() && !new_gamepad_state.right())
           this.sendCommand("{\"command\":\"rotate_stop\"}");
 
       }
@@ -54,6 +47,7 @@ export default class GamePad {
     }
     this._old_gamepad_state = new_gamepad_state;
   }
+
 
   sendCommand(command) {
     this.command_socket().send(command)

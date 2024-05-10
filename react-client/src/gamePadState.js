@@ -20,7 +20,16 @@ export default class GamePadState {
   right() {
     return this._right;
   }
+
   left() {
     return this._left;
+  }
+
+  rotating_left() {
+    return this.left() && !this.right();
+  }
+
+  rotating_right() {
+    return !this.left() && this.right();
   }
 }
