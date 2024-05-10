@@ -32,4 +32,9 @@ export default class GamePadState {
   rotating_right() {
     return !this.left() && this.right();
   }
+
+  stopped() {
+    return this.left() === this.right();
+  }
+
 }

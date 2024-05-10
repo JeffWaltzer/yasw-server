@@ -16,31 +16,18 @@ export default class GamePad {
       if (!this._old_gamepad_state.fire() && new_gamepad_state.fire())
         this.sendCommand("{\"command\":\"fire\"}");
 
-      if (this._old_gamepad_state.left() !== new_gamepad_state.left() || this._old_gamepad_state.right() !== new_gamepad_state.right()) {
-        if (this._old_gamepad_state.rotating_right() && new_gamepad_state.left() && !new_gamepad_state.right()) {
+      if (this._old_gamepad_state.left() !== new_gamepad_state.left() ||
+          this._old_gamepad_state.right() !== new_gamepad_state.right()) {
+
+        if (!this._old_gamepad_state.rotating_left() && new_gamepad_state.rotating_left()) {
           this.sendCommand("{\"command\":\"rotate_left\"}");
         }
 
-        if (this._old_gamepad_state.left() && this._old_gamepad_state.right() && new_gamepad_state.left() && !new_gamepad_state.right()) {
-          this.sendCommand("{\"command\":\"rotate_left\"}");
-        }
-
-        if (this._old_gamepad_state.left() && !new_gamepad_state.left() && new_gamepad_state.right())
+        if (!this._old_gamepad_state.rotating_right() && new_gamepad_state.rotating_right())
           this.sendCommand("{\"command\":\"rotate_right\"}");
 
-
-        if (this._old_gamepad_state.rotating_left() && new_gamepad_state.left() && new_gamepad_state.right())
+        if (!this._old_gamepad_state.stopped() && new_gamepad_state.stopped())
           this.sendCommand("{\"command\":\"rotate_stop\"}");
-
-        if (this._old_gamepad_state.rotating_left() && !new_gamepad_state.left() && !new_gamepad_state.right())
-          this.sendCommand("{\"command\":\"rotate_stop\"}");
-
-        if (this._old_gamepad_state.rotating_right() && new_gamepad_state.left() && new_gamepad_state.right())
-          this.sendCommand("{\"command\":\"rotate_stop\"}");
-
-        if (this._old_gamepad_state.rotating_right() && !new_gamepad_state.left() && !new_gamepad_state.right())
-          this.sendCommand("{\"command\":\"rotate_stop\"}");
-
       }
 
 
