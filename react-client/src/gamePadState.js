@@ -36,5 +36,4 @@ export default class GamePadState {
   stopped() {
     return this.left() === this.right();
   }
-
 }

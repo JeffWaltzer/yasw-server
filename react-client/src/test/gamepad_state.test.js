@@ -299,20 +299,20 @@ const sent_tests = [
     new_right_button: "down",
     expected_sent: "rotate_stop"
   },
-  // {
-  //   left_button: "up",
-  //   right_button: "down",
-  //   new_left_button: "down",
-  //   new_right_button: "up",
-  //   expected_sent: "rotate_left"
-  // },
-  // {
-  //   left_button: "up",
-  //   right_button: "down",
-  //   new_left_button: "up",
-  //   new_right_button: "down",
-  //   expected_sent: null
-  // },
+  {
+    left_button: "up",
+    right_button: "down",
+    new_left_button: "down",
+    new_right_button: "up",
+    expected_sent: "rotate_left"
+  },
+  {
+    left_button: "up",
+    right_button: "down",
+    new_left_button: "up",
+    new_right_button: "down",
+    expected_sent: null
+  },
   {
     left_button: "up",
     right_button: "down",
@@ -320,34 +320,34 @@ const sent_tests = [
     new_right_button: "up",
     expected_sent: "rotate_stop"
   },
-  // {
-  //   left_button: "up",
-  //   right_button: "up",
-  //   new_left_button: "down",
-  //   new_right_button: "down",
-  //   expected_sent: null
-  // },
-  // {
-  //   left_button: "up",
-  //   right_button: "up",
-  //   new_left_button: "down",
-  //   new_right_button: "up",
-  //   expected_sent: "rotate_left"
-  // },
-  // {
-  //   left_button: "up",
-  //   right_button: "up",
-  //   new_left_button: "up",
-  //   new_right_button: "down",
-  //   expected_sent: "rotate_right"
-  // },
-  // {
-  //   left_button: "up",
-  //   right_button: "up",
-  //   new_left_button: "up",
-  //   new_right_button: "up",
-  //   expected_sent: null
-  // }
+  {
+    left_button: "up",
+    right_button: "up",
+    new_left_button: "down",
+    new_right_button: "down",
+    expected_sent: null
+  },
+  {
+    left_button: "up",
+    right_button: "up",
+    new_left_button: "down",
+    new_right_button: "up",
+    expected_sent: "rotate_left"
+  },
+  {
+    left_button: "up",
+    right_button: "up",
+    new_left_button: "up",
+    new_right_button: "down",
+    expected_sent: "rotate_right"
+  },
+  {
+    left_button: "up",
+    right_button: "up",
+    new_left_button: "up",
+    new_right_button: "up",
+    expected_sent: null
+  }
 ];
 sent_tests.forEach((test_conditions) => {
   describe(`When left button is ${test_conditions.left_button} and right button is ${test_conditions.right_button}`, () => {
