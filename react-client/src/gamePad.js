@@ -8,6 +8,11 @@ export default class GamePad {
   }
 
   interpret_command(new_gamepad_state) {
+    this.inner_interpret_command(new_gamepad_state, this.maybe_send.bind(this));
+    this._old_gamepad_state = new_gamepad_state;
+  }
+
+  inner_interpret_command(new_gamepad_state, send_callback) {
     this._new_gamepad_state = new_gamepad_state;
 
     [
@@ -18,10 +23,8 @@ export default class GamePad {
       'rotate_right',
       'rotate_stop',
     ].forEach((command) => {
-      this.maybe_send(command);
+      send_callback(command);
     });
-
-    this._old_gamepad_state = new_gamepad_state;
   }
 
 
