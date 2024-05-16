@@ -16,29 +16,23 @@ export default class GamePad {
     this.maybe_send(new_gamepad_state, 'thrust_off');
     this.maybe_send(new_gamepad_state, 'thrust_on');
     this.maybe_send(new_gamepad_state, 'fire');
-
-    if (this.start_rotating_left(new_gamepad_state))
-      this.sendCommand("{\"command\":\"rotate_left\"}");
-
-    if (this.start_rotating_right(new_gamepad_state))
-      this.sendCommand("{\"command\":\"rotate_right\"}");
-
-    if (this.stop_rotating(new_gamepad_state))
-      this.sendCommand("{\"command\":\"rotate_stop\"}");
+    this.maybe_send(new_gamepad_state, 'rotate_left');
+    this.maybe_send(new_gamepad_state, 'rotate_right');
+    this.maybe_send(new_gamepad_state, 'rotate_stop');
 
     this._old_gamepad_state = new_gamepad_state;
   }
 
 
-  stop_rotating(new_gamepad_state) {
+  rotate_stop(new_gamepad_state) {
     return !this._old_gamepad_state.stopped() && new_gamepad_state.stopped();
   }
 
-  start_rotating_right(new_gamepad_state) {
+  rotate_right(new_gamepad_state) {
     return !this._old_gamepad_state.rotating_right() && new_gamepad_state.rotating_right();
   }
 
-  start_rotating_left(new_gamepad_state) {
+  rotate_left(new_gamepad_state) {
     return !this._old_gamepad_state.rotating_left() && new_gamepad_state.rotating_left();
   }
 
