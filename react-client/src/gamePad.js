@@ -8,53 +8,14 @@ export default class GamePad {
   }
 
   interpret_command(new_gamepad_state) {
-    this.inner_interpret_command(new_gamepad_state, this.maybe_send.bind(this));
+    this._old_gamepad_state.inner_interpret_command(new_gamepad_state, this.maybe_send.bind(this));
     this._old_gamepad_state = new_gamepad_state;
-  }
-
-  inner_interpret_command(new_gamepad_state, send_callback) {
-    this._new_gamepad_state = new_gamepad_state;
-
-    [
-      'thrust_off',
-      'thrust_on',
-      'fire',
-      'rotate_left',
-      'rotate_right',
-      'rotate_stop',
-    ].forEach((command) => {
-      send_callback(command);
-    });
   }
 
 
   maybe_send(command) {
-    if (this[command]())
+    if (this._old_gamepad_state[command]())
       this.sendCommand(`{\"command\":\"${command}\"}`);
-  }
-
-  rotate_stop() {
-    return !this._old_gamepad_state.stopped() && this._new_gamepad_state.stopped();
-  }
-
-  rotate_right() {
-    return !this._old_gamepad_state.rotating_right() && this._new_gamepad_state.rotating_right();
-  }
-
-  rotate_left() {
-    return !this._old_gamepad_state.rotating_left() && this._new_gamepad_state.rotating_left();
-  }
-
-  fire() {
-    return !this._old_gamepad_state.fire() && this._new_gamepad_state.fire();
-  }
-
-  thrust_on() {
-    return !this._old_gamepad_state.thrust() && this._new_gamepad_state.thrust();
-  }
-
-  thrust_off() {
-    return this._old_gamepad_state.thrust() && !this._new_gamepad_state.thrust();
   }
 
   sendCommand(command) {

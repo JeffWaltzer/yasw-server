@@ -120,7 +120,7 @@ describe("Initial button states", function () {
   });
 
   it("start fire up", function () {
-    expect(gamepad._old_gamepad_state.fire()).toBeFalsy();
+    expect(gamepad._old_gamepad_state.fire_down()).toBeFalsy();
   });
 
   it("start thrust up", function () {

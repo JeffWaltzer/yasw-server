@@ -13,7 +13,7 @@ export default class GamePadState {
     return this._thrust;
   }
 
-  fire() {
+  fire_down() {
     return this._fire;
   }
 
@@ -35,5 +35,45 @@ export default class GamePadState {
 
   stopped() {
     return this.left() === this.right();
+  }
+
+  inner_interpret_command(new_gamepad_state, send_callback) {
+    this._new_gamepad_state = new_gamepad_state;
+
+    [
+      'thrust_off',
+      'thrust_on',
+      'fire',
+      'rotate_left',
+      'rotate_right',
+      'rotate_stop',
+    ].forEach((command) => {
+      send_callback(command);
+    });
+  }
+
+
+  rotate_stop() {
+    return !this.stopped() && this._new_gamepad_state.stopped();
+  }
+
+  rotate_right() {
+    return !this.rotating_right() && this._new_gamepad_state.rotating_right();
+  }
+
+  rotate_left() {
+    return !this.rotating_left() && this._new_gamepad_state.rotating_left();
+  }
+
+  fire() {
+    return !this.fire_down() && this._new_gamepad_state.fire_down();
+  }
+
+  thrust_on() {
+    return !this.thrust() && this._new_gamepad_state.thrust();
+  }
+
+  thrust_off() {
+    return this.thrust() && !this._new_gamepad_state.thrust();
   }
 }
