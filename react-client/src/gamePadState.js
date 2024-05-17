@@ -9,6 +9,22 @@ export default class GamePadState {
     this._left = args.left === undefined ? false : args.left;
   }
 
+  interpret_command(new_gamepad_state, send_callback) {
+    this._new_gamepad_state = new_gamepad_state;
+
+    [
+      'thrust_off',
+      'thrust_on',
+      'fire',
+      'rotate_left',
+      'rotate_right',
+      'rotate_stop',
+    ].forEach((command) => {
+      if (this[command]())
+        send_callback(command);
+    });
+  }
+
   thrust() {
     return this._thrust;
   }
@@ -36,22 +52,6 @@ export default class GamePadState {
   stopped() {
     return this.left() === this.right();
   }
-
-  inner_interpret_command(new_gamepad_state, send_callback) {
-    this._new_gamepad_state = new_gamepad_state;
-
-    [
-      'thrust_off',
-      'thrust_on',
-      'fire',
-      'rotate_left',
-      'rotate_right',
-      'rotate_stop',
-    ].forEach((command) => {
-      send_callback(command);
-    });
-  }
-
 
   rotate_stop() {
     return !this.stopped() && this._new_gamepad_state.stopped();
