@@ -8,13 +8,9 @@ export default class CommandTable {
       'rotate_right',
       'rotate_stop',
     ].forEach((command) => {
-      this.do(command, old_gamepad_state, new_gamepad_state, send_callback);
+      if (this[command](old_gamepad_state, new_gamepad_state))
+        send_callback(command);
     });
-  }
-
-  do(command, old_gamepad_state, new_gamepad_state, send_callback) {
-    if (this[command](old_gamepad_state, new_gamepad_state))
-      send_callback(command);
   }
 
   thrust_off(old_state, new_state) {
