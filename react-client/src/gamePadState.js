@@ -1,5 +1,30 @@
 import GamePad from "./gamePad";
 
+class CommandTable {
+  commands = {
+    'thrust_off': (old_state, new_state) =>    { return old_state._thrust && !new_state._thrust; },
+    'thrust_on': (old_state, new_state) =>     { return !old_state._thrust && new_state._thrust; },
+    'fire': (old_state, new_state) =>          { return !old_state._fire && new_state._fire; },
+    'rotate_left': (old_state, new_state) =>   { return !old_state.rotating_left() && new_state.rotating_left(); },
+    'rotate_right': (old_state, new_state) =>  { return !old_state.rotating_right() && new_state.rotating_right(); },
+    'rotate_stop': (old_state, new_state) =>   { return !old_state.stopped() && new_state.stopped(); },
+  };
+
+  do(command, old_gamepad_state, new_gamepad_state, send_callback) {
+    if (this.commands[command](old_gamepad_state, new_gamepad_state))
+      send_callback(command);
+  }
+
+  interpret_command(old_gamepad_state, new_gamepad_state, send_callback) {
+    Object.keys(command_table.commands).forEach((command) => {
+      this.do(command, old_gamepad_state, new_gamepad_state, send_callback);
+    });
+  }
+
+}
+
+const command_table = new CommandTable();
+
 export default class GamePadState {
 
   constructor(args) {
@@ -10,19 +35,7 @@ export default class GamePadState {
   }
 
   interpret_command(new_gamepad_state, send_callback) {
-    this._new_gamepad_state = new_gamepad_state;
-
-    [
-      'thrust_off',
-      'thrust_on',
-      'fire',
-      'rotate_left',
-      'rotate_right',
-      'rotate_stop',
-    ].forEach((command) => {
-      if (this[command]())
-        send_callback(command);
-    });
+    command_table.interpret_command(this, new_gamepad_state, send_callback);
   }
 
   rotating_left() {
@@ -35,30 +48,5 @@ export default class GamePadState {
 
   stopped() {
     return this._left === this._right;
-  }
-
-
-  rotate_stop() {
-    return !this.stopped() && this._new_gamepad_state.stopped();
-  }
-
-  rotate_right() {
-    return !this.rotating_right() && this._new_gamepad_state.rotating_right();
-  }
-
-  rotate_left() {
-    return !this.rotating_left() && this._new_gamepad_state.rotating_left();
-  }
-
-  fire() {
-    return !this._fire && this._new_gamepad_state._fire;
-  }
-
-  thrust_on() {
-    return !this._thrust && this._new_gamepad_state._thrust;
-  }
-
-  thrust_off() {
-    return this._thrust && !this._new_gamepad_state._thrust;
   }
 }
