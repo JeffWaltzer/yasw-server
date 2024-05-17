@@ -25,32 +25,20 @@ export default class GamePadState {
     });
   }
 
-  thrust() {
-    return this._thrust;
-  }
-
   fire_down() {
     return this._fire;
   }
 
-  right() {
-    return this._right;
-  }
-
-  left() {
-    return this._left;
-  }
-
   rotating_left() {
-    return this.left() && !this.right();
+    return this._left && !this._right;
   }
 
   rotating_right() {
-    return !this.left() && this.right();
+    return !this._left && this._right;
   }
 
   stopped() {
-    return this.left() === this.right();
+    return this._left === this._right;
   }
 
   rotate_stop() {
@@ -66,14 +54,14 @@ export default class GamePadState {
   }
 
   fire() {
-    return !this.fire_down() && this._new_gamepad_state.fire_down();
+    return !this._fire && this._new_gamepad_state._fire;
   }
 
   thrust_on() {
-    return !this.thrust() && this._new_gamepad_state.thrust();
+    return !this._thrust && this._new_gamepad_state._thrust;
   }
 
   thrust_off() {
-    return this.thrust() && !this._new_gamepad_state.thrust();
+    return this._thrust && !this._new_gamepad_state._thrust;
   }
 }

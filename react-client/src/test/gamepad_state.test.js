@@ -120,19 +120,19 @@ describe("Initial button states", function () {
   });
 
   it("start fire up", function () {
-    expect(gamepad._old_gamepad_state.fire_down()).toBeFalsy();
+    expect(gamepad._old_gamepad_state._fire).toBeFalsy();
   });
 
   it("start thrust up", function () {
-    expect(gamepad._old_gamepad_state.thrust()).toBeFalsy();
+    expect(gamepad._old_gamepad_state._thrust).toBeFalsy();
   });
 
   it("start rotate right up", function () {
-    expect(gamepad._old_gamepad_state.right()).toBeFalsy();
+    expect(gamepad._old_gamepad_state._right).toBeFalsy();
   });
 
   it("start rotate left up", function () {
-    expect(gamepad._old_gamepad_state.left()).toBeFalsy();
+    expect(gamepad._old_gamepad_state._left).toBeFalsy();
   });
 });
 
