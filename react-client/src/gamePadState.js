@@ -25,10 +25,6 @@ export default class GamePadState {
     });
   }
 
-  fire_down() {
-    return this._fire;
-  }
-
   rotating_left() {
     return this._left && !this._right;
   }
@@ -40,6 +36,7 @@ export default class GamePadState {
   stopped() {
     return this._left === this._right;
   }
+
 
   rotate_stop() {
     return !this.stopped() && this._new_gamepad_state.stopped();
