@@ -2,8 +2,7 @@ import Gamepad from "../gamePad";
 import GamePadState from "../gamePadState";
 
 const make_gamepad = (button_states, socket) => {
-  const gamepad = new Gamepad(socket);
-  gamepad._old_gamepad_state = new GamePadState(button_states);
+  const gamepad = new Gamepad(socket,button_states);
   jest.spyOn(gamepad.command_socket(), "send");
   return gamepad;
 };
@@ -85,8 +84,7 @@ describe("sent tests", () => {
 
         describe(" and we receive down", function () {
           beforeEach(function () {
-            let new_gamepad_state = new GamePadState({thrust: true});
-            gamepad.interpret_command(new_gamepad_state);
+            gamepad.interpret_command(new GamePadState({thrust: true}));
           });
 
           // should_send(gamepad, test_conditions.expected_sent);

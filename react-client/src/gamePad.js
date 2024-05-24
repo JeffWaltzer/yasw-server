@@ -5,9 +5,9 @@ const command_table = new CommandTable();
 
 export default class GamePad {
 
-  constructor(socket) {
+  constructor(socket, button_states = {}) {
     this._socket = socket;
-    this._old_gamepad_state = new GamePadState({});
+    this._old_gamepad_state = new GamePadState(button_states);
   }
 
   interpret_command(new_gamepad_state) {
