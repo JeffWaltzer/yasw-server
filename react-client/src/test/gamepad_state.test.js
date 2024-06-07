@@ -199,7 +199,9 @@ describe(`When the fire button is down and we receive down`, () => {
         expected_sent: null
     }
 ].forEach((test_conditions) => {
-    describe(`When left button is ${test_conditions.left_button} and right button is ${test_conditions.right_button}`, () => {
+    describe(`When left button is ${test_conditions.left_button} ` +
+        `and right button is ${test_conditions.right_button}` +
+        ` and we receive left ${test_conditions.new_left_button}, right ${test_conditions.new_right_button}`, () =>{
         let gamepad;
 
         beforeEach(() => {
@@ -222,18 +224,8 @@ describe(`When the fire button is down and we receive down`, () => {
             jest.clearAllMocks();
         });
 
-        describe(`and we receive left ${test_conditions.new_left_button}, right ${test_conditions.new_right_button}`, () => {
-            beforeEach(() => {
-                let new_gamepad = new GamePadState({
-                    left: test_conditions.new_left_button === 'down',
-                    right: test_conditions.new_right_button === 'down'
-                });
-                gamepad.interpret_command(new_gamepad);
-            });
-
-            it("does not send", () => {
-                expect(gamepad.command_socket().send).not.toHaveBeenCalled();
-            });
+        it("does not send", () => {
+            expect(gamepad.command_socket().send).not.toHaveBeenCalled();
         });
     });
 });
@@ -254,7 +246,6 @@ describe(`When the fire button is down and we receive down`, () => {
         new_right_button: "down",
         expected_sent: "rotate_right"
     },
-
     {
         left_button: "down",
         right_button: "up",
@@ -262,7 +253,6 @@ describe(`When the fire button is down and we receive down`, () => {
         new_right_button: "down",
         expected_sent: "rotate_stop"
     },
-
     {
         left_button: "down",
         right_button: "up",
@@ -270,7 +260,6 @@ describe(`When the fire button is down and we receive down`, () => {
         new_right_button: "down",
         expected_sent: "rotate_right"
     },
-
     {
         left_button: "down",
         right_button: "up",
@@ -314,7 +303,9 @@ describe(`When the fire button is down and we receive down`, () => {
         expected_sent: "rotate_right"
     },
 ].forEach((test_conditions) => {
-    describe(`When left button is ${test_conditions.left_button} and right button is ${test_conditions.right_button}`, () => {
+    describe(`When left button is ${test_conditions.left_button} ` +
+        `and right button is ${test_conditions.right_button} ` +
+        `and we receive left ${test_conditions.new_left_button}, right ${test_conditions.new_right_button}`, () => {
         let gamepad;
 
         beforeEach(() => {
@@ -337,20 +328,10 @@ describe(`When the fire button is down and we receive down`, () => {
             jest.clearAllMocks();
         });
 
-        describe(`and we receive left ${test_conditions.new_left_button}, right ${test_conditions.new_right_button}`, () => {
-            beforeEach(() => {
-                let new_gamepad = new GamePadState({
-                    left: test_conditions.new_left_button === 'down',
-                    right: test_conditions.new_right_button === 'down'
-                });
-                gamepad.interpret_command(new_gamepad);
-            });
-
-            it(`sends ${test_conditions.expected_sent}`, () => {
-                expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
-                    command: test_conditions.expected_sent
-                }));
-            });
+        it(`sends ${test_conditions.expected_sent}`, () => {
+            expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
+                command: test_conditions.expected_sent
+            }));
         });
     });
 });
