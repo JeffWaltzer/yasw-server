@@ -113,19 +113,6 @@ describe(`When the fire button is down and we receive up`, () => {
     });
 });
 
-
-const fire_down_sent_tests = [
-    {
-        fire_button: "up",
-        expected_sent: 'fire'
-    },
-    {
-        fire_button: "down",
-        expected_sent: null
-    }
-];
-
-
 describe(`When the fire button is up and we receive down`, () => {
     let gamepad;
 
@@ -168,7 +155,7 @@ describe(`When the fire button is down and we receive down`, () => {
     });
 });
 
-const sent_tests1 = [
+[
     {
         left_button: "down",
         right_button: "down",
@@ -211,9 +198,7 @@ const sent_tests1 = [
         new_right_button: "up",
         expected_sent: null
     }
-]
-
-sent_tests1.forEach((test_conditions) => {
+].forEach((test_conditions) => {
     describe(`When left button is ${test_conditions.left_button} and right button is ${test_conditions.right_button}`, () => {
         let gamepad;
 
@@ -251,10 +236,10 @@ sent_tests1.forEach((test_conditions) => {
             });
         });
     });
-})
+});
 
 
-const sent_tests2 = [
+[
     {
         left_button: "down",
         right_button: "down",
@@ -328,9 +313,7 @@ const sent_tests2 = [
         new_right_button: "down",
         expected_sent: "rotate_right"
     },
-];
-
-sent_tests2.forEach((test_conditions) => {
+].forEach((test_conditions) => {
     describe(`When left button is ${test_conditions.left_button} and right button is ${test_conditions.right_button}`, () => {
         let gamepad;
 
