@@ -31,8 +31,12 @@ describe('Gamepads', () => {
     it ('connects the new gamepad', () => {
       const fake_socket= {'bogus': 'dude'};
 
-      jest.spyOn(navigator,"getGamepads").mockReturnThis([{}]);
-      jest.spyOn(WebSocket, 'constructor').mockReturnThis(fake_socket);
+      jest.spyOn(navigator,"getGamepads").mockImplementation(() => {
+        return [{}];
+      });
+
+      global.WebSocket = jest.fn();
+      global.WebSocket.mockImplementation(function() { return fake_socket; });
 
       GamePads.poll();
 

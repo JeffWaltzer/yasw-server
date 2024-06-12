@@ -11,6 +11,7 @@ export class GamePads {
   static poll() {
     this._active = navigator.getGamepads().map((dom_gamepad) => {
       const new_gamepad = new GamePad(dom_gamepad);
+      new_gamepad.create_socket();
 
       return new_gamepad;
     });

@@ -4,7 +4,9 @@ import GamePadState from "../gamePadState";
 const make_gamepad = (button_states, socket) => {
   const gamepad = new Gamepad(button_states);
   
-  jest.spyOn(WebSocket, 'constructor').mockReturnThis(socket);
+  global.WebSocket = jest.fn();
+  global.WebSocket.mockImplementation(function() { return socket; });
+
   gamepad.create_socket();
   
   jest.spyOn(gamepad.command_socket(), "send");
