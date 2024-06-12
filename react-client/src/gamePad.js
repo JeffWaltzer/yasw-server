@@ -5,8 +5,7 @@ const command_table = new CommandTable();
 
 export default class GamePad {
 
-  constructor(socket, button_states = {}) {
-    this._socket = socket;
+  constructor(button_states = {}) {
     this._old_gamepad_state = new GamePadState(button_states);
   }
 
@@ -21,5 +20,9 @@ export default class GamePad {
 
   command_socket() {
     return this._socket;
+  }
+
+  create_socket() {
+    this._socket = new WebSocket("ws://example.com");
   }
 }

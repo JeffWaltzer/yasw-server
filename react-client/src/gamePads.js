@@ -1,3 +1,5 @@
+import GamePad from './gamePad.js';
+
 export class GamePads {
 
   static _active = [];
@@ -7,6 +9,10 @@ export class GamePads {
   };
 
   static poll() {
-    this._active = navigator.getGamepads();
+    this._active = navigator.getGamepads().map((dom_gamepad) => {
+      const new_gamepad = new GamePad(dom_gamepad);
+
+      return new_gamepad;
+    });
   }
 }

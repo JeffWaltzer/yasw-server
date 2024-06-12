@@ -10,13 +10,34 @@ describe('Gamepads', () => {
       navigator.getGamepads = () => { throw "shouldn't happen; dummy function called"; };
     });
 
+    it('does nothing if there are no DOM gamepads', () => {
+      jest.spyOn(navigator,"getGamepads").mockImplementation(()=>{
+        return [];
+      })
+      GamePads.poll();
+
+      expect(GamePads._active.length).toEqual(0);
+    });
+
     it('notices a new gamepad',()=>{
       jest.spyOn(navigator,"getGamepads").mockImplementation(()=>{
-        return [{}]
+        return [{}];
       })
-      GamePads.poll()
+      GamePads.poll();
+
       expect(GamePads._active.length).toEqual(1)
     })
+
+    it ('connects the new gamepad', () => {
+      const fake_socket= {'bogus': 'dude'};
+
+      jest.spyOn(navigator,"getGamepads").mockReturnThis([{}]);
+      jest.spyOn(WebSocket, 'constructor').mockReturnThis(fake_socket);
+
+      GamePads.poll();
+
+      expect(GamePads._active[0].command_socket()).toEqual(fake_socket);
+    });
   })
 
   describe('#start_polling', () => {
