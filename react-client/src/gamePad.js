@@ -5,8 +5,9 @@ const command_table = new CommandTable();
 
 export default class GamePad {
 
-  constructor(button_states = {}) {
-    this._old_gamepad_state = new GamePadState(button_states);
+  constructor(dom_gamepad = {}) {
+    this._old_gamepad_state = new GamePadState(dom_gamepad);
+    this._id = dom_gamepad.id;
   }
 
   interpret_command(new_gamepad_state) {
@@ -24,5 +25,9 @@ export default class GamePad {
 
   create_socket() {
     this._socket = new WebSocket("ws://example.com");
+  }
+
+  id() {
+    return this._id;
   }
 }

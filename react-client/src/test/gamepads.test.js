@@ -1,4 +1,5 @@
 import {GamePads} from "../gamePads";
+import GamePad from "../gamePad";
 
 describe('Gamepads', () => {
   it("starts with empty list of gamepads", () => {
@@ -7,42 +8,77 @@ describe('Gamepads', () => {
 
   describe("#poll", () => {
     beforeEach(() => {
-      navigator.getGamepads = () => { throw "shouldn't happen; dummy function called"; };
+      navigator.getGamepads = () => {
+        throw "shouldn't happen; dummy function called";
+      };
     });
 
-    it('does nothing if there are no DOM gamepads', () => {
-      jest.spyOn(navigator,"getGamepads").mockImplementation(()=>{
-        return [];
-      })
-      GamePads.poll();
-
-      expect(GamePads._active.length).toEqual(0);
-    });
-
-    it('notices a new gamepad',()=>{
-      jest.spyOn(navigator,"getGamepads").mockImplementation(()=>{
-        return [{}];
-      })
-      GamePads.poll();
-
-      expect(GamePads._active.length).toEqual(1)
-    })
-
-    it ('connects the new gamepad', () => {
-      const fake_socket= {'bogus': 'dude'};
-
-      jest.spyOn(navigator,"getGamepads").mockImplementation(() => {
-        return [{}];
+    describe("When we have a gamepad and lost it", () => {
+      const fake_socket = {'bogus': 'dude'};
+      beforeEach(()=>{
+        jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
+          return [];
+        })
+        global.WebSocket = jest.fn();
+        global.WebSocket.mockImplementation(function () {
+          return fake_socket;
+        });
+        GamePads._active=[new GamePad({})]
+        GamePads.poll();
       });
 
-      global.WebSocket = jest.fn();
-      global.WebSocket.mockImplementation(function() { return fake_socket; });
-
-      GamePads.poll();
-
-      expect(GamePads._active[0].command_socket()).toEqual(fake_socket);
+      it('notices', () => {
+        expect(GamePads._active.length).toEqual(0)
+      })
     });
-  })
+
+    describe("When we have a gamepad and see a 2nd gamepad", () => {
+      const fake_socket = {'bogus': 'dude'};
+      beforeEach(()=>{
+        jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
+          return [{id: 'A'},{id: 'B'}];
+        })
+        global.WebSocket = jest.fn();
+        global.WebSocket.mockImplementation(function () {
+          return fake_socket;
+        });
+        GamePads._active=[new GamePad({})]
+        GamePads.poll();
+      });
+
+      it('we see both gamepads', () => {
+        expect(GamePads._active.length).toEqual(2)
+      })
+    });
+
+    describe("When we have no gamepads", () => {
+      const fake_socket = {'bogus': 'dude'};
+      beforeEach(()=>{
+        jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
+          return [{id: 'C'}];
+        })
+        global.WebSocket = jest.fn();
+        global.WebSocket.mockImplementation(function () {
+          return fake_socket;
+        });
+        GamePads.poll();
+      });
+
+      it('notices a new gamepad', () => {
+        expect(GamePads._active.length).toEqual(1)
+      })
+
+      it('connects the new gamepad', () => {
+        expect(GamePads._active[0].command_socket()).toEqual(fake_socket);
+      });
+
+      it('saves game pad id', () => {
+        expect(GamePads._active[0].id()).toEqual('C');
+      });
+    });
+
+
+  });
 
   describe('#start_polling', () => {
     beforeEach(() => {
