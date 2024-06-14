@@ -2,7 +2,17 @@ import Gamepad from "../gamePad";
 import GamePadState from "../gamePadState";
 
 const make_gamepad = (button_states, socket) => {
-  const gamepad = new Gamepad(button_states);
+
+  const dom_gamepad={
+    buttons: [
+      {pressed: button_states.fire},
+      {pressed: button_states.thrust},
+      {pressed: button_states.left},
+      {pressed: button_states.right},
+    ]
+  }
+
+  const gamepad = new Gamepad(dom_gamepad);
   
   global.WebSocket = jest.fn();
   global.WebSocket.mockImplementation(function() { return socket; });
