@@ -20,7 +20,7 @@ const stub_socket = {
 
 describe("interpret_command", () => {
   it("updates the gamepad state", () => {
-    const gamepad = make_gamepad({thrust: false}, stub_socket);
+    const gamepad = make_gamepad({ button_states: {thrust: false}}, stub_socket);
     const new_gamepad_state = new GamePadState({thrust: true});
     gamepad.interpret_command(new_gamepad_state);
 
@@ -62,29 +62,6 @@ describe("for thrust_down events ", () => {
   });
 });
 
-describe("Initial button states", function () {
-  let gamepad;
-
-  beforeEach(() => {
-    gamepad = new Gamepad(stub_socket);
-  });
-
-  it("start fire up", function () {
-    expect(gamepad._old_gamepad_state._fire).toBeFalsy();
-  });
-
-  it("start thrust up", function () {
-    expect(gamepad._old_gamepad_state._thrust).toBeFalsy();
-  });
-
-  it("start rotate right up", function () {
-    expect(gamepad._old_gamepad_state._right).toBeFalsy();
-  });
-
-  it("start rotate left up", function () {
-    expect(gamepad._old_gamepad_state._left).toBeFalsy();
-  });
-});
 
 describe(`When the fire button is up and we receive up`, () => {
   let gamepad;

@@ -76,8 +76,6 @@ describe('Gamepads', () => {
         expect(GamePads._active[0].id()).toEqual('C');
       });
     });
-
-
   });
 
   describe('#start_polling', () => {
