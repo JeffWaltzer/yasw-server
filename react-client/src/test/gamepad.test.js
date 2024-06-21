@@ -2,17 +2,15 @@ import GamePad from "../gamePad";
 import Gamepad from "../gamePad";
 
 describe('Gamepad', () => {
+  let gamepad;
+  let buttons;
 
+  beforeEach(() => {
+    buttons = Array(50).fill('').map(() => { return {pressed: false}; });
+    gamepad = new Gamepad({buttons: buttons});
+  });
 
   describe("Initial button states", function () {
-    let gamepad;
-    let buttons;
-
-    beforeEach(() => {
-      buttons = Array(50).map(() => { return {pressed: false}; });
-      gamepad = new Gamepad({buttons: buttons});
-    });
-
     it("start fire up", function () {
       expect(gamepad._old_gamepad_state._fire).toBeFalsy();
     });
@@ -31,28 +29,31 @@ describe('Gamepad', () => {
   });
 
   describe("Initial button states", function () {
-    beforeEach(() => {
-      buttons = Array(50).map(() => { return {pressed: false}; });
-      gamepad = new Gamepad({buttons: buttons});
-    });
-    
-   xit("start fire down", function () {
-      const gamepad = new Gamepad({buttons: [{pressed: true},{pressed: false},{pressed: false},{pressed: false}]});
+    it("start fire down", function () {
+      buttons[6] = {pressed: true};
+      
+      const gamepad = new Gamepad({buttons: buttons});
       expect(gamepad._old_gamepad_state._fire).toBeTruthy();
     });
 
-    xit("start thrust down", function () {
-      const gamepad = new Gamepad({buttons: [{pressed: false},{pressed: true},{pressed: false},{pressed: false}]});
+    it("start thrust down", function () {
+      buttons[5] = {pressed: true};
+
+      const gamepad = new Gamepad({buttons: buttons});
       expect(gamepad._old_gamepad_state._thrust).toBeTruthy();
     });
 
-    xit("start rotate right down", function () {
-      const gamepad = new Gamepad({buttons: [{pressed: false},{pressed: false},{pressed: true},{pressed: false}]});
+    it("start rotate right down", function () {
+      buttons[16] = {pressed: true};
+
+      const gamepad = new Gamepad({buttons: buttons});
       expect(gamepad._old_gamepad_state._right).toBeTruthy();
     });
 
-    xit("start rotate left down", function () {
-      const gamepad = new Gamepad({buttons: [{pressed: false},{pressed: false},{pressed: false},{pressed: true}]});
+    it("start rotate left down", function () {
+      buttons[15] = {pressed: true};
+      
+      const gamepad = new Gamepad({buttons: buttons});
       expect(gamepad._old_gamepad_state._left).toBeTruthy();
     });
   });

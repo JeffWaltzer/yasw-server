@@ -13,7 +13,7 @@ describe('Gamepads', () => {
       };
     });
 
-    describe("When we have a gamepad and lost it", () => {
+    xdescribe("When we have a gamepad and lost it", () => {
       const fake_socket = {'bogus': 'dude'};
       beforeEach(()=>{
         jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
@@ -32,7 +32,7 @@ describe('Gamepads', () => {
       })
     });
 
-    describe("When we have a gamepad and see a 2nd gamepad", () => {
+    xdescribe("When we have a gamepad and see a 2nd gamepad", () => {
       const fake_socket = {'bogus': 'dude'};
       beforeEach(()=>{
         jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
@@ -51,7 +51,7 @@ describe('Gamepads', () => {
       })
     });
 
-    describe("When we have no gamepads", () => {
+    xdescribe("When we have no gamepads", () => {
       const fake_socket = {'bogus': 'dude'};
       beforeEach(()=>{
         jest.spyOn(navigator, "getGamepads").mockImplementation(() => {

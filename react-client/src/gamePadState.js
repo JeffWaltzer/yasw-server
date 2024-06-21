@@ -1,11 +1,16 @@
 import GamePad from "./gamePad";
 
+const THRUST_BUTTON= 5;
+const FIRE_BUTTON= 6;
+const LEFT_BUTTON= 15;
+const RIGHT_BUTTON= 16;
+
 export default class GamePadState {
   constructor(args) {
-    this._thrust = args.thrust === undefined ? false : args.thrust;
-    this._fire = args.fire === undefined ? false : args.fire;
-    this._right = args.right === undefined ? false : args.right;
-    this._left = args.left === undefined ? false : args.left;
+    this._fire = args.buttons[FIRE_BUTTON].pressed;
+    this._thrust = args.buttons[THRUST_BUTTON].pressed;
+    this._right = args.buttons[RIGHT_BUTTON].pressed;
+    this._left = args.buttons[LEFT_BUTTON].pressed;
   }
 
   rotating_left() {
