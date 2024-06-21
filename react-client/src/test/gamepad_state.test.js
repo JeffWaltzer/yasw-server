@@ -1,8 +1,8 @@
 import Gamepad from "../gamePad";
 import GamePadState from "../gamePadState";
 
-const make_gamepad = (button_states, socket) => {
-  const gamepad = new Gamepad(button_states);
+const make_gamepad = (buttons, socket) => {
+  const gamepad = new Gamepad({buttons: buttons});
   
   global.WebSocket = jest.fn();
   global.WebSocket.mockImplementation(function() { return socket; });
@@ -18,20 +18,48 @@ const stub_socket = {
   }
 };
 
-xdescribe("interpret_command", () => {
+const make_buttons = (n = 50) => {
+  return Array(n).fill(0).map(() => { return {pressed: false}; });
+}
+
+const make_gamepad_state= (buttons_to_press = []) => {
+  const buttons = make_buttons();
+  buttons_to_press.forEach((button_index) => {
+    buttons[button_index].pressed= true;
+  });
+  return new GamePadState({buttons: buttons});
+}
+
+const exercise_gamepad= (buttons_initially_down, buttons_to_press, stub_socket) => {
+  const initial_buttons = make_buttons();
+  buttons_initially_down.forEach((button_index) => {
+    initial_buttons[button_index].pressed = true;
+  });
+  const gamepad = make_gamepad(initial_buttons, stub_socket);
+  const new_gamepad_state = make_gamepad_state(buttons_to_press);
+  gamepad.interpret_command(new_gamepad_state);
+
+  return gamepad;
+};
+
+describe("interpret_command", () => {
   it("updates the gamepad state", () => {
-    const gamepad = make_gamepad({ button_states: {thrust: false}}, stub_socket);
-    const new_gamepad_state = new GamePadState({thrust: true});
+    const gamepad = make_gamepad(make_buttons(), stub_socket);
+    const new_gamepad_state = make_gamepad_state();
     gamepad.interpret_command(new_gamepad_state);
 
     expect(gamepad._old_gamepad_state).toEqual(new_gamepad_state);
   });
 });
 
-xdescribe("When thrust button is up and we receive up", () => {
+describe("When thrust button is up and we receive up", () => {
   it("does not send", function () {
-    const gamepad = make_gamepad({thrust: false}, stub_socket);
-    gamepad.interpret_command(new GamePadState({thrust: false}));
+    // const gamepad = make_gamepad(make_buttons(), stub_socket);
+    // const new_gamepad_state = make_gamepad_state();
+    // gamepad.interpret_command(new_gamepad_state);
+          
+    const gamepad= exercise_gamepad([], [], stub_socket);
+
     expect(gamepad.command_socket().send).not.toHaveBeenCalled();
   });
 });
