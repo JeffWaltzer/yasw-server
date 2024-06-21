@@ -2,15 +2,15 @@ import GamePad from "../gamePad";
 import Gamepad from "../gamePad";
 
 describe('Gamepad', () => {
+  let gamepad;
+  let buttons;
 
+  beforeEach(() => {
+    buttons = Array(50).fill('').map(() => { return {pressed: false}; });
+    gamepad = new Gamepad({buttons: buttons});
+  });
 
   describe("Initial button states", function () {
-    let gamepad;
-
-    beforeEach(() => {
-      gamepad = new Gamepad({buttons: [{pressed: false},{pressed: false},{pressed: false},{pressed: false}]});
-    });
-
     it("start fire up", function () {
       expect(gamepad._old_gamepad_state._fire).toBeFalsy();
     });
@@ -29,24 +29,31 @@ describe('Gamepad', () => {
   });
 
   describe("Initial button states", function () {
-
     it("start fire down", function () {
-      const gamepad = new Gamepad({buttons: [{pressed: true},{pressed: false},{pressed: false},{pressed: false}]});
+      buttons[6] = {pressed: true};
+      
+      const gamepad = new Gamepad({buttons: buttons});
       expect(gamepad._old_gamepad_state._fire).toBeTruthy();
     });
 
     it("start thrust down", function () {
-      const gamepad = new Gamepad({buttons: [{pressed: false},{pressed: true},{pressed: false},{pressed: false}]});
+      buttons[5] = {pressed: true};
+
+      const gamepad = new Gamepad({buttons: buttons});
       expect(gamepad._old_gamepad_state._thrust).toBeTruthy();
     });
 
     it("start rotate right down", function () {
-      const gamepad = new Gamepad({buttons: [{pressed: false},{pressed: false},{pressed: true},{pressed: false}]});
+      buttons[16] = {pressed: true};
+
+      const gamepad = new Gamepad({buttons: buttons});
       expect(gamepad._old_gamepad_state._right).toBeTruthy();
     });
 
     it("start rotate left down", function () {
-      const gamepad = new Gamepad({buttons: [{pressed: false},{pressed: false},{pressed: false},{pressed: true}]});
+      buttons[15] = {pressed: true};
+      
+      const gamepad = new Gamepad({buttons: buttons});
       expect(gamepad._old_gamepad_state._left).toBeTruthy();
     });
   });
