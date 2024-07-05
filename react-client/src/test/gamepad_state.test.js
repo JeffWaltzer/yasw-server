@@ -142,6 +142,15 @@ describe(`When the fire button is down and we receive down`, () => {
   });
 });
 
+function rotate_buttons_from_test_conditions(leftButton, rightButton) {
+  const pressed_buttons = [];
+  if (leftButton === "down")
+    pressed_buttons.push(LEFT_BUTTON);
+  if (rightButton === "down")
+    pressed_buttons.push(RIGHT_BUTTON);
+  return pressed_buttons;
+}
+
 [
   {
     left_button: "down",
@@ -188,17 +197,12 @@ describe(`When the fire button is down and we receive down`, () => {
       });
 
       it("does not send", () => {
-        const initially_pressed_buttons = [];
-        if (test_conditions.left_button === "down")
-          initially_pressed_buttons.push(LEFT_BUTTON);
-        if (test_conditions.right_button === "down")
-          initially_pressed_buttons.push(RIGHT_BUTTON);
-
-        const pressed_buttons = [];
-        if (test_conditions.new_left_button === "down")
-          pressed_buttons.push(LEFT_BUTTON);
-        if (test_conditions.new_right_button === "down")
-          pressed_buttons.push(RIGHT_BUTTON);
+        const initially_pressed_buttons = rotate_buttons_from_test_conditions(
+            test_conditions.left_button,
+            test_conditions.right_button);
+        const pressed_buttons = rotate_buttons_from_test_conditions(
+            test_conditions.new_left_button,
+            test_conditions.new_right_button)
 
         const gamepad = make_gamepad(make_buttons(initially_pressed_buttons), stub_socket);
         const new_gamepad_state = make_gamepad_state(pressed_buttons);
