@@ -1,5 +1,5 @@
 import Gamepad from "../gamePad";
-import {GamePadState, THRUST_BUTTON} from "../gamePadState";
+import {FIRE_BUTTON, GamePadState, THRUST_BUTTON} from "../gamePadState";
 
 function make_gamepad(buttons, socket) {
   const gamepad = new Gamepad({buttons: buttons});
@@ -100,77 +100,44 @@ describe("for thrust_down events ", () => {
 });
 
 
-xdescribe(`When the fire button is up and we receive up`, () => {
-  let gamepad;
-  beforeEach(function () {
-    gamepad = make_gamepad(
-      {fire: false},
-      stub_socket);
-    gamepad.interpret_command(new GamePadState({
-      fire: false
-    }));
-  });
-
+describe(`When the fire button is up and we receive up`, () => {
   it("does not send", function () {
+    const gamepad = make_gamepad(make_buttons(), stub_socket);
+    const new_gamepad_state = make_gamepad_state();
+    gamepad.interpret_command(new_gamepad_state);
+
     expect(gamepad.command_socket().send).not.toHaveBeenCalled();
   });
 })
 
-xdescribe(`When the fire button is down and we receive up`, () => {
-
-  let gamepad;
-  beforeEach(function () {
-    gamepad = make_gamepad(
-      {fire: true},
-      stub_socket);
-    gamepad.interpret_command(new GamePadState({
-      fire: false
-    }));
-  });
+describe(`When the fire button is down and we receive up`, () => {
 
   it("does not send", function () {
+    const gamepad = make_gamepad(make_buttons([FIRE_BUTTON]), stub_socket);
+    const new_gamepad_state = make_gamepad_state();
+    gamepad.interpret_command(new_gamepad_state);
+
     expect(gamepad.command_socket().send).not.toHaveBeenCalled();
   });
 });
 
-xdescribe(`When the fire button is up and we receive down`, () => {
-  let gamepad;
-
-  beforeEach(() => {
-    gamepad = make_gamepad(
-      {
-        fire: false
-      },
-      stub_socket);
-    gamepad.interpret_command(new GamePadState({
-      fire: true
-    }));
-  });
-
-
+describe(`When the fire button is up and we receive down`, () => {
   it(`sends fire`, function () {
+    const gamepad = make_gamepad(make_buttons(), stub_socket);
+    const new_gamepad_state = make_gamepad_state([FIRE_BUTTON]);
+    gamepad.interpret_command(new_gamepad_state);
+
     expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify(
       {command: 'fire'}
     ));
   });
 })
 
-xdescribe(`When the fire button is down and we receive down`, () => {
-  let gamepad;
-
-  beforeEach(() => {
-    gamepad = make_gamepad(
-      {
-        fire: true
-      },
-      stub_socket);
-    gamepad.interpret_command(new GamePadState({
-      fire: true
-    }));
-  });
-
-
+describe(`When the fire button is down and we receive down`, () => {
   it("does not send", function () {
+    const gamepad = make_gamepad(make_buttons([FIRE_BUTTON]), stub_socket);
+    const new_gamepad_state = make_gamepad_state([FIRE_BUTTON]);
+    gamepad.interpret_command(new_gamepad_state);
     expect(gamepad.command_socket().send).not.toHaveBeenCalled();
   });
 });
