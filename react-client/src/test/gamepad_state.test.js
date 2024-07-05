@@ -1,7 +1,7 @@
 import Gamepad from "../gamePad";
 import {GamePadState, THRUST_BUTTON} from "../gamePadState";
 
-const make_gamepad = (buttons, socket) => {
+function make_gamepad(buttons, socket) {
   const gamepad = new Gamepad({buttons: buttons});
   
   global.WebSocket = jest.fn();
@@ -18,19 +18,21 @@ const stub_socket = {
   }
 };
 
-const make_buttons = (n = 50) => {
-  return Array(n).fill(0).map(() => { return {pressed: false}; });
-}
-
-const make_gamepad_state= (buttons_to_press = []) => {
-  const buttons = make_buttons();
-  buttons_to_press.forEach((button_index) => {
-    buttons[button_index].pressed= true;
+function make_buttons(buttons_to_press=[]) {
+  const buttons = Array(50).fill(0).map(() => {
+    return {pressed: false};
   });
-  return new GamePadState({buttons: buttons});
+  buttons_to_press.forEach((button_index) => {
+    buttons[button_index].pressed = true;
+  });
+  return buttons;
 }
 
-const exercise_gamepad= (buttons_initially_down, buttons_to_press, stub_socket) => {
+function make_gamepad_state(buttons_to_press = []) {
+  return new GamePadState({buttons: make_buttons(buttons_to_press)});
+}
+
+function exercise_gamepad (buttons_initially_down, buttons_to_press, stub_socket)  {
   const initial_buttons = make_buttons();
   buttons_initially_down.forEach((button_index) => {
     initial_buttons[button_index].pressed = true;
@@ -67,8 +69,7 @@ describe("When thrust button is up and we receive up", () => {
 describe('When thrust button is down and we receive up', () => {
   it('sends thrust_off', function () {
 
-    const gamepad = make_gamepad(make_buttons(), stub_socket);
-    gamepad._old_gamepad_state._thrust = true;
+    const gamepad = make_gamepad(make_buttons([THRUST_BUTTON]), stub_socket);
     const new_gamepad_state = make_gamepad_state( );
 
     gamepad.interpret_command(new_gamepad_state);
