@@ -1,4 +1,4 @@
-import GamePadState from "./gamePadState";
+import {GamePadState} from "./gamePadState";
 import CommandTable from "./command_table";
 
 const command_table = new CommandTable();

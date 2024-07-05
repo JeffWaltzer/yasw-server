@@ -5,7 +5,7 @@ const FIRE_BUTTON= 6;
 const LEFT_BUTTON= 15;
 const RIGHT_BUTTON= 16;
 
-export default class GamePadState {
+class GamePadState {
   constructor(args) {
     this._fire = args.buttons[FIRE_BUTTON].pressed;
     this._thrust = args.buttons[THRUST_BUTTON].pressed;
@@ -25,3 +25,5 @@ export default class GamePadState {
     return this._left === this._right;
   }
 }
+
+export {THRUST_BUTTON, FIRE_BUTTON, LEFT_BUTTON, RIGHT_BUTTON, GamePadState}

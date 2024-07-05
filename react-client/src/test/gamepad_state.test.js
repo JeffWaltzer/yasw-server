@@ -1,5 +1,5 @@
 import Gamepad from "../gamePad";
-import GamePadState from "../gamePadState";
+import {GamePadState, THRUST_BUTTON} from "../gamePadState";
 
 const make_gamepad = (buttons, socket) => {
   const gamepad = new Gamepad({buttons: buttons});
@@ -64,10 +64,14 @@ describe("When thrust button is up and we receive up", () => {
   });
 });
 
-xdescribe('When thrust button is down and we receive up', () => {
+describe('When thrust button is down and we receive up', () => {
   it('sends thrust_off', function () {
-    const gamepad = make_gamepad({thrust: true}, stub_socket);
-    gamepad.interpret_command(new GamePadState({thrust: false}));
+
+    const gamepad = make_gamepad(make_buttons(), stub_socket);
+    gamepad._old_gamepad_state._thrust = true;
+    const new_gamepad_state = make_gamepad_state( );
+
+    gamepad.interpret_command(new_gamepad_state);
     expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify(
       {command: 'thrust_off'}
     ));
