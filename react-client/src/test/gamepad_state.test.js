@@ -79,18 +79,22 @@ describe('When thrust button is down and we receive up', () => {
   });
 });
 
-xdescribe("for thrust_down events ", () => {
+describe("for thrust_down events ", () => {
   it(`When thrust button is up and we receive down sends thrust_on`, function () {
-    let gamepad = make_gamepad({thrust: false}, stub_socket);
-    gamepad.interpret_command(new GamePadState({thrust: true}));
+    const gamepad = make_gamepad(make_buttons(), stub_socket);
+    const new_gamepad_state = make_gamepad_state( [THRUST_BUTTON]);
+    gamepad.interpret_command(new_gamepad_state);
+
     expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify(
       {command: 'thrust_on'}
     ));
   });
 
   it("When thrust button is down and we receive down does not send", function () {
-    let gamepad = make_gamepad({thrust: true}, stub_socket);
-    gamepad.interpret_command(new GamePadState({thrust: true}));
+    const gamepad = make_gamepad(make_buttons([THRUST_BUTTON]), stub_socket);
+    const new_gamepad_state = make_gamepad_state( [THRUST_BUTTON]);
+    gamepad.interpret_command(new_gamepad_state);
+
     expect(gamepad.command_socket().send).not.toHaveBeenCalled();
   });
 });
