@@ -1,5 +1,5 @@
 import Gamepad from "../gamePad";
-import {FIRE_BUTTON, GamePadState, THRUST_BUTTON} from "../gamePadState";
+import {FIRE_BUTTON, GamePadState, LEFT_BUTTON, RIGHT_BUTTON, THRUST_BUTTON} from "../gamePadState";
 
 function make_gamepad(buttons, socket) {
   const gamepad = new Gamepad({buttons: buttons});
@@ -148,70 +148,63 @@ describe(`When the fire button is down and we receive down`, () => {
     right_button: "down",
     new_left_button: "down",
     new_right_button: "down",
-    expected_sent: null
   },
   {
     left_button: "down",
     right_button: "down",
     new_left_button: "up",
     new_right_button: "up",
-    expected_sent: null
   },
   {
     left_button: "down",
     right_button: "up",
     new_left_button: "down",
     new_right_button: "up",
-    expected_sent: null
   },
   {
     left_button: "up",
     right_button: "down",
     new_left_button: "up",
     new_right_button: "down",
-    expected_sent: null
   },
   {
     left_button: "up",
     right_button: "up",
     new_left_button: "down",
     new_right_button: "down",
-    expected_sent: null
   },
   {
     left_button: "up",
     right_button: "up",
     new_left_button: "up",
     new_right_button: "up",
-    expected_sent: null
   }
 ].forEach((test_conditions) => {
-  xdescribe(`When left button is ${test_conditions.left_button} ` +
+  describe(`When left button is ${test_conditions.left_button} ` +
     `and right button is ${test_conditions.right_button}` +
     ` and we receive left ${test_conditions.new_left_button}, right ${test_conditions.new_right_button}`, () =>{
-      let gamepad;
-
-      beforeEach(() => {
-        gamepad =
-                make_gamepad(
-                  {
-                    left: test_conditions.left_button === 'down',
-                    right: test_conditions.right_button === 'down'
-                  },
-                  stub_socket);
-
-        const new_gamepad_state = new GamePadState({
-          left: test_conditions.new_left_button === 'down',
-          right: test_conditions.new_right_button === 'down'
-        });
-        gamepad.interpret_command(new_gamepad_state);
-      });
-
       afterEach(() => {
         jest.clearAllMocks();
       });
 
       it("does not send", () => {
+        const initially_pressed_buttons = [];
+        if (test_conditions.left_button === "down")
+          initially_pressed_buttons.push(LEFT_BUTTON);
+        if (test_conditions.right_button === "down")
+          initially_pressed_buttons.push(RIGHT_BUTTON);
+
+        const pressed_buttons = [];
+        if (test_conditions.new_left_button === "down")
+          pressed_buttons.push(LEFT_BUTTON);
+        if (test_conditions.new_right_button === "down")
+          pressed_buttons.push(RIGHT_BUTTON);
+
+        const gamepad = make_gamepad(make_buttons(initially_pressed_buttons), stub_socket);
+        const new_gamepad_state = make_gamepad_state(pressed_buttons);
+
+        gamepad.interpret_command(new_gamepad_state);
+
         expect(gamepad.command_socket().send).not.toHaveBeenCalled();
       });
     });
