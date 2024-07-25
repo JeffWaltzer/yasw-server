@@ -13,7 +13,7 @@ function make_gamepad(buttons, socket) {
   return gamepad;
 };
 
-const stub_socket = {x
+const stub_socket = {
   send: () => {
   }
 };

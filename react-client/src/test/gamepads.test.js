@@ -3,8 +3,8 @@ import GamePad from "../gamePad";
 
 describe('Gamepads', () => {
   it("starts with empty list of gamepads", () => {
-    expect(GamePads._active).toEqual([])
-  })
+    expect(GamePads._active).toEqual([]);
+  });
 
   describe("#poll", () => {
     beforeEach(() => {
@@ -18,7 +18,8 @@ describe('Gamepads', () => {
       beforeEach(()=>{
         jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
           return [];
-        })
+        });
+
         global.WebSocket = jest.fn();
         global.WebSocket.mockImplementation(function () {
           return fake_socket;
@@ -29,7 +30,7 @@ describe('Gamepads', () => {
 
       it('notices', () => {
         expect(GamePads._active.length).toEqual(0)
-      })
+      });
     });
 
     xdescribe("When we have a gamepad and see a 2nd gamepad", () => {
@@ -37,7 +38,8 @@ describe('Gamepads', () => {
       beforeEach(()=>{
         jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
           return [{id: 'A'},{id: 'B'}];
-        })
+        });
+
         global.WebSocket = jest.fn();
         global.WebSocket.mockImplementation(function () {
           return fake_socket;
@@ -47,8 +49,8 @@ describe('Gamepads', () => {
       });
 
       it('we see both gamepads', () => {
-        expect(GamePads._active.length).toEqual(2)
-      })
+        expect(GamePads._active.length).toEqual(2);
+      });
     });
 
     xdescribe("When we have no gamepads", () => {
@@ -56,7 +58,7 @@ describe('Gamepads', () => {
       beforeEach(()=>{
         jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
           return [{id: 'C'}];
-        })
+        });
         global.WebSocket = jest.fn();
         global.WebSocket.mockImplementation(function () {
           return fake_socket;
@@ -66,7 +68,7 @@ describe('Gamepads', () => {
 
       it('notices a new gamepad', () => {
         expect(GamePads._active.length).toEqual(1)
-      })
+      });
 
       it('connects the new gamepad', () => {
         expect(GamePads._active[0].command_socket()).toEqual(fake_socket);
@@ -84,11 +86,11 @@ describe('Gamepads', () => {
       const the_gamepads = new GamePads();
       the_gamepads.start_polling();
       jest.spyOn(window, "setInterval")
-    })
+    });
 
     it('sets timer', () => {
       expect(window.setInterval).toHaveBeenCalledWith(GamePads.poll, 30);
     });
-  })
-})
+  });
+});
 
