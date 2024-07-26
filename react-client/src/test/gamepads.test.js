@@ -1,5 +1,6 @@
 import {GamePads} from "../gamePads";
 import GamePad from "../gamePad";
+import {make_buttons} from "./make_buttons";
 
 describe('Gamepads', () => {
   it("starts with empty list of gamepads", () => {
@@ -13,7 +14,7 @@ describe('Gamepads', () => {
       };
     });
 
-    xdescribe("When we have a gamepad and lost it", () => {
+    describe("When we have a gamepad and lost it", () => {
       const fake_socket = {'bogus': 'dude'};
       beforeEach(()=>{
         jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
@@ -24,12 +25,15 @@ describe('Gamepads', () => {
         global.WebSocket.mockImplementation(function () {
           return fake_socket;
         });
-        GamePads._active=[new GamePad({})]
-        GamePads.poll();
+        GamePads._active= [
+            new GamePad({buttons: make_buttons()}),
+        ];
       });
 
       it('notices', () => {
-        expect(GamePads._active.length).toEqual(0)
+        expect(GamePads._active.length).toEqual(1);
+        GamePads.poll();
+        expect(GamePads._active.length).toEqual(0);
       });
     });
 

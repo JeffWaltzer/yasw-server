@@ -1,5 +1,7 @@
 import Gamepad from "../gamePad";
 import {FIRE_BUTTON, GamePadState, LEFT_BUTTON, RIGHT_BUTTON, THRUST_BUTTON} from "../gamePadState";
+import {make_buttons} from "./make_buttons";
+
 
 function make_gamepad(buttons, socket) {
   const gamepad = new Gamepad({buttons: buttons});
@@ -17,16 +19,6 @@ const stub_socket = {
   send: () => {
   }
 };
-
-function make_buttons(buttons_to_press=[]) {
-  const buttons = Array(50).fill(0).map(() => {
-    return {pressed: false};
-  });
-  buttons_to_press.forEach((button_index) => {
-    buttons[button_index].pressed = true;
-  });
-  return buttons;
-}
 
 function make_gamepad_state(buttons_to_press = []) {
   return new GamePadState({buttons: make_buttons(buttons_to_press)});
