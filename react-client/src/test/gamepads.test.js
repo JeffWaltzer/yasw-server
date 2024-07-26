@@ -60,11 +60,11 @@ describe('Gamepads', () => {
       });
     });
 
-    xdescribe("When we have no gamepads", () => {
+    describe("When we have no gamepads", () => {
       const fake_socket = {'bogus': 'dude'};
       beforeEach(()=>{
         jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
-          return [{id: 'C'}];
+          return [{id: 'C', buttons: make_buttons()}];
         });
         global.WebSocket = jest.fn();
         global.WebSocket.mockImplementation(function () {
@@ -74,7 +74,7 @@ describe('Gamepads', () => {
       });
 
       it('notices a new gamepad', () => {
-        expect(GamePads._active.length).toEqual(1)
+        expect(GamePads._active.length).toEqual(1);
       });
 
       it('connects the new gamepad', () => {
@@ -92,7 +92,7 @@ describe('Gamepads', () => {
       jest.useFakeTimers('legacy');
       const the_gamepads = new GamePads();
       the_gamepads.start_polling();
-      jest.spyOn(window, "setInterval")
+      jest.spyOn(window, "setInterval");
     });
 
     it('sets timer', () => {
