@@ -63,6 +63,7 @@ describe('Gamepads', () => {
         jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
           return [{id: 'C', buttons: make_buttons()}];
         });
+        jest.spyOn(navigator, 'WebSocket');
         GamePads.poll();
       });
 
@@ -76,6 +77,10 @@ describe('Gamepads', () => {
 
       it('saves game pad id', () => {
         expect(GamePads._active[0].id()).toEqual('C');
+      });
+
+      it("sets the websocket's url correctly", () => {
+        expect(global.WebSocket).toHaveBeenCalledWith("something or other");
       });
     });
   });
