@@ -24,7 +24,8 @@ export default class GamePad {
   }
 
   create_socket() {
-    this._socket = new WebSocket("ws://example.com");
+    const url = `ws://${window.location.hostname}:${window.location.port}/engine.io/?EIO=3&transport=websocket`;
+    this._socket = new WebSocket(url);
   }
 
   id() {

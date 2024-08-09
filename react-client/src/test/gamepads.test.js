@@ -10,11 +10,14 @@ describe('Gamepads', () => {
   describe("#poll", () => {
     beforeEach(() => {
       navigator.getGamepads = () => {
-        throw "shouldn't happen; dummy function called";
+        throw "shouldn't happen(getGamepads); dummy function called";
+      };
+      navigator.WebSocket = () => {
+        throw "shouldn't happen(WebSocket); dummy function called";
       };
     });
 
-   const fake_socket = {'bogus': 'dude'};
+    const fake_socket = {'bogus': 'dude'};
 
    beforeEach(() => {
      global.WebSocket = jest.fn();
@@ -59,12 +62,23 @@ describe('Gamepads', () => {
     });
 
     describe("When we have no gamepads", () => {
+      const { real_location } = window;
+
       beforeEach(()=>{
+        delete window.location;
+        window.location = {
+          hostname: "somewhere.over.com",
+          port: 31416,
+        };
         jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
           return [{id: 'C', buttons: make_buttons()}];
         });
         jest.spyOn(navigator, 'WebSocket');
         GamePads.poll();
+      });
+
+      afterEach(() => {
+        window.location = real_location;
       });
 
       it('notices a new gamepad', () => {
@@ -80,7 +94,7 @@ describe('Gamepads', () => {
       });
 
       it("sets the websocket's url correctly", () => {
-        expect(global.WebSocket).toHaveBeenCalledWith("something or other");
+        expect(global.WebSocket).toHaveBeenCalledWith("ws://somewhere.over.com:31416/engine.io/?EIO=3&transport=websocket");
       });
     });
   });
@@ -98,4 +112,3 @@ describe('Gamepads', () => {
     });
   });
 });
-
