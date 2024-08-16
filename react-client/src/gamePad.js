@@ -21,12 +21,11 @@ export default class GamePad {
   }
 
   command_socket() {
-    return this._socket;
+      return this._socket;
   }
 
   create_socket() {
-    const url = `ws://${window.location.hostname}:${window.location.port}/engine.io/?EIO=3&transport=websocket`;
-    this._socket = new WebSocket(url);
+    this._socket = new WebSocket(new ServerConnection().url());
   }
 
   id() {

@@ -1,7 +1,5 @@
 export class ServerConnection {
-  url(host = window.location.hostname) {
-    return `ws://${host}/engine.io/?EIO=3&transport=websocket`;
+  url(host = window.location.hostname, port = window.location.port) {
+    return `ws://${window.location.hostname}:${port}/engine.io/?EIO=3&transport=websocket`;
   };
 }
-
-
