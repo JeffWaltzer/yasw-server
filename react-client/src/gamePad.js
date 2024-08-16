@@ -1,5 +1,6 @@
 import {GamePadState} from "./gamePadState";
 import CommandTable from "./command_table";
+import {ServerConnection} from "./server_connection";
 
 const command_table = new CommandTable();
 

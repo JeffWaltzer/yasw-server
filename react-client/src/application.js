@@ -2,6 +2,7 @@ import Message from "./message";
 import GameServer from "./game_server";
 import {Keyboard} from "./keyboard";
 import {GamePads} from "./gamePads";
+import {ServerConnection} from "./server_connection"
 
 export default class Application {
   constructor(document, websocket_implementation) {
@@ -31,7 +32,7 @@ export default class Application {
   }
 
   build_websocket() {
-    const web_socket = new this._websocket_implementation(`ws://${window.location.host}/engine.io/?EIO=3&transport=websocket`);
+    const web_socket = new this._websocket_implementation(new ServerConnection().url());
     web_socket.onopen = (event) => {
       web_socket.onmessage = this.dispatch_message.bind(this);
     };
