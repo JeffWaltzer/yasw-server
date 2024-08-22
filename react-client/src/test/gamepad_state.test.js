@@ -11,7 +11,7 @@ function make_gamepad(buttons, socket) {
 
   gamepad.create_socket();
   
-  jest.spyOn(gamepad.command_socket(), "send");
+  jest.spyOn(gamepad.server_connection(), "send");
   return gamepad;
 };
 
@@ -54,7 +54,7 @@ describe("When thrust button is up and we receive up", () => {
           
     const gamepad= exercise_gamepad([], [], stub_socket);
 
-    expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+    expect(gamepad.server_connection().send).not.toHaveBeenCalled();
   });
 });
 
@@ -65,7 +65,7 @@ describe('When thrust button is down and we receive up', () => {
     const new_gamepad_state = make_gamepad_state( );
 
     gamepad.interpret_command(new_gamepad_state);
-    expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify(
+    expect(gamepad.server_connection().send).toHaveBeenCalledWith(JSON.stringify(
       {command: 'thrust_off'}
     ));
   });
@@ -77,7 +77,7 @@ describe("for thrust_down events ", () => {
     const new_gamepad_state = make_gamepad_state( [THRUST_BUTTON]);
     gamepad.interpret_command(new_gamepad_state);
 
-    expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify(
+    expect(gamepad.server_connection().send).toHaveBeenCalledWith(JSON.stringify(
       {command: 'thrust_on'}
     ));
   });
@@ -87,7 +87,7 @@ describe("for thrust_down events ", () => {
     const new_gamepad_state = make_gamepad_state( [THRUST_BUTTON]);
     gamepad.interpret_command(new_gamepad_state);
 
-    expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+    expect(gamepad.server_connection().send).not.toHaveBeenCalled();
   });
 });
 
@@ -98,7 +98,7 @@ describe(`When the fire button is up and we receive up`, () => {
     const new_gamepad_state = make_gamepad_state();
     gamepad.interpret_command(new_gamepad_state);
 
-    expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+    expect(gamepad.server_connection().send).not.toHaveBeenCalled();
   });
 })
 
@@ -109,7 +109,7 @@ describe(`When the fire button is down and we receive up`, () => {
     const new_gamepad_state = make_gamepad_state();
     gamepad.interpret_command(new_gamepad_state);
 
-    expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+    expect(gamepad.server_connection().send).not.toHaveBeenCalled();
   });
 });
 
@@ -119,7 +119,7 @@ describe(`When the fire button is up and we receive down`, () => {
     const new_gamepad_state = make_gamepad_state([FIRE_BUTTON]);
     gamepad.interpret_command(new_gamepad_state);
 
-    expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify(
+    expect(gamepad.server_connection().send).toHaveBeenCalledWith(JSON.stringify(
       {command: 'fire'}
     ));
   });
@@ -130,7 +130,7 @@ describe(`When the fire button is down and we receive down`, () => {
     const gamepad = make_gamepad(make_buttons([FIRE_BUTTON]), stub_socket);
     const new_gamepad_state = make_gamepad_state([FIRE_BUTTON]);
     gamepad.interpret_command(new_gamepad_state);
-    expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+    expect(gamepad.server_connection().send).not.toHaveBeenCalled();
   });
 });
 
@@ -201,7 +201,7 @@ function rotate_buttons_from_test_conditions(leftButton, rightButton) {
 
         gamepad.interpret_command(new_gamepad_state);
 
-        expect(gamepad.command_socket().send).not.toHaveBeenCalled();
+        expect(gamepad.server_connection().send).not.toHaveBeenCalled();
       });
     });
 });
@@ -300,7 +300,7 @@ function rotate_buttons_from_test_conditions(leftButton, rightButton) {
 
         gamepad.interpret_command(new_gamepad_state);
 
-        expect(gamepad.command_socket().send).toHaveBeenCalledWith(JSON.stringify({
+        expect(gamepad.server_connection().send).toHaveBeenCalledWith(JSON.stringify({
           command: test_conditions.expected_sent
         }));
       });

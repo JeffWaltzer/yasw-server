@@ -17,10 +17,10 @@ export default class GamePad {
   }
 
   send(command) {
-    this.command_socket().send(`{\"command\":\"${command}\"}`);
+    this.server_connection().send(`{\"command\":\"${command}\"}`);
   }
 
-  command_socket() {
+  server_connection() {
       return this._socket;
   }
 
