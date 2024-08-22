@@ -86,7 +86,7 @@ describe('Gamepads', () => {
       });
 
       it('connects the new gamepad', () => {
-        expect(GamePads._active[0].command_socket()).toEqual(fake_socket);
+        expect(GamePads._active[0].command_socket()._websocket).toEqual(fake_socket);
       });
 
       it('saves game pad id', () => {

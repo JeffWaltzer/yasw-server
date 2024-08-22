@@ -25,7 +25,7 @@ export default class GamePad {
   }
 
   create_socket() {
-    this._socket = new WebSocket(new ServerConnection().url());
+    this._socket = new ServerConnection();
   }
 
   id() {
