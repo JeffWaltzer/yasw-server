@@ -86,7 +86,7 @@ describe('Gamepads', () => {
       });
 
       it('connects the new gamepad', () => {
-        expect(GamePads._active[0].server_connection()._websocket).toEqual(fake_socket);
+        expect(GamePads._active[0].server_connection().websocket()).toEqual(fake_socket);
       });
 
       it('saves game pad id', () => {
@@ -94,6 +94,7 @@ describe('Gamepads', () => {
       });
 
       it("sets the websocket's url correctly", () => {
+        GamePads._active[0].server_connection().websocket();
         expect(global.WebSocket).toHaveBeenCalledWith("ws://somewhere.over.com:31416/engine.io/?EIO=3&transport=websocket");
       });
     });
