@@ -21,11 +21,11 @@ export default class GamePad {
   }
 
   server_connection() {
-      return this._socket;
+      return this._server_connection;
   }
 
-  create_socket() {
-    this._socket = new ServerConnection();
+  create_server_connection() {
+    this._server_connection = new ServerConnection();
   }
 
   id() {

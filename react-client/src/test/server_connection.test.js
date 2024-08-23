@@ -24,7 +24,15 @@ describe("ServerConnection", () => {
     });
   });
 
-  xdescribe("#send", () => {
+  describe("#send", () => {
+    it("sends the message to the websocket", () => {
+      let fake_websocket = {send: () => {}};
+      jest.spyOn(fake_websocket, 'send').mockImplementation(() => {});
 
-  })
+      const connection = new ServerConnection();
+      connection._websocket = fake_websocket;
+      connection.send("something");
+      expect(fake_websocket.send).toHaveBeenCalledWith("something");
+    });
+  });
 });

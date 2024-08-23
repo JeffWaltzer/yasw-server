@@ -9,7 +9,7 @@ function make_gamepad(buttons, socket) {
   global.WebSocket = jest.fn();
   global.WebSocket.mockImplementation(function() { return socket; });
 
-  gamepad.create_socket();
+  gamepad.create_server_connection();
   
   jest.spyOn(gamepad.server_connection(), "send");
   return gamepad;

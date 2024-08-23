@@ -10,6 +10,7 @@ export class ServerConnection {
     return this._websocket;
   }
 
-  send() {
+  send(data) {
+    this.websocket().send(data)
   }
 }
