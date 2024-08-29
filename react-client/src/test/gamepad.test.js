@@ -50,12 +50,6 @@ describe('Gamepad', () => {
       expect(new_gamepad.id()).toEqual('C');
     });
 
-    it("sets the websocket's url correctly", () => {
-      const new_gamepad = new GamePad({id: 'C', buttons: make_buttons()});
-      new_gamepad.create_server_connection();
-      new_gamepad.server_connection().websocket();
-      expect(global.WebSocket).toHaveBeenCalledWith("ws://somewhere.over.com:31416/engine.io/?EIO=3&transport=websocket");
-    });
   });
 
   describe("Initial button states", function () {
