@@ -4,21 +4,24 @@ import {GamePads} from "../gamePads";
 import GamePad from "../gamePad";
 
 describe("ServerConnection", () => {
+
+  let real_location;
+
+  beforeEach(() => {
+    real_location = window.location;
+    delete window.location;
+    window.location = {
+      hostname: "somewhere.over.com",
+      port: 31416,
+    };
+  });
+
+  afterEach(() => {
+    window.location = real_location;
+  });
+
+
   describe("#url()", () => {
-    let real_location;
-
-    beforeEach(() => {
-      real_location = window.location;
-      delete window.location;
-      window.location = {
-        hostname: "somewhere.over.com",
-        port: 31416,
-      };
-    });
-
-    afterEach(() => {
-      window.location = real_location;
-    });
 
     it("sets the websocket's url correctly", () => {
       expect(new ServerConnection().url()).toEqual("ws://somewhere.over.com:31416/engine.io/?EIO=3&transport=websocket");
@@ -37,13 +40,10 @@ describe("ServerConnection", () => {
     });
   });
 
-  describe("websocket", () => {
+  describe("#websocket", () => {
 
     const fake_socket = {
-
     }
-
-    let real_location;
 
     beforeEach(() => {
       jest.spyOn(global, 'WebSocket');
@@ -53,17 +53,8 @@ describe("ServerConnection", () => {
         return fake_socket;
       });
 
-      real_location = window.location;
-      delete window.location;
-      window.location = {
-        hostname: "somewhere.over.com",
-        port: 31416,
-      };
     });
 
-    afterEach(() => {
-      window.location = real_location;
-    });
 
     it("sets the  url correctly", () => {
       const server_connection = new ServerConnection()

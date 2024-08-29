@@ -3,6 +3,7 @@ import {FIRE_BUTTON, LEFT_BUTTON, RIGHT_BUTTON, THRUST_BUTTON} from "../gamePadS
 import GamePad from "../gamePad";
 import {make_buttons} from "./make_buttons";
 import {GamePads} from "../gamePads";
+import {ServerConnection} from "../server_connection";
 
 describe('Gamepad', () => {
   let gamepad;
@@ -16,40 +17,16 @@ describe('Gamepad', () => {
   });
 
   describe("a newly created GamePad", () => {
-    const fake_socket = {'bogus': 'dude'};
-    let real_location;
-
-    beforeEach(() => {
-      jest.spyOn(global, 'WebSocket');
-
-      global.WebSocket = jest.fn();
-      global.WebSocket.mockImplementation(function () {
-        return fake_socket;
-      });
-
-      real_location = window.location;
-      delete window.location;
-      window.location = {
-        hostname: "somewhere.over.com",
-        port: 31416,
-      };
-    });
-
-    afterEach(() => {
-      window.location = real_location;
-    });
-
     it('connects the new gamepad', () => {
       const new_gamepad = new GamePad({id: 'C', buttons: make_buttons()});
       new_gamepad.create_server_connection();
-      expect(new_gamepad.server_connection().websocket()).toEqual(fake_socket);
+      expect(new_gamepad.server_connection()).toBeInstanceOf(ServerConnection);
     });
 
     it('saves game pad id', () => {
       const new_gamepad = new GamePad({id: 'C', buttons: make_buttons()});
       expect(new_gamepad.id()).toEqual('C');
     });
-
   });
 
   describe("Initial button states", function () {
