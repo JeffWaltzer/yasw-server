@@ -1,10 +1,6 @@
 import {ServerConnection} from "../server_connection";
-import {make_buttons} from "./make_buttons";
-import {GamePads} from "../gamePads";
-import GamePad from "../gamePad";
 
 describe("ServerConnection", () => {
-
   let real_location;
 
   beforeEach(() => {
@@ -20,9 +16,7 @@ describe("ServerConnection", () => {
     window.location = real_location;
   });
 
-
   describe("#url()", () => {
-
     it("sets the websocket's url correctly", () => {
       expect(new ServerConnection().url()).toEqual("ws://somewhere.over.com:31416/engine.io/?EIO=3&transport=websocket");
     });
@@ -30,7 +24,10 @@ describe("ServerConnection", () => {
 
   describe("#send", () => {
     it("sends the message to the websocket", () => {
-      let fake_websocket = {send: () => {}};
+      let fake_websocket = {
+        send: () => {}
+      };
+
       jest.spyOn(fake_websocket, 'send').mockImplementation(() => {});
 
       const connection = new ServerConnection();
@@ -41,9 +38,7 @@ describe("ServerConnection", () => {
   });
 
   describe("#websocket", () => {
-
-    const fake_socket = {
-    }
+    const fake_socket = {}
 
     beforeEach(() => {
       jest.spyOn(global, 'WebSocket');
@@ -52,16 +47,12 @@ describe("ServerConnection", () => {
       global.WebSocket.mockImplementation(function () {
         return fake_socket;
       });
-
     });
-
 
     it("sets the  url correctly", () => {
       const server_connection = new ServerConnection()
       server_connection.websocket();
       expect(global.WebSocket).toHaveBeenCalledWith("ws://somewhere.over.com:31416/engine.io/?EIO=3&transport=websocket");
     });
-
   })
-
 });

@@ -2,7 +2,6 @@ import Gamepad from "../gamePad";
 import {FIRE_BUTTON, LEFT_BUTTON, RIGHT_BUTTON, THRUST_BUTTON} from "../gamePadState";
 import GamePad from "../gamePad";
 import {make_buttons} from "./make_buttons";
-import {GamePads} from "../gamePads";
 import {ServerConnection} from "../server_connection";
 
 describe('Gamepad', () => {
@@ -18,9 +17,8 @@ describe('Gamepad', () => {
 
   describe("a newly created GamePad", () => {
     it('connects the new gamepad', () => {
-      const new_gamepad = new GamePad({id: 'C', buttons: make_buttons()});
-      new_gamepad.create_server_connection();
-      expect(new_gamepad.server_connection()).toBeInstanceOf(ServerConnection);
+      gamepad.create_server_connection();
+      expect(gamepad.server_connection()).toBeInstanceOf(ServerConnection);
     });
 
     it('saves game pad id', () => {
@@ -76,7 +74,5 @@ describe('Gamepad', () => {
       expect(gamepad._old_gamepad_state._left).toBeTruthy();
     });
   });
-
-
 })
 
