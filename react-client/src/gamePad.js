@@ -21,7 +21,7 @@ export default class GamePad {
   }
 
   server_connection() {
-      return this._server_connection;
+    return this._server_connection;
   }
 
   create_server_connection() {

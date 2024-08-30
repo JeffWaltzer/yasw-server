@@ -15,12 +15,42 @@ describe('Gamepad', () => {
     gamepad = new Gamepad({buttons: buttons});
   });
 
-  describe("a newly created GamePad", () => {
+  describe("#create_server_connection", () => {
+
+    const fake_server_connection = {'bogus': 'dude'};
+
+    beforeEach(() => {
+      global.ServerConnection = jest.fn();
+      global.ServerConnection.mockImplementation(function () {
+        return fake_server_connection;
+      });
+    });
+
     it('connects the new gamepad', () => {
       gamepad.create_server_connection();
       expect(gamepad.server_connection()).toBeInstanceOf(ServerConnection);
     });
 
+    it('turns off drawing updates', ()=>{
+      let server_connection={
+        stop_updates: () => {}
+      };
+
+      jest.spyOn(server_connection,"stop_updates")
+
+      ServerConnection = jest.fn();
+      ServerConnection.mockImplementation(function () {
+        return fake_server_connection;
+      });
+
+      gamepad.create_server_connection();
+
+      expect(server_connection.stop_updates).toHaveBeenCalled();
+    });
+
+  })
+
+  describe("a newly created GamePad", () => {
     it('saves game pad id', () => {
       const new_gamepad = new GamePad({id: 'C', buttons: make_buttons()});
       expect(new_gamepad.id()).toEqual('C');
