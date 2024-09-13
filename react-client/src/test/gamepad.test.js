@@ -7,6 +7,7 @@ import {ServerConnection} from "../server_connection";
 describe('Gamepad', () => {
   let gamepad;
   let buttons;
+  let fake_socket = { send: () => {} }
 
   beforeEach(() => {
     buttons = Array(50).fill('').map(() => {
@@ -17,11 +18,19 @@ describe('Gamepad', () => {
 
   describe("#create_server_connection", () => {
 
-    const fake_server_connection = {'bogus': 'dude'};
+    let fake_server_connection = {'bogus': 'dude'};
 
     beforeEach(() => {
+      jest.spyOn(global, 'WebSocket');
+
+      global.WebSocket = jest.fn();
+      global.WebSocket.mockImplementation(function () {
+        return fake_socket;
+      });
+
       global.ServerConnection = jest.fn();
       global.ServerConnection.mockImplementation(function () {
+        console.log("returning fake server connection");
         return fake_server_connection;
       });
     });
@@ -32,20 +41,15 @@ describe('Gamepad', () => {
     });
 
     it('turns off drawing updates', ()=>{
-      let server_connection={
+      fake_server_connection= {
         stop_updates: () => {}
       };
 
-      jest.spyOn(server_connection,"stop_updates")
-
-      ServerConnection = jest.fn();
-      ServerConnection.mockImplementation(function () {
-        return fake_server_connection;
-      });
-
+      jest.spyOn(fake_server_connection,"stop_updates")
+        ``
       gamepad.create_server_connection();
 
-      expect(server_connection.stop_updates).toHaveBeenCalled();
+      expect(fake_server_connection.stop_updates).toHaveBeenCalled();
     });
 
   })

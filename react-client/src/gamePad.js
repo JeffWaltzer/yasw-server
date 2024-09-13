@@ -26,6 +26,7 @@ export default class GamePad {
 
   create_server_connection() {
     this._server_connection = new ServerConnection();
+    this._server_connection.stop_updates();
   }
 
   id() {

@@ -13,4 +13,8 @@ export class ServerConnection {
   send(data) {
     this.websocket().send(data)
   }
+
+  stop_updates() {
+    this.send('stop-screen-updates');
+  }
 }

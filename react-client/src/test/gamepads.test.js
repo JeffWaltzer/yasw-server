@@ -17,7 +17,7 @@ describe('Gamepads', () => {
       };
     });
 
-    const fake_socket = {'bogus': 'dude'};
+    const fake_socket = {send: () => {}};
 
    beforeEach(() => {
      global.WebSocket = jest.fn();

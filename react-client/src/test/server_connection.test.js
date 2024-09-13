@@ -54,5 +54,26 @@ describe("ServerConnection", () => {
       server_connection.websocket();
       expect(global.WebSocket).toHaveBeenCalledWith("ws://somewhere.over.com:31416/engine.io/?EIO=3&transport=websocket");
     });
-  })
+  });
+
+  describe("#stop_updates", () => {
+    beforeEach(() => {
+      const fake_socket = { send: () => {}}
+
+      jest.spyOn(global, 'WebSocket');
+
+      global.WebSocket = jest.fn();
+      global.WebSocket.mockImplementation(function () {
+        return fake_socket;
+      });
+    });
+
+    it("sends stop-screen-updates", () => {
+      const server_connection = new ServerConnection();
+      jest.spyOn(server_connection, "send");
+      server_connection.stop_updates();
+
+      expect(server_connection.send).toHaveBeenCalledWith('stop-screen-updates')
+    })
+  });
 });
