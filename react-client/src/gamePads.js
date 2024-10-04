@@ -16,4 +16,8 @@ export class GamePads {
       return new_gamepad;
     });
   }
+
+  static on_gamepadconnected(connect_event) {
+    this._active.push(new GamePad(connect_event.gamepad));
+  }
 }

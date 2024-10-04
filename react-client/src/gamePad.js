@@ -7,8 +7,8 @@ const command_table = new CommandTable();
 export default class GamePad {
 
   constructor(dom_gamepad = {}) {
+    this._dom_gamepad = dom_gamepad;
     this._old_gamepad_state = new GamePadState(dom_gamepad);
-    this._id = dom_gamepad.id;
   }
 
   interpret_command(new_gamepad_state) {
@@ -30,6 +30,6 @@ export default class GamePad {
   }
 
   id() {
-    return this._id;
+    return this._dom_gamepad.id;
   }
 }
