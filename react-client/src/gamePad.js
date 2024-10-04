@@ -16,6 +16,8 @@ export default class GamePad {
     this._old_gamepad_state = new_gamepad_state;
   }
 
+  send_commands() {}
+
   send(command) {
     this.server_connection().send(`{\"command\":\"${command}\"}`);
   }
