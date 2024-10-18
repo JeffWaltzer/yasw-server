@@ -1,11 +1,7 @@
 function make_buttons(buttons_to_press=[]) {
-  const buttons = Array(50).fill(0).map(() => {
-    return {pressed: false};
+  return Array(50).fill(0).map((button, index) => {
+    return {pressed: buttons_to_press.includes(index)};
   });
-  buttons_to_press.forEach((button, button_index) => {
-    buttons[button_index].pressed = true;
-  });
-  return buttons;
 }
 
 export { make_buttons };
