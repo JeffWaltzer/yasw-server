@@ -61,12 +61,9 @@ xdescribe("When thrust button is up and we receive up", () => {
 
 describe('When thrust button is down and we receive up', () => {
   it('sends thrust_off', function () {
-
-    // Continue here; are we getting our buttons into the gamepad
-    const gamepad = make_gamepad(make_buttons([THRUST_BUTTON]), stub_socket);
-    console.log('pressed:', gamepad.buttons[THRUST_BUTTON].pressed);
-    gamepad.buttons[THRUST_BUTTON].pressed = false;
-    gamepad.send_commands();
+    const new_gamepad_state = make_gamepad_state(make_buttons([THRUST_BUTTON]));
+    const gamepad = make_gamepad( make_buttons([]),{})
+    gamepad.interpret_command(new_gamepad_state)
 
     expect(gamepad.server_connection().send).toHaveBeenCalledWith(JSON.stringify(
       {command: 'thrust_off'}
