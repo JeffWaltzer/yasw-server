@@ -16,7 +16,7 @@ describe('Gamepad', () => {
     gamepad = new Gamepad({buttons: buttons});
   });
 
-  describe("#create_server_connection", () => {
+  describe("#server_connection", () => {
 
     let fake_server_connection = {'bogus': 'dude'};
 
@@ -36,8 +36,11 @@ describe('Gamepad', () => {
     });
 
     it('connects the new gamepad', () => {
-      gamepad.create_server_connection();
-      expect(gamepad.server_connection()).toBeInstanceOf(ServerConnection);
+      let server_connection={
+        stop_updates: () => {}
+      };
+      gamepad.server_connection(server_connection);
+      expect(gamepad.server_connection()).toEqual(server_connection);
     });
 
     it('turns off drawing updates', ()=>{
@@ -45,9 +48,9 @@ describe('Gamepad', () => {
         stop_updates: () => {}
       };
 
-      jest.spyOn(fake_server_connection,"stop_updates")
-        ``
-      gamepad.create_server_connection();
+      jest.spyOn(server_connection,"stop_updates")
+
+      gamepad.server_connection(server_connection);
 
       expect(fake_server_connection.stop_updates).toHaveBeenCalled();
     });
