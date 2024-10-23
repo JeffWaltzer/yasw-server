@@ -48,9 +48,9 @@ describe('Gamepad', () => {
         stop_updates: () => {}
       };
 
-      jest.spyOn(server_connection,"stop_updates")
+      jest.spyOn(fake_server_connection,"stop_updates")
 
-      gamepad.server_connection(server_connection);
+      gamepad.server_connection(fake_server_connection);
 
       expect(fake_server_connection.stop_updates).toHaveBeenCalled();
     });

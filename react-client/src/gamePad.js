@@ -20,7 +20,11 @@ export default class GamePad {
     this.server_connection().send(`{\"command\":\"${command}\"}`);
   }
 
-  server_connection() {
+  server_connection(serverConnection) {
+    if(serverConnection) {
+      this._server_connection = serverConnection;
+      this._server_connection.stop_updates();
+    }
     return this._server_connection;
   }
 

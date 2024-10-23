@@ -23,7 +23,7 @@ describe('Gamepads', () => {
         gamepad: browser_gamepad
       };
 
-      GamePads.on_gamepadconnected(connect_event);
+      GamePads.on_gamepad_connect(connect_event);
     });
 
     it("adds the new gamepad", () => {

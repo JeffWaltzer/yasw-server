@@ -16,7 +16,7 @@ export class GamePads {
         });
     }
 
-  static on_gamepadconnected(connect_event) {
+  static on_gamepad_connect(connect_event) {
     this._active.push(new GamePad(connect_event.gamepad));
   }
 

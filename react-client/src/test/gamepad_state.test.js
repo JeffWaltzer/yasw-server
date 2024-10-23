@@ -42,11 +42,12 @@ function exercise_gamepad (buttons_initially_down, buttons_to_press, stub_socket
 };
 
 describe("interpret_command", () => {
-  it("sends nothing if we do nothing", () => {
+  it("updates the gamepad state", () => {
     const gamepad = make_gamepad(make_buttons(), stub_socket);
-    gamepad.send_commands();
+    const new_gamepad_state = make_gamepad_state();
+    gamepad.interpret_command(new_gamepad_state);
 
-    expect(gamepad.server_connection().send).not.toHaveBeenCalled();
+    expect(gamepad._old_gamepad_state).toEqual(new_gamepad_state);
   });
 });
 
