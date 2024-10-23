@@ -49,6 +49,7 @@ describe('Application', () => {
           return fake_keyboard;
         })
         jest.spyOn(fake_keyboard, 'hookup')
+        jest.spyOn(window,"addEventListener");
 
         the_application.run()
       })
@@ -71,6 +72,20 @@ describe('Application', () => {
 
       it('calls build_gamepads', () => {
         expect(the_application._gamepads.constructor).toEqual(GamePads)
+      });
+
+      it ("sets a callback for plug-in gamepad events", ()=>{
+        expect(window.addEventListener).toHaveBeenCalledWith(
+            "gamepadconnected",
+            GamePads.on_new_gamepad
+        )
+      });
+
+      it ("sets a callback for unplug gamepad events", ()=>{
+        expect(window.addEventListener).toHaveBeenCalledWith(
+            "gamepaddisconnected",
+            GamePads.on_gamepad_disconnect
+        )
       });
 
       it('starts the gamepad polling', () => {

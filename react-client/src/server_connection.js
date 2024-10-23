@@ -15,6 +15,6 @@ export class ServerConnection {
   }
 
   stop_updates() {
-    this.send('stop-screen-updates');
+    this.send("stop-screen-updates")
   }
 }

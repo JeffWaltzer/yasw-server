@@ -37,6 +37,23 @@ describe("ServerConnection", () => {
     });
   });
 
+  describe("#stop_updates", () => {
+    it("sends the message to the websocket", () => {
+      let fake_websocket = {
+        send: () => {}
+      };
+
+      jest.spyOn(fake_websocket, 'send').mockImplementation(() => {});
+
+      const connection = new ServerConnection();
+      connection._websocket = fake_websocket;
+
+      connection.stop_updates();
+
+      expect(fake_websocket.send).toHaveBeenCalledWith("stop-screen-updates");
+    });
+  });
+
   describe("#websocket", () => {
     const fake_socket = {}
 
