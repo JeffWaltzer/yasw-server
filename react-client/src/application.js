@@ -18,7 +18,7 @@ export default class Application {
       this._keyboard_state = this.build_keyboard();
       this._keyboard_state.hookup();
       this._gamepads.start_polling();
-      window.addEventListener("gamepadconnected", GamePads.on_new_gamepad)
+      window.addEventListener("gamepadconnected", GamePads.on_gamepad_connect)
       window.addEventListener("gamepaddisconnected", GamePads.on_gamepad_disconnect)
     } catch (e) {
       console.log(`error: ${e}`);

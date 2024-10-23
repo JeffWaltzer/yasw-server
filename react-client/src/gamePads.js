@@ -21,8 +21,6 @@ export class GamePads {
     this._active.push(new GamePad(connect_event.gamepad));
   }
 
-
   static on_gamepad_disconnect() {
-
   }
 }

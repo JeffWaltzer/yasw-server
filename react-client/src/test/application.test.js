@@ -77,7 +77,7 @@ describe('Application', () => {
       it ("sets a callback for plug-in gamepad events", ()=>{
         expect(window.addEventListener).toHaveBeenCalledWith(
             "gamepadconnected",
-            GamePads.on_new_gamepad
+            GamePads.on_gamepad_connect
         )
       });
 
