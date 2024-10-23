@@ -130,6 +130,28 @@ describe('Gamepads', () => {
     });
   });
 
+  describe("On gamepad connected", () => {
+    beforeEach(() => {
+      GamePads._active = [];
+      const gamepad = {
+        index: 0,
+        id: 'Fake Gamepad',
+        buttons: make_buttons(),
+        axes: []
+      };
+      GamePads.on_gamepad_connect({gamepad: gamepad});
+    });
+
+    it('connects new gamepad', () => {
+      expect(GamePads._active[0]).toBeInstanceOf(GamePad);
+    });
+
+    it('sets correct id', () => {
+      expect(GamePads._active[0].id()).toEqual('Fake Gamepad');
+    });
+  });
+
+
   describe('#start_polling', () => {
     beforeEach(() => {
       jest.useFakeTimers('legacy');
