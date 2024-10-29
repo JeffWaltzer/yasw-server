@@ -51,22 +51,20 @@ describe("interpret_command", () => {
   });
 });
 
-xdescribe("When thrust button is up and we receive up", () => {
+describe("When thrust button is up and we receive up", () => {
   it("does not send", function () {
-    // const gamepad = make_gamepad(make_buttons(), stub_socket);
-    // const new_gamepad_state = make_gamepad_state();
-    // gamepad.interpret_command(new_gamepad_state);
+    const gamepad = make_gamepad(make_buttons(), stub_socket);
+    const new_gamepad_state = make_gamepad_state();
+    gamepad.interpret_command(new_gamepad_state);
           
-    const gamepad= exercise_gamepad([], [], stub_socket);
-
     expect(gamepad.server_connection().send).not.toHaveBeenCalled();
   });
 });
 
 describe('When thrust button is down and we receive up', () => {
   it('sends thrust_off', function () {
-    const new_gamepad_state = make_gamepad_state(make_buttons([THRUST_BUTTON]));
-    const gamepad = make_gamepad( make_buttons([]),{})
+    const gamepad = make_gamepad( make_buttons([THRUST_BUTTON]),{})
+    const new_gamepad_state = make_gamepad_state(make_buttons([]));
     gamepad.interpret_command(new_gamepad_state)
 
     expect(gamepad.server_connection().send).toHaveBeenCalledWith(JSON.stringify(
@@ -75,7 +73,7 @@ describe('When thrust button is down and we receive up', () => {
   });
 });
 
-xdescribe("for thrust_down events ", () => {
+describe("for thrust_down events ", () => {
   it(`When thrust button is up and we receive down sends thrust_on`, function () {
     const gamepad = make_gamepad(make_buttons(), stub_socket);
     const new_gamepad_state = make_gamepad_state( [THRUST_BUTTON]);
@@ -96,7 +94,7 @@ xdescribe("for thrust_down events ", () => {
 });
 
 
-xdescribe(`When the fire button is up and we receive up`, () => {
+describe(`When the fire button is up and we receive up`, () => {
   it("does not send", function () {
     const gamepad = make_gamepad(make_buttons(), stub_socket);
     const new_gamepad_state = make_gamepad_state();
@@ -106,8 +104,7 @@ xdescribe(`When the fire button is up and we receive up`, () => {
   });
 })
 
-xdescribe(`When the fire button is down and we receive up`, () => {
-
+describe(`When the fire button is down and we receive up`, () => {
   it("does not send", function () {
     const gamepad = make_gamepad(make_buttons([FIRE_BUTTON]), stub_socket);
     const new_gamepad_state = make_gamepad_state();
@@ -117,7 +114,7 @@ xdescribe(`When the fire button is down and we receive up`, () => {
   });
 });
 
-xdescribe(`When the fire button is up and we receive down`, () => {
+describe(`When the fire button is up and we receive down`, () => {
   it(`sends fire`, function () {
     const gamepad = make_gamepad(make_buttons(), stub_socket);
     const new_gamepad_state = make_gamepad_state([FIRE_BUTTON]);
@@ -129,7 +126,7 @@ xdescribe(`When the fire button is up and we receive down`, () => {
   });
 })
 
-xdescribe(`When the fire button is down and we receive down`, () => {
+describe(`When the fire button is down and we receive down`, () => {
   it("does not send", function () {
     const gamepad = make_gamepad(make_buttons([FIRE_BUTTON]), stub_socket);
     const new_gamepad_state = make_gamepad_state([FIRE_BUTTON]);
@@ -185,7 +182,7 @@ function rotate_buttons_from_test_conditions(leftButton, rightButton) {
     new_right_button: "up",
   }
 ].forEach((test_conditions) => {
-  xdescribe(`When left button is ${test_conditions.left_button} ` +
+  describe(`When left button is ${test_conditions.left_button} ` +
     `and right button is ${test_conditions.right_button}` +
     ` and we receive left ${test_conditions.new_left_button}, right ${test_conditions.new_right_button}`, () =>{
       afterEach(() => {
@@ -283,7 +280,7 @@ function rotate_buttons_from_test_conditions(leftButton, rightButton) {
     expected_sent: "rotate_right"
   },
 ].forEach((test_conditions) => {
-  xdescribe(`When left button is ${test_conditions.left_button} ` +
+  describe(`When left button is ${test_conditions.left_button} ` +
     `and right button is ${test_conditions.right_button} ` +
     `and we receive left ${test_conditions.new_left_button}, right ${test_conditions.new_right_button}`, () => {
 
