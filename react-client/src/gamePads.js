@@ -1,4 +1,5 @@
 import GamePad from './gamePad.js';
+import {GamePadState} from "./gamePadState";
 
 export class GamePads {
     static _active = [];
@@ -8,12 +9,14 @@ export class GamePads {
     };
 
     static poll() {
-        this._active = navigator.getGamepads().map((dom_gamepad) => {
-            const new_gamepad = new GamePad(dom_gamepad);
-            new_gamepad.server_connection();
+      const dom_gamepads = navigator.getGamepads();
 
-            return new_gamepad;
-        });
+      console.log(`dom_gamepads: ${dom_gamepads}`);
+      console.log(`GamePads._active: ${GamePads._active}`);
+
+      this._active.forEach((gamepad, index) => {
+        gamepad.interpret_command(new GamePadState((dom_gamepads[index])));
+      });
     }
 
   static on_gamepad_connect(connect_event) {

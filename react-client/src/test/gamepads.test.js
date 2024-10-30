@@ -1,6 +1,7 @@
 import {GamePads} from "../gamePads";
 import GamePad from "../gamePad";
 import {make_buttons} from "./make_buttons";
+import {FIRE_BUTTON, GamePadState} from "../gamePadState";
 
 describe('Gamepads', () => {
   it("starts with empty list of gamepads", () => {
@@ -26,6 +27,10 @@ describe('Gamepads', () => {
       GamePads.on_gamepad_connect(connect_event);
     });
 
+    afterEach(() => {
+      GamePads._active = [];
+    })
+
     it("adds the new gamepad", () => {
       expect(GamePads._active.length).toEqual(1);
     });
@@ -48,87 +53,61 @@ describe('Gamepads', () => {
   })
 
   describe("#poll", () => {
+    let fake_dom_gamepads = [];
+
     beforeEach(() => {
       navigator.getGamepads = () => {
         throw "shouldn't happen(getGamepads); dummy function called";
       };
-      navigator.WebSocket = () => {
-        throw "shouldn't happen(WebSocket); dummy function called";
-      };
+      jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
+        return fake_dom_gamepads;
+      })
     });
 
-    const fake_socket = {
-      send: () => {
-      }
-    };
+    afterEach(() => {
+      GamePads._active = [];
+    })
 
-    beforeEach(() => {
-      global.WebSocket = jest.fn();
-      global.WebSocket.mockImplementation(function () {
-        return fake_socket;
-      });
-    });
+    function add_gamepad() {
+      const gamepad = new GamePad({buttons: make_buttons()});
+      GamePads._active.push(gamepad);
+      return gamepad;
+    }
 
-    describe("When we have a gamepad and lost it", () => {
-      beforeEach(() => {
-        jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
-          return [];
-        });
-        GamePads._active = [
-          new GamePad({buttons: make_buttons()}),
-        ];
-      });
+    it ("calls interpret_command on the gamepad", () => {
+      const gamepad = add_gamepad();
+      jest.spyOn(gamepad, "interpret_command").mockReturnValue(null);
 
-      it('notices', () => {
-        expect(GamePads._active.length).toEqual(1);
-        GamePads.poll();
-        expect(GamePads._active.length).toEqual(0);
-      });
-    });
+      const fake_dom_gamepad = {buttons: make_buttons()};
+      fake_dom_gamepads = [fake_dom_gamepad];
+      const expected_gamepad_state = new GamePadState(fake_dom_gamepad);
 
-    describe("When we have a gamepad and see a 2nd gamepad", () => {
-      beforeEach(() => {
-        jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
-          return [
-            {id: 'A', buttons: make_buttons()},
-            {id: 'B', buttons: make_buttons()}
-          ];
-        });
+      GamePads.poll();
 
-        GamePads._active = [new GamePad({buttons: make_buttons()})];
-        GamePads.poll();
-      });
+      expect(gamepad.interpret_command).toHaveBeenCalledWith(expected_gamepad_state);
+    })
 
-      it('we see both gamepads', () => {
-        expect(GamePads._active.length).toEqual(2);
-      });
-    });
+    it ("calls interpret_command on the correct gamepad", () => {
+      const first_gamepad = add_gamepad();
+      jest.spyOn(first_gamepad, "interpret_command").mockReturnValue(null);
 
-    describe("When we have no gamepads", () => {
-      const {real_location} = window;
+      const second_gamepad = add_gamepad();
+      jest.spyOn(second_gamepad, "interpret_command").mockReturnValue(null);
 
-      beforeEach(() => {
-        delete window.location;
-        window.location = {
-          hostname: "somewhere.over.com",
-          port: 31416,
-        };
-        jest.spyOn(navigator, "getGamepads").mockImplementation(() => {
-          return [{id: 'C', buttons: make_buttons()}];
-        });
-        jest.spyOn(navigator, 'WebSocket');
-        GamePads.poll();
-      });
+      const first_fake_dom_gamepad = {buttons: make_buttons()};
+      const second_fake_dom_gamepad = {buttons: make_buttons([FIRE_BUTTON])};
 
-      afterEach(() => {
-        window.location = real_location;
-      });
+      fake_dom_gamepads = [first_fake_dom_gamepad, second_fake_dom_gamepad];
 
-      it('notices a new gamepad', () => {
-        expect(GamePads._active.length).toEqual(1);
-      });
-    });
-  });
+      const first_expected_gamepad_state = new GamePadState(first_fake_dom_gamepad);
+      const second_expected_gamepad_state = new GamePadState(second_fake_dom_gamepad);
+
+      GamePads.poll();
+
+      expect(first_gamepad.interpret_command).toHaveBeenCalledWith(first_expected_gamepad_state);
+      expect(second_gamepad.interpret_command).toHaveBeenCalledWith(second_expected_gamepad_state)
+    })
+});
 
   describe("On gamepad connected", () => {
     beforeEach(() => {
