@@ -15,7 +15,7 @@ export class GamePads {
       console.log(`GamePads._active: ${GamePads._active}`);
 
       this._active.forEach((gamepad, index) => {
-        gamepad.interpret_command(new GamePadState((dom_gamepads[index])));
+        gamepad.update();
       });
     }
 

@@ -7,13 +7,30 @@ import {ServerConnection} from "../server_connection";
 describe('Gamepad', () => {
   let gamepad;
   let buttons;
-  let fake_socket = { send: () => {} }
+  let fake_socket = { send: () => {} }; // ToDo: Dead?
+  let fake_server_connection = {
+    send: () => {},
+    stop_updates: () => {}
+  };
+  let fake_dom_gamepad;
 
   beforeEach(() => {
     buttons = Array(50).fill('').map(() => {
       return {pressed: false};
     });
-    gamepad = new Gamepad({buttons: buttons});
+    fake_dom_gamepad = {buttons: buttons};
+    gamepad = new Gamepad(fake_dom_gamepad);
+    gamepad.server_connection(fake_server_connection);
+  });
+
+  describe("#update", ()=> {
+    it("updates the saved DOM gamepad", () => {
+      const thrust_button = 5;
+      fake_dom_gamepad.buttons[thrust_button].pressed = true;
+      gamepad.update();
+
+      expect(gamepad._old_gamepad_state._thrust).toBe(true);
+    });
   });
 
   describe("#server_connection", () => {

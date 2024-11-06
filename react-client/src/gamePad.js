@@ -11,6 +11,11 @@ export default class GamePad {
     this._old_gamepad_state = new GamePadState(dom_gamepad);
   }
 
+  update() {
+    const new_state = new GamePadState(this.dom_gamepad());
+    this.interpret_command(new_state);
+  }
+
   interpret_command(new_gamepad_state) {
     command_table.interpret_command(this._old_gamepad_state, new_gamepad_state, this.send.bind(this));
     this._old_gamepad_state = new_gamepad_state;
@@ -35,5 +40,9 @@ export default class GamePad {
 
   id() {
     return this._dom_gamepad.id;
+  }
+
+  dom_gamepad() {
+    return this._dom_gamepad;
   }
 }

@@ -74,9 +74,9 @@ describe('Gamepads', () => {
       return gamepad;
     }
 
-    it ("calls interpret_command on the gamepad", () => {
+    it ("calls update on the gamepad", () => {
       const gamepad = add_gamepad();
-      jest.spyOn(gamepad, "interpret_command").mockReturnValue(null);
+      jest.spyOn(gamepad, "update").mockReturnValue(null);
 
       const fake_dom_gamepad = {buttons: make_buttons()};
       fake_dom_gamepads = [fake_dom_gamepad];
@@ -84,41 +84,22 @@ describe('Gamepads', () => {
 
       GamePads.poll();
 
-      expect(gamepad.interpret_command).toHaveBeenCalledWith(expected_gamepad_state);
-    })
-
-    it ("calls interpret_command on the correct gamepad", () => {
-      const first_gamepad = add_gamepad();
-      jest.spyOn(first_gamepad, "interpret_command").mockReturnValue(null);
-
-      const second_gamepad = add_gamepad();
-      jest.spyOn(second_gamepad, "interpret_command").mockReturnValue(null);
-
-      const first_fake_dom_gamepad = {buttons: make_buttons()};
-      const second_fake_dom_gamepad = {buttons: make_buttons([FIRE_BUTTON])};
-
-      fake_dom_gamepads = [first_fake_dom_gamepad, second_fake_dom_gamepad];
-
-      const first_expected_gamepad_state = new GamePadState(first_fake_dom_gamepad);
-      const second_expected_gamepad_state = new GamePadState(second_fake_dom_gamepad);
-
-      GamePads.poll();
-
-      expect(first_gamepad.interpret_command).toHaveBeenCalledWith(first_expected_gamepad_state);
-      expect(second_gamepad.interpret_command).toHaveBeenCalledWith(second_expected_gamepad_state)
-    })
+      expect(gamepad.update).toHaveBeenCalled();
+    });
 });
 
   describe("On gamepad connected", () => {
+    let fake_dom_gamepad;
+
     beforeEach(() => {
       GamePads._active = [];
-      const gamepad = {
+      fake_dom_gamepad = {
         index: 0,
         id: 'Fake Gamepad',
         buttons: make_buttons(),
         axes: []
       };
-      GamePads.on_gamepad_connect({gamepad: gamepad});
+      GamePads.on_gamepad_connect({gamepad: fake_dom_gamepad});
     });
 
     it('connects new gamepad', () => {
@@ -127,6 +108,10 @@ describe('Gamepads', () => {
 
     it('sets correct id', () => {
       expect(GamePads._active[0].id()).toEqual('Fake Gamepad');
+    });
+
+    it('remembers its DOM gamepad', () => {
+      expect(GamePads._active[0].dom_gamepad()).toEqual(fake_dom_gamepad);
     });
   });
 
