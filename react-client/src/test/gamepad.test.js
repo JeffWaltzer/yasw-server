@@ -24,6 +24,18 @@ describe('Gamepad', () => {
   });
 
   describe("#update", ()=> {
+    it("sends thrust command", () => {
+      const thrust_button = 5;
+      fake_dom_gamepad.buttons[thrust_button].pressed = true;
+
+      jest.spyOn(fake_server_connection,'send');
+
+      gamepad.update();
+
+      expect(fake_server_connection.send)
+        .toHaveBeenCalledWith(JSON.stringify({command: 'thrust_on'}))
+
+    });
     it("updates the saved DOM gamepad", () => {
       const thrust_button = 5;
       fake_dom_gamepad.buttons[thrust_button].pressed = true;

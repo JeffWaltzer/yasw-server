@@ -7,11 +7,13 @@ const command_table = new CommandTable();
 export default class GamePad {
 
   constructor(dom_gamepad = {}) {
+    console.log('GamePad:constructor', dom_gamepad);
     this._dom_gamepad = dom_gamepad;
     this._old_gamepad_state = new GamePadState(dom_gamepad);
   }
 
   update() {
+    console.log('GamePad:update', this._dom_gamepad)
     const new_state = new GamePadState(this.dom_gamepad());
     this.interpret_command(new_state);
   }

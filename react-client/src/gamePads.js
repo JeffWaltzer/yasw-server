@@ -9,18 +9,16 @@ export class GamePads {
     };
 
     static poll() {
-      const dom_gamepads = navigator.getGamepads();
-
-      console.log(`dom_gamepads: ${dom_gamepads}`);
-      console.log(`GamePads._active: ${GamePads._active}`);
-
-      this._active.forEach((gamepad, index) => {
+      console.log('poll')  //DEBUG DEBUG
+      GamePads._active.forEach((gamepad, index) => {
         gamepad.update();
       });
     }
 
   static on_gamepad_connect(connect_event) {
-    this._active.push(new GamePad(connect_event.gamepad));
+    console.log('GamePads.active (S)', GamePads._active)
+    GamePads._active.push(new GamePad(connect_event.gamepad));
+    console.log('GamePads.active (E)', GamePads._active)
   }
 
   static on_gamepad_disconnect() {
