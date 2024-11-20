@@ -1,9 +1,9 @@
 import GamePad from "./gamePad";
 
-const THRUST_BUTTON= 5;
-const FIRE_BUTTON= 6;
-const LEFT_BUTTON= 15;
-const RIGHT_BUTTON= 16;
+const THRUST_BUTTON= 1;
+const FIRE_BUTTON= 2;
+const LEFT_BUTTON= 3;
+const RIGHT_BUTTON= 4;
 
 class GamePadState {
   constructor(args) {
