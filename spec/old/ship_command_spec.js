@@ -42,7 +42,7 @@ describe('the server, when asked for ship data ', function () {
         })
       );
       expect(server.game.game_field.ships()[0].angular_velocity()).toEqual(expected_angular_velocity);
-
+      done();
     })
     // return socket.on('open', function () {
     //   setup_ship(socket, init_ship, test, done);
@@ -130,27 +130,31 @@ describe('the server, when asked for ship data ', function () {
   //   });
   // };
 
-  it('starts with no ships', function () {
-    return expect(server.game.game_field.ships().length).toEqual(0);
+  it('starts with no ships', function (done) {
+    expect(server.game.game_field.ships().length).toEqual(0);
+    done();
   });
 
   it('sets ship negative angular_velocity on rotate_left', function (done) {
-    return check_angular_velocity("rotate_left", -Ship.rotation_rate, server, this, null, done);
+    check_angular_velocity("rotate_left", -Ship.rotation_rate, server, this, null, done);
   });
 
-  // it('sets ship postive angular_velocity on rotate_right', function (done) {
-  //   return check_angular_velocity("rotate_right", Ship.rotation_rate, server, this, null, done);
-  // });
-  // it('sets ship no angular_velocity on rotate_stop', function (done) {
-  //   var set_angular_velocity;
-  //   set_angular_velocity = function () {
-  //     return server.game.game_field.ships()[0].angular_velocity(1);
-  //   };
-  //   return check_angular_velocity("rotate_stop", 0, server, this, set_angular_velocity, done);
-  // });
-  // it('sets acceleration on thrust_on', function (done) {
-  //   return check_acceleration("thrust_on", 30, server, this, null, done);
-  // });
+  it('sets ship postive angular_velocity on rotate_right', function (done) {
+    check_angular_velocity("rotate_right", Ship.rotation_rate, server, this, null, done);
+  });
+
+  it('sets ship no angular_velocity on rotate_stop', function (done) {
+    var set_angular_velocity;
+    set_angular_velocity = function () {
+      server.game.game_field.ships()[0].angular_velocity(1);
+      done();
+    };
+    check_angular_velocity("rotate_stop", 0, server, this, set_angular_velocity, done);
+  });
+
+  it('sets acceleration on thrust_on', function (done) {
+    return check_acceleration("thrust_on", 30, server, this, null, done);
+  });
   // it('sets no acceleration on thrust_off', function (done) {
   //   var set_acceleration;
   //   set_acceleration = function () {
