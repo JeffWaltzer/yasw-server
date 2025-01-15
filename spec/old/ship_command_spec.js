@@ -16,16 +16,20 @@ describe('the server, when asked for ship data ', function () {
   beforeEach(function () {
     server = yasw.createServer();
     server.game.add_player('0.5328');
-    // server.listen(3000, {
-    //    write: (junk) => {
-    //   }
-    // });
-    console.log(`running test: ${jasmine.getEnv().currentSpec.description}`);
+    server.listen(3000, {
+       write: (junk) => {
+      }
+    });
+    // console.log(`running test: ${jasmine.getEnv().currentSpec.description}`);
+  });
+
+  afterEach(() => {
+    server.shutdown();
   });
 
   function setup_ship (socket, init_ship, test, done) {
     socket.on('error', function (e) {
-      console.log(`Error: ${e}`);
+      // console.log(`Error: ${e}`);
       test.fail(`Socket error: ${e}`);
       return done();
     });
@@ -39,24 +43,23 @@ describe('the server, when asked for ship data ', function () {
   };
 
   function check_angular_velocity(ship_command, expected_angular_velocity, server, test, init_ship, done) {
-      console.log("check_angular_velocity: got here");
-      let socket  = new WebSocket('ws://localhost:3000');
-      console.log("check_angular_velocity: got here(2)");
-      socket.on('open', () => {
-        console.log("in on_open");
+      let socket  = new WebSocket('ws://localhost:3000/react-client/index.html');
 
+      socket.onopen = () => {
         setup_ship(socket, init_ship, test, done);
         socket.send(JSON.stringify({
             'command': ship_command
           })
         );
 
-        console.log(`server.game.game_field.ships()[0].angular_velocity()[1]: ${server.game.game_field.ships()[0].angular_velocity()}`);
         expect(server.game.game_field.ships()[0].angular_velocity()).toEqual(expected_angular_velocity);
-        console.log(`server.game.game_field.ships()[0].angular_velocity()[2]: ${server.game.game_field.ships()[0].angular_velocity()}`);
         done();
-      })
-    console.log("check_angular_velocity: got here(3)");
+      };
+
+    socket.onerror = (e) => {
+      // console.log(`onerror: ${JSON.stringify(e, null, 4)}`);
+      // console.dir(e);
+    };
   }
 
   // check_acceleration = function (ship_command, expected_acceleration, server, test, init_ship, done) {
@@ -138,15 +141,11 @@ describe('the server, when asked for ship data ', function () {
   });
 
   it('sets ship negative angular_velocity on rotate_left', function (done) {
-    console.log("about to call CAV (1)");
     check_angular_velocity("rotate_left", -Ship.rotation_rate, server, this, null, done);
-    console.log("back from CAV (1)");
   });
 
   xit('sets ship postive angular_velocity on rotate_right', function (done) {
-    console.log("about to call CAV (2)");
     check_angular_velocity("rotate_right", Ship.rotation_rate, server, this, null, done);
-    console.log("back from CAV (2)");
   });
 
   it('sets ship no angular_velocity on rotate_stop', function (done) {
