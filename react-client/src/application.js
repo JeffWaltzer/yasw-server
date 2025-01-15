@@ -61,7 +61,13 @@ export default class Application {
 
     switch (message.type()) {
       case '0':
+        console.log(`got packet 0: ${message.payload()}`);
         this._game_server.sid(JSON.parse(message.payload()).sid);
+        break;
+
+      case '2':
+        console.log(`got ping ${message.payload}`)
+        this.socket().send('3probe');
         break;
 
       case '4':
