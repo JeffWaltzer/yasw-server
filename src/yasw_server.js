@@ -1,15 +1,16 @@
-var http = require("http");
-var fs= require('fs');
-var url= require('url');
-var _= require('underscore');
-var ship= require('./ship');
-var game= require('./game');
-var vector= require('./vector');
-var Polygon= require('./polygon').Polygon;
+const http = require("http");
+const fs= require('fs');
+const url= require('url');
+const _= require('underscore');
+const ship= require('./ship');
+const game= require('./game');
+const vector= require('./vector');
+const {WebSocketServer} = require("ws");
+const Polygon= require('./polygon').Polygon;
 
 exports.createServer= function(parameters) {
-  var yasw_server= {};
-  var http_server;
+  const yasw_server= {};
+  let http_server;
 
   ship.Ship.rotation_rate = (parameters && parameters.ship_rotation_rate) || Math.PI;
   ship.Ship.acceleration_rate = (parameters && parameters.acceleration_rate) || 1;
@@ -18,8 +19,8 @@ exports.createServer= function(parameters) {
 
   yasw_server.tick_rate = (parameters && parameters.tick_rate) || 1;
 
-  var top_edge= (parameters && parameters.top_edge) || 600;
-  var right_edge= (parameters && parameters.right_edge) || 800;
+  const top_edge= (parameters && parameters.top_edge) || 600;
+  const right_edge= (parameters && parameters.right_edge) || 800;
 
   yasw_server.field_size= new vector.Vector([right_edge, top_edge]);
 
@@ -68,10 +69,10 @@ exports.createServer= function(parameters) {
   yasw_server.game.start_ticking(yasw_server.tick_rate);
 
   yasw_server.on_new_websocket= function(socket) {
-    var the_ship;
-    var game= yasw_server.game;
+    let the_ship;
+    const game= yasw_server.game;
 
-    var player = game.add_player();
+    const player = game.add_player();
     game.connect_socket(player, socket);
 
     the_ship= game.game_field.add_ship();
@@ -85,7 +86,7 @@ exports.createServer= function(parameters) {
   };
 
   yasw_server.on_request= function(request, response, on_response_headers_written) {
-    var filename= url.parse(request.url).pathname;
+    const filename= url.parse(request.url).pathname;
 
     if (filename === '/')
       yasw_server.redirect_to("/index.html", response, on_response_headers_written);
@@ -95,15 +96,16 @@ exports.createServer= function(parameters) {
 
   yasw_server.listen= function(port, output_stream, done) {
     http_server= http.createServer(yasw_server.on_request);
+    const listener = http_server.listen(port, function() {if (done) done();});
 
-    var listener = http_server.listen(port, function() {if (done) done();});
-    var engine_server = engine_io.attach(listener, {allowEIO3: true});
-    engine_server.on('connection', yasw_server.on_new_websocket);
+    const winsocket_server = new WebSocketServer({ server: listener });
+
+    winsocket_server.on('connection', yasw_server.on_new_websocket);
     output_stream.write(`Ready for games on port ${port}!\n`);
   };
 
   yasw_server.shutdown= function(done) {
-    var self= this;
+    const self= this;
     http_server.close(function() {if (done) done(); });
     http_server= null;
   };
@@ -125,9 +127,9 @@ exports.createServer= function(parameters) {
   };
 
   yasw_server.static_page= function(page, response, on_headers_written) {
-    var filename= "public" + page;
-    var file_extension= page.split(".").pop();
-    var read_stream= fs.createReadStream(filename);
+    const filename= "public" + page;
+    const file_extension= page.split(".").pop();
+    const read_stream= fs.createReadStream(filename);
 
     read_stream.on('open', function () {
       yasw_server.on_open(file_extension, response, 200, read_stream, on_headers_written);
