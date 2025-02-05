@@ -69,7 +69,6 @@ exports.createServer= function(parameters) {
   yasw_server.game.start_ticking(yasw_server.tick_rate);
 
   yasw_server.on_new_websocket= function(socket) {
-    console.log("New websocket connection");
     let the_ship;
     const game= yasw_server.game;
 

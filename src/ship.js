@@ -28,9 +28,10 @@ Ship.prototype.on_message = function(json_message) {
   var message = JSON.parse(json_message);
   switch (message.command) {
   case 'rotate_left':
-    console.log('about to set ship angular velocity')
+    this.angular_velocity(-Ship.rotation_rate);
+    break;
+  case 'rotate_right':
     this.angular_velocity(Ship.rotation_rate);
-    console.log('back from setting ship angular velocity')
     break;
   case 'rotate_stop':
     this.angular_velocity(0);

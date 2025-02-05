@@ -12,7 +12,7 @@
     "ws": "^8.18.0"
   },
   "scripts": {
-    "test": "npx jasmine-node --captureExceptions --forceexit spec/connect_ship_socket_spec.js",
+    "test": "npx jasmine-node --captureExceptions --forceexit spec",
     "release": "bash release.sh"
   }
 }
