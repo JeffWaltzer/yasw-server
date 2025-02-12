@@ -121,21 +121,17 @@ describe('Application', () => {
         the_application.dispatch_message(raw_message);
       });
 
-      it('sets the game server sid', () => {
-        expect(the_game_server.sid()).toEqual('this is a fine sid');
-      });
     });
 
     describe('a type 4 message', () => {
       let the_application;
       let the_game_server;
-      let message;
+      let raw_message;
 
       beforeEach(() => {
-        const raw_message = {
-          data: '4' + JSON.stringify({}),
+         raw_message = {
+          data: JSON.stringify({}),
         };
-        message = new Message(raw_message);
 
         the_application = application();
         the_application._game_server = the_application.build_game_server();
@@ -147,7 +143,7 @@ describe('Application', () => {
       });
 
       it('renders the gameboard', () => {
-        expect(the_game_server.render_gameboard).toHaveBeenCalledWith(message);
+        expect(the_game_server.render_gameboard).toHaveBeenCalledWith(raw_message);
       });
     });
   });

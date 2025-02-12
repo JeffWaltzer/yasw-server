@@ -6,9 +6,9 @@ import {ServerConnection} from "./server_connection"
 
 export default class Application {
   constructor(document, websocket_implementation) {
-  this._document = document;
-  this._websocket_implementation = websocket_implementation;
-  this._gamepads = this.build_gamepads();
+    this._document = document;
+    this._websocket_implementation = websocket_implementation;
+    this._gamepads = this.build_gamepads();
   }
 
   run() {
@@ -57,27 +57,7 @@ export default class Application {
   }
 
   dispatch_message(the_message) {
-    const message = new Message(the_message);
-
-    switch (message.type()) {
-      case '0':
-        console.log(`got packet 0: ${message.payload()}`);
-        this._game_server.sid(JSON.parse(message.payload()).sid);
-        break;
-
-      case '2':
-        console.log(`got ping ${message.payload}`)
-        this.socket().send('3probe');
-        break;
-
-      case '4':
-        this._game_server.render_gameboard(message);
-        break;
-
-      default:
-        console.log("We can't be here");
-        break;
-    }
+    this._game_server.render_gameboard(the_message);
   }
 
   on_error(error) {
