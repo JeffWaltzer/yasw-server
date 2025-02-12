@@ -3,8 +3,8 @@ import GTag from './GTag.js';
 
 function Gameboard(props) {
   let polygons = props.gameboard ?
-      JSON.parse(props.gameboard).polygons :
-      [];
+    JSON.parse(props.gameboard).polygons :
+    [];
 
   if (!polygons)
     polygons = [];

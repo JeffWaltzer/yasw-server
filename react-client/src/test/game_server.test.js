@@ -16,11 +16,7 @@ describe('GameServer', () => {
       };
       fake_payload = {};
 
-      fake_message = {
-        payload: () => {
-          return fake_payload
-        }
-      }
+      fake_message = fake_payload
       jest.spyOn(game_server, 'create_root').mockImplementation(() => {
         return fake_root;
       })
@@ -71,7 +67,7 @@ describe('GameServer', () => {
       game_server.sid('fakesid');
       game_server.send("some data");
 
-      expect(data_sent).toEqual('4{"sid":"fakesid","command":"some data"}');
+      expect(data_sent).toEqual('{"command":"some data"}');
     });
   });
 });

@@ -36,7 +36,7 @@ export default class Application {
     const web_socket = new this._websocket_implementation(new ServerConnection().url());
     web_socket.onopen = (event) => {
       web_socket.onmessage = (function (the_message) {
-        this._game_server.render_gameboard(the_message);
+        this._game_server.render_gameboard(the_message.data);
       }).bind(this);
     };
     web_socket.onerror = this.on_error;

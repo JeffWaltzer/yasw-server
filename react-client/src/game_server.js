@@ -17,7 +17,7 @@ class GameServer {
 
   render_gameboard(message) {
     this.root ||= this.create_root();
-    this.render_payload(this.root,message.payload());
+    this.render_payload(this.root,message);
   }
 
   create_root() {
@@ -37,12 +37,10 @@ class GameServer {
   send(data) {
     const message = JSON.stringify(
       {
-        sid: this.sid(),
         command: data
       }
     )
-    const packet_type = '4';
-    this.websocket.send(packet_type + message)
+    this.websocket.send(message)
   }
 }
 

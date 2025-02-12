@@ -36,7 +36,6 @@ Game.prototype.send_player_game_board= function(board, player) {
     polygons: board,
     field_size: this.game_field.field_size().coordinates,
   };
-
   player.socket.send(JSON.stringify(message));
 };
 
