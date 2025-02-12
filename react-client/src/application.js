@@ -1,4 +1,3 @@
-import Message from "./message";
 import GameServer from "./game_server";
 import {Keyboard} from "./keyboard";
 import {GamePads} from "./gamePads";
@@ -36,7 +35,9 @@ export default class Application {
   build_websocket() {
     const web_socket = new this._websocket_implementation(new ServerConnection().url());
     web_socket.onopen = (event) => {
-      web_socket.onmessage = this.dispatch_message.bind(this);
+      web_socket.onmessage = (function (the_message) {
+        this._game_server.render_gameboard(the_message);
+      }).bind(this);
     };
     web_socket.onerror = this.on_error;
     web_socket.onclose = this.on_close;
@@ -55,11 +56,6 @@ export default class Application {
   game_server() {
     return this._game_server;
   }
-
-  dispatch_message(the_message) {
-    this._game_server.render_gameboard(the_message);
-  }
-
   on_error(error) {
     console.log("error: ", error);
   }

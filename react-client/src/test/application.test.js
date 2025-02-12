@@ -1,5 +1,4 @@
 import Application from '../application';
-import Message from '../message';
 import {GamePads} from "../gamePads";
 
 const context_for_spyon = {
@@ -104,26 +103,6 @@ describe('Application', () => {
   });
 
   describe('#dispatch_message', () => {
-    describe('a type 0 message', () => {
-      let the_application;
-      let the_game_server;
-
-      beforeEach(() => {
-        const raw_message = {
-          data: '0' + JSON.stringify({
-            sid: 'this is a fine sid',
-          }),
-        };
-
-        the_application = application();
-        the_application._game_server = the_application.build_game_server();
-        the_game_server = the_application.game_server();
-        the_application.dispatch_message(raw_message);
-      });
-
-    });
-
-    describe('a type 4 message', () => {
       let the_application;
       let the_game_server;
       let raw_message;
@@ -139,12 +118,11 @@ describe('Application', () => {
         jest.spyOn(the_game_server, 'render_gameboard').mockImplementation(() => {
         });
 
-        the_application.dispatch_message(raw_message);
+        the_application._game_server.render_gameboard(raw_message);
       });
 
       it('renders the gameboard', () => {
         expect(the_game_server.render_gameboard).toHaveBeenCalledWith(raw_message);
       });
     });
-  });
 })
